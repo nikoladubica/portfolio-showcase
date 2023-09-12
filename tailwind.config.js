@@ -14,7 +14,8 @@ module.exports = {
       },
       colors: {
         'blue-main': '#53ACFF',
-        'rose-main': '#EE88FF'
+        'rose-main': '#EE88FF',
+        'black-opacity': 'rgba(0, 0, 0, 0.2)'
       },
       keyframes: {
         wiggle: {

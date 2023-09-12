@@ -39,3 +39,33 @@ a {
   -ms-user-select: none;
   user-select: none;
 }
+
+/* Iframe stuff */
+
+.resizable-iframe-container {
+  position: relative;
+  width: 100%;
+  height: 500px; /* Set an initial height */
+}
+
+.resize-bar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 5px;
+  height: 100%;
+  cursor: col-resize;
+  background-color: #007bff;
+}
+
+.resize-bar.dragging {
+  background-color: #0056b3;
+}
+
+iframe {
+  border: none;
+}
+
+.site-iframe {
+  zoom: 0.5;
+}
