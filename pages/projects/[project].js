@@ -96,7 +96,7 @@ const Project = () => {
                 </div>
 
                 <div ref={containerRef} className="relative flex h-full mb-8 resize-x select-none" style={{width: 100 + '%'}}>
-                    <div ref={iframeRef} className="absolute left-1/2 -translate-x-1/2 top-0 h-full w-full select-none">
+                    <div ref={iframeRef} className="absolute left-1/2 -translate-x-1/2 top-0 h-full w-full select-none bg-gray-300">
                         <iframe
                             className="block site-iframe absolute top-0 left-0 h-full w-full select-none"
                             src={project?.url}

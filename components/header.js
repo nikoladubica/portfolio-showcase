@@ -27,10 +27,17 @@ const Header = (props) => {
     }, 500)
   }
 
+  useEffect(() => {
+    setTimeout(() => {
+      warningRef.current.classList.remove('-translate-y-full')
+      warningRef.current.classList.add('translate-y-0')
+    }, 1300)
+  }, [])
+
   return (
     <header className={`relative flex items-center md:justify-center md:gap-8 bg-white h-6 ${props.pathname !== '/' ? 'justify-between' : 'justify-end'}`}>
         {props.pathname !== '/' ? 
-          <img onClick={backClickHandler} src="/img/icons/arrow-left-black.svg" className="" height='24' width='24' />
+          <img onClick={backClickHandler} src="/img/icons/arrow-left-black.svg" className="md:cursor-pointer" height='24' width='24' />
         : null}
         <Link href='/projects' onClick={forwardClickHandler}>
           <p className="uppercase font-bold text-sm md:hidden text-black">Projects</p> 
@@ -40,10 +47,10 @@ const Header = (props) => {
         <p className="uppercase font-bold text-base hidden md:block text-black">Premium Switzerland</p>
         <p className="uppercase font-bold text-base hidden md:block text-black">Keys To Switzerland</p>
 
-        {/* <div ref={warningRef} className="md:hidden fixed top-0 left-0 w-screen z-[1001] bg-yellow-500 p-8 pr-12 transition-transform duration-500 translate-y-0 origin-top">
+        <div ref={warningRef} className="md:hidden fixed top-0 left-0 w-screen z-[1001] bg-yellow-500 p-8 pr-12 transition-transform duration-500 -translate-y-full origin-top">
             <p className="text-black font-normal text-base">For the full experience, use desktop version.</p>
             <img src="/img/icons/close-black.svg" onClick={closeWarningHandler} height='24' width='24' className="absolute top-8 right-8" />
-        </div> */}
+        </div>
     </header>
   )
 }

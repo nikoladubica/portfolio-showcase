@@ -3,7 +3,8 @@ import Link from "next/link"
 import { clearBack } from "../../redux/features/back-slice"
 import { useDispatch } from "react-redux"
 import { Swiper, SwiperSlide } from "swiper/react"
-import { EffectCards } from 'swiper/modules';
+import { EffectCards } from 'swiper/modules'
+import { motion } from "framer-motion"
 
 import 'swiper/css';
 import 'swiper/css/effect-cards';
@@ -36,21 +37,9 @@ const Projects = () => {
     return (
         <Page>
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col w-full h-full py-8">
-                <h1 className="text-black text-center font-black text-4xl mb-8">Recent Projects</h1>
-
-                {/* <div className="flex h-[340px] w-full relative mb-8">
-                    <Link onClick={forwardClickHandler} href='/projects/keys-to-switzerland'>
-                        <img src="/img/mobile-kts.png" className="h-[300px] absolute top-10 left-0 shadow-fine" height='300' />
-                    </Link>
-
-                    <Link onClick={forwardClickHandler} href='/projects/premiumswitzerland'>
-                        <img src="/img/mobile-premiumswitzerland.png" className="h-[300px] absolute top-5 left-1/2 -translate-x-1/2 shadow-fine" height='300' />
-                    </Link>
-
-                    <Link onClick={forwardClickHandler} href='/projects/one-versus-one'>
-                        <img src="/img/mobile-one-versus-one.png" className="h-[300px] absolute top-0 right-0 shadow-fine" height='300' />
-                    </Link>
-                </div> */}
+                <h1 className="text-black text-center font-black text-4xl mb-8">
+                    Recent Projects
+                </h1>
 
                 <div>
                     <Swiper
@@ -59,17 +48,29 @@ const Projects = () => {
                         modules={[EffectCards]}
                         className="w-auto justify-center items-center bg-transparent"
                     >
-                        {projects.map(project => (
-                            <SwiperSlide className="bg-transparent">
+                        {projects.map((project, index) => (
+                            <SwiperSlide key={project.url} className="bg-transparent">
                                 <Link href={project.url} onClick={forwardClickHandler}>
-                                    <img src={project.image} className="mx-auto h-[300px] w-[168.9px] md:h-[450px] md:w-[253.35px]" />
+                                    <motion.img 
+                                        key={project.url}
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        transition={{ delay: (index / 5) + 0.2 }}
+                                        src={project.image} className="mx-auto h-[300px] w-[168.9px] md:h-[450px] md:w-[253.35px]" />
                                 </Link>
                             </SwiperSlide>
                         ))}
                     </Swiper>
                 </div>
 
-                <p className="text-black font-light font-base text-center w-full mt-8">Tap on any project to see more 👆</p>
+                <motion.p 
+                    key={2}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.8 }}
+                    className="text-black font-light font-base text-center w-full mt-8">
+                        Swipe and tap on any project to see more 👆
+                </motion.p>
             </div>
         </Page>
     )
