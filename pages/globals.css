@@ -69,3 +69,7 @@ iframe {
 .site-iframe {
   zoom: 0.5;
 }
+
+.swiper-slide-shadow {
+  display: none;
+}

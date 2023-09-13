@@ -2,7 +2,7 @@ import Link from "next/link"
 import { clearBack, setBack } from "../redux/features/back-slice"
 import { useDispatch } from "react-redux"
 import { useRouter } from "next/router"
-import { useRef } from "react"
+import { useRef, useEffect } from "react"
 
 const Header = (props) => {
   const dispatch = useDispatch()
@@ -18,8 +18,13 @@ const Header = (props) => {
     dispatch(clearBack())
   }
 
-  const closeWarningHandler = (e) => {
-    warningRef.current.remove()
+  const closeWarningHandler = () => {
+    warningRef.current.classList.remove('translate-y-0')
+    warningRef.current.classList.add('-translate-y-full')
+
+    setTimeout(() => {
+      warningRef.current.remove()
+    }, 500)
   }
 
   return (
@@ -36,7 +41,7 @@ const Header = (props) => {
         <p className="uppercase font-bold text-base hidden md:block text-black">Premium Switzerland</p>
         <p className="uppercase font-bold text-base hidden md:block text-black">Keys To Switzerland</p>
 
-        <div ref={warningRef} className="md:hidden fixed top-0 left-0 w-screen z-[1001] bg-yellow-500 p-8 pr-12">
+        <div ref={warningRef} className="md:hidden fixed top-0 left-0 w-screen z-[1001] bg-yellow-500 p-8 pr-12 transition-transform duration-500 translate-y-0 origin-top">
             <p className="text-black font-normal text-base">For the full experience, use desktop version.</p>
             <img src="/img/icons/close-black.svg" onClick={closeWarningHandler} height='24' width='24' className="absolute top-8 right-8" />
         </div>
