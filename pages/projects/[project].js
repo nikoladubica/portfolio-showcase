@@ -82,20 +82,19 @@ const Project = () => {
     return (
         <Page>
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col w-full h-full py-8">
-                <div className="w-full flex justify-center items-center gap-4 mb-8 select-none">
-                    <div className="relative">
-                        <span className="hover:opacity-0 text-black w-auto text-left font-black text-4xl transition-opacity duration-500">{project?.name}</span>
-                        <h1 className="absolute top-0 left-0 opacity-0 hover:opacity-100 text-black w-auto text-left font-black text-4xl mb-8 select-none transition-opacity duration-500 bg-clip-text text-transparent bg-gradient-to-r from-blue-main to-rose-main">{project?.name}</h1>
-                    </div>
-                    
-                    <Link href={project?.url} target="_blank">
-                        <button className="flex items-center justify-center rounded-lg md:rounded-xl bg-blue-main hover:bg-rose-main transition-colors duration-300 p-2">
-                            <img src="/img/icons/arrow-left-white.svg" className="rotate-180" height='24' width='24' />
-                        </button>
-                    </Link>
-                </div>
 
-                <div ref={containerRef} className="relative flex h-full mb-8 resize-x select-none" style={{width: 100 + '%'}}>
+                <Link href={project?.url} target="_blank" className="mb-8">
+                    <div className="w-full flex justify-center items-center gap-4 select-none">
+                        <div className="relative">
+                            <span className="hover:opacity-0 text-black w-auto text-left font-black text-4xl transition-opacity duration-500">{project?.name}</span>
+                            <h1 className="absolute top-0 left-0 opacity-0 hover:opacity-100 text-black w-auto text-left font-black text-4xl mb-8 select-none transition-opacity duration-500 bg-clip-text text-transparent bg-gradient-to-r from-blue-main to-rose-main">{project?.name}</h1>
+                        </div>
+                        
+                        <img src="/img/icons/arrow-left-black.svg" className="rotate-180" height='24' width='24' />
+                    </div>
+                </Link>
+
+                <div ref={containerRef} className="relative flex h-full mb-8 select-none" style={{width: 100 + '%'}}>
                     <div ref={iframeRef} className="absolute left-1/2 -translate-x-1/2 top-0 h-full w-full select-none bg-gray-300">
                         <iframe
                             className="block site-iframe absolute top-0 left-0 h-full w-full select-none"
@@ -103,8 +102,10 @@ const Project = () => {
                         />
                     </div>
 
-                    <div ref={resizerRef} onMouseDown={onDragHandler} className="absolute top-0 h-full w-[11px] mx-[-5px] px-[5px] cursor-col-resize hover:bg-black-opacity z-[1000] transition-colors duration-500" style={{left: 100 + '%'}}>
-                        <span className="absolute h-full w-px bg-gray-300 z-[100]"></span>
+                    <div ref={resizerRef} onMouseDown={onDragHandler} className="flex flex-col items-center justify-center gap-1 absolute top-0 h-full w-[12px] bg-gray-600 cursor-col-resize hover:bg-blue-main z-[1000] transition-colors duration-500" style={{left: 100 + '%'}}>
+                        {/* <span className="absolute h-full w-px bg-gray-300 z-[100]"></span> */}
+                        <span className="w-[6px] h-px bg-slate-300"></span>
+                        <span className="w-[6px] h-px bg-slate-300"></span>
                     </div>
                 </div>
 

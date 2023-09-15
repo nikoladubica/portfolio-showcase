@@ -43,9 +43,15 @@ const Header = (props) => {
           <p className="uppercase font-bold text-sm md:hidden text-black">Projects</p> 
         </Link>
        
-        <p className="uppercase font-bold text-base hidden md:block text-black">One-Versus-One</p>
-        <p className="uppercase font-bold text-base hidden md:block text-black">Premium Switzerland</p>
-        <p className="uppercase font-bold text-base hidden md:block text-black">Keys To Switzerland</p>
+       <Link href="/projects/one-versus-one">
+        <p className="uppercase font-bold text-base hidden md:block text-black hover:text-rose-main transition-colors duration-500">One-Versus-One</p>
+       </Link>
+       <Link href="/projects/premiumswitzerland">
+        <p className="uppercase font-bold text-base hidden md:block text-black hover:text-rose-main transition-colors duration-500">Premium Switzerland</p>
+       </Link>
+       <Link href="/projects/keys-to-switzerland">
+        <p className="uppercase font-bold text-base hidden md:block text-black hover:text-rose-main transition-colors duration-500">Keys To Switzerland</p>
+       </Link>
 
         <div ref={warningRef} className="md:hidden fixed top-0 left-0 w-screen z-[1001] bg-yellow-500 p-8 pr-12 transition-transform duration-500 -translate-y-full origin-top">
             <p className="text-black font-normal text-base">For the full experience, use desktop version.</p>

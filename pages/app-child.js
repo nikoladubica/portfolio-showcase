@@ -33,7 +33,6 @@ const AppChild = ({ Component, pageProps }) => {
                     transition={{ type: "tween", duration: 0.4 }}
                 >
                     {Component && <Component {...pageProps} />}
-
                 </motion.div>
             </AnimatePresence>
         </div>
