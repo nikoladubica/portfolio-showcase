@@ -35,7 +35,7 @@ const Header = (props) => {
   }, [])
 
   return (
-    <header className={`relative flex items-center md:justify-between md:gap-8 bg-white h-6 ${props.pathname !== '/' ? 'justify-between' : 'justify-end'}`}>
+    <header className={`relative flex items-center justify-between md:gap-8 bg-white h-6 ${props.pathname !== '/' ? 'justify-between' : 'justify-end'}`}>
         
         <div className="flex items-center gap-4">
           {props.pathname !== '/' ? 
