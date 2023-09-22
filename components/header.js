@@ -35,23 +35,21 @@ const Header = (props) => {
   }, [])
 
   return (
-    <header className={`relative flex items-center md:justify-center md:gap-8 bg-white h-6 ${props.pathname !== '/' ? 'justify-between' : 'justify-end'}`}>
-        {props.pathname !== '/' ? 
-          <img onClick={backClickHandler} src="/img/icons/arrow-left-black.svg" className="md:cursor-pointer" height='24' width='24' />
-        : null}
-        <Link href='/projects' onClick={forwardClickHandler}>
-          <p className="uppercase font-bold text-sm md:hidden text-black">Projects</p> 
+    <header className={`relative flex items-center md:justify-between md:gap-8 bg-white h-6 ${props.pathname !== '/' ? 'justify-between' : 'justify-end'}`}>
+        
+        <div className="flex items-center gap-4">
+          {props.pathname !== '/' ? 
+            <img onClick={backClickHandler} src="/img/icons/arrow-left-black.svg" className="md:cursor-pointer" height='24' width='24' />
+          : null}
+
+          <Link href="/">
+            <img src="/img/icons/logo.svg" height='24' width='24' />
+          </Link>
+        </div>
+
+        <Link className="" href='/projects' onClick={forwardClickHandler}>
+          <p className="uppercase font-bold text-sm text-black hover:text-rose-main transition-colors duration-500">Projects</p> 
         </Link>
-       
-       <Link href="/projects/one-versus-one">
-        <p className="uppercase font-bold text-base hidden md:block text-black hover:text-rose-main transition-colors duration-500">One-Versus-One</p>
-       </Link>
-       <Link href="/projects/premiumswitzerland">
-        <p className="uppercase font-bold text-base hidden md:block text-black hover:text-rose-main transition-colors duration-500">Premium Switzerland</p>
-       </Link>
-       <Link href="/projects/keys-to-switzerland">
-        <p className="uppercase font-bold text-base hidden md:block text-black hover:text-rose-main transition-colors duration-500">Keys To Switzerland</p>
-       </Link>
 
         <div ref={warningRef} className="md:hidden fixed top-0 left-0 w-screen z-[1001] bg-yellow-500 p-8 pr-12 transition-transform duration-500 -translate-y-full origin-top">
             <p className="text-black font-normal text-base">For the full experience, use desktop version.</p>
