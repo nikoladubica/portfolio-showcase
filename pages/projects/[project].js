@@ -102,10 +102,11 @@ const Project = () => {
                         />
                     </div>
 
-                    <div ref={resizerRef} onMouseDown={onDragHandler} className="flex flex-col items-center justify-center gap-1 absolute top-0 h-full w-[12px] bg-gray-600 cursor-col-resize hover:bg-blue-main z-[1000] transition-colors duration-500" style={{left: 100 + '%'}}>
+                    <div ref={resizerRef} onMouseDown={onDragHandler} className="flex flex-col items-center justify-center gap-1 absolute top-1/2 -translate-y-1/2 h-12  w-6 cursor-col-resize  z-[1000] transition-colors duration-500" style={{left: 100 + '%'}}>
                         {/* <span className="absolute h-full w-px bg-gray-300 z-[100]"></span> */}
-                        <span className="w-[6px] h-px bg-slate-300"></span>
-                        <span className="w-[6px] h-px bg-slate-300"></span>
+                        <div className="w-2 h-12 bg-gray-400 rounded-full"></div>
+                        {/* <span className="w-[6px] h-px bg-slate-300"></span>
+                        <span className="w-[6px] h-px bg-slate-300"></span> */}
                     </div>
                 </div>
 
