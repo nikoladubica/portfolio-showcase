@@ -21,11 +21,11 @@ const AppChild = ({ Component, pageProps }) => {
 
     return(
         <div className="bg-white overflow-x-hidden p-8 md:px-16 min-h-screen min-w-screen">
-            <AnimatePresence>
-                <Header pathname={router.pathname} />
+            <Header pathname={router.pathname} />
 
+            <AnimatePresence mode="wait">
                 <motion.div
-                    key={router.pathname} 
+                    key={router.pathname}
                     initial="initial"
                     animate="animate"
                     exit="exit"
