@@ -1,6 +1,19 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+  --color-blue-main: #53ACFF;
+  --color-rose-main: #EE88FF;
+  --color-black-opacity: rgba(0, 0, 0, 0.2);
+
+  --shadow-fine: 0px 0px 90px 0px rgba(0, 0, 0, 0.20);
+
+  --animate-wiggle: wiggle 1s ease-in-out infinite;
+}
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(-15deg); }
+  50% { transform: rotate(15deg); }
+}
 
 :root {
   --foreground-rgb: 0, 0, 0;
