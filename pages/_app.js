@@ -7,11 +7,11 @@ import './globals.css'
 const font = Inter({ subsets: ['latin'] })
 
 const App = ({ Component, pageProps }) => {
-    console.log()
-
     return(
         <ReduxProvider>
-            <AppChild Component={Component} pageProps={pageProps} />
+            <main className={font.className}>
+                <AppChild Component={Component} pageProps={pageProps} />
+            </main>
         </ReduxProvider>
     )
 }
