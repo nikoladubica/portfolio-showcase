@@ -1,8 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit'
-import backReducer from './features/back-slice'
+import uiReducer from './features/ui-slice'
 
 export const store = configureStore({
     reducer: {
-        backReducer
+        uiReducer
     }
 })
