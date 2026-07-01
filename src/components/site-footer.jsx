@@ -4,7 +4,13 @@ const SiteFooter = () => {
             <div className="wrap section">
                 <div className="row">
                     <div className="foot-brand">
-                        <span className="foot-mono">NČ</span>
+                        <img
+                            className="foot-mono"
+                            src="/android-chrome-512x512.png"
+                            alt="N. Čučuković logo"
+                            width={40}
+                            height={40}
+                        />
                         <div>
                             <div className="nm">Nikola Čučuković</div>
                             <div className="role">Front-End Developer</div>

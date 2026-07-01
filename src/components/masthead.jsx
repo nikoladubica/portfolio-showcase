@@ -1,20 +1,12 @@
-import { useSyncExternalStore } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { isMobile } from "react-device-detect"
 import { dismissMobileNotice } from "../redux/features/ui-slice"
-
-// Hydration-safe "am I on the client?" — server snapshot is false, client is true,
-// so device detection never causes an SSR/first-paint mismatch.
-const noopSubscribe = () => () => {}
-const useHydrated = () =>
-    useSyncExternalStore(noopSubscribe, () => true, () => false)
 
 const Masthead = () => {
     const dispatch = useDispatch()
     const dismissed = useSelector(state => state.uiReducer.value.mobileNoticeDismissed)
 
-    const hydrated = useHydrated()
-    const showNotice = hydrated && isMobile && !dismissed
+    const showNotice = isMobile && !dismissed
 
     return (
         <>
@@ -34,7 +26,13 @@ const Masthead = () => {
             <header className="masthead">
                 <div className="wrap bar">
                     <a className="brand" href="#top">
-                        <span className="monogram">NČ</span>
+                        <img
+                            className="monogram"
+                            src="/android-chrome-512x512.png"
+                            alt="N. Čučuković logo"
+                            width={34}
+                            height={34}
+                        />
                         <span className="brand-name">N. Čučuković</span>
                     </a>
                     <nav className="nav">

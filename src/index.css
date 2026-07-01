@@ -2,8 +2,8 @@
 
 /* ============================================================
    TOKENS — Antique broadsheet design system
-   Fonts are provided by next/font (see pages/_app.js) and
-   exposed as --font-*-next CSS variables on the app wrapper.
+   Fonts are self-hosted via @fontsource (see src/main.jsx) and
+   mapped to --font-* variables on the .app-root wrapper below.
    ============================================================ */
 :root{
   /* Paper */
@@ -22,9 +22,6 @@
   --bg-page:#271f18; --surface-card:var(--paper-50);
   --text-heading:var(--paper-50); --text-body:var(--paper-200); --text-muted:var(--paper-400);
   --gilt:var(--brass-200); --rule-strong:var(--brass-400);
-
-  /* Fonts — the --font-*-next variables come from next/font and are only defined
-     on the .app-root wrapper, so the token mapping below lives there too (not here). */
 
   /* Type scale */
   --text-2xs:0.6875rem; --text-xs:0.75rem; --text-sm:0.875rem; --text-base:1.125rem;
@@ -58,13 +55,13 @@
 *,*::before,*::after{box-sizing:border-box;}
 html{scroll-behavior:smooth;}
 
-/* App wrapper (pages/_app.js) — carries the next/font CSS variables, so the
-   font-family tokens are mapped here where --font-*-next actually resolve. */
+/* App wrapper (src/main.jsx) — @fontsource registers these family names
+   via @font-face, so the font-family tokens can reference them directly. */
 .app-root{
-  --font-display:var(--font-display-next),"Cormorant Garamond",Georgia,"Times New Roman",serif;
-  --font-serif:var(--font-serif-next),"EB Garamond",Georgia,"Times New Roman",serif;
-  --font-mono:var(--font-mono-next),"Courier Prime","Courier New",ui-monospace,monospace;
-  --font-blackletter:var(--font-blackletter-next),var(--font-display);
+  --font-display:"Cormorant Garamond",Georgia,"Times New Roman",serif;
+  --font-serif:"EB Garamond",Georgia,"Times New Roman",serif;
+  --font-mono:"Courier Prime","Courier New",ui-monospace,monospace;
+  --font-blackletter:"UnifrakturCook",var(--font-display);
   font-family:var(--font-serif);
   color:var(--text-body);
 }
@@ -117,8 +114,7 @@ button,textarea,input,select,a{
   border-bottom:1px solid var(--rule-strong);}
 .masthead .bar{height:68px;display:flex;align-items:center;justify-content:space-between;}
 .brand{display:flex;align-items:center;gap:12px;text-decoration:none;background:none;border:none;cursor:pointer;}
-.monogram{width:34px;height:34px;border:1.5px solid var(--brass-400);display:flex;align-items:center;justify-content:center;
-  font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--paper-50);}
+.monogram{width:34px;height:34px;object-fit:contain;}
 .brand-name{font-family:var(--font-display);font-size:20px;color:var(--paper-50);}
 .nav{display:flex;gap:var(--space-6);align-items:center;}
 .nav a{font-family:var(--font-mono);font-size:var(--text-xs);text-transform:uppercase;letter-spacing:var(--tracking-caps);
@@ -137,7 +133,7 @@ button,textarea,input,select,a{
   background:none;border:none;cursor:pointer;font-family:var(--font-mono);font-size:20px;color:#2a2012;line-height:1;padding:4px;}
 
 /* ===== Hero ===== */
-.hero{padding:var(--space-9) 0 var(--space-7);}
+.hero{padding:var(--space-9) 0 0 0;}
 .hero .kicker{font-family:var(--font-mono);font-size:var(--text-xs);text-transform:uppercase;letter-spacing:var(--tracking-wider);
   color:var(--brass-400);text-align:center;margin-bottom:var(--space-4);}
 .hero-grid{display:grid;grid-template-columns:1.55fr 1fr;gap:var(--space-8);align-items:center;margin-top:var(--space-6);}
@@ -145,7 +141,7 @@ button,textarea,input,select,a{
   margin:0 0 var(--space-4);color:var(--text-heading);text-shadow:0 2px 12px rgba(0,0,0,0.4);}
 .hero h1 em{font-family:var(--font-blackletter);font-style:normal;font-weight:700;color:var(--gilt);letter-spacing:0.01em;}
 .dropcap::first-letter{font-family:var(--font-blackletter);font-weight:700;float:left;font-size:4em;line-height:0.82;
-  padding:0.04em 0.10em 0 0;color:var(--brass-400);}
+  padding:0.04em 0.10em 0 0;color:var(--oxblood-500);}
 .hero p.lead{font-size:var(--text-md);color:var(--paper-200);max-width:52ch;line-height:1.6;}
 .cta-row{display:flex;gap:var(--space-3);margin-top:var(--space-5);flex-wrap:wrap;}
 
@@ -159,11 +155,17 @@ button,textarea,input,select,a{
   color:var(--paper-400);margin-top:var(--space-3);}
 
 /* Stats */
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--space-6);margin-top:var(--space-7);
-  border-top:1px solid rgba(226,205,148,0.25);padding-top:var(--space-6);}
-.stat .val{font-family:var(--font-display);font-size:var(--text-2xl);font-weight:500;color:var(--text-heading);line-height:1;}
-.stat .lab{font-family:var(--font-mono);font-size:var(--text-2xs);text-transform:uppercase;letter-spacing:var(--tracking-caps);
-  color:var(--paper-400);margin-top:var(--space-2);}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--space-7);margin-top:var(--space-8);
+  border-top:1px solid rgba(226,205,148,0.25);border-bottom:1px solid rgba(226,205,148,0.25);
+  padding-top:var(--space-8);padding-bottom:var(--space-8);}
+.stat{display:flex;flex-direction:column;align-items:center;text-align:center;}
+.stat-badge{position:relative;width:104px;height:104px;background:var(--paper-50);
+  box-shadow:0 0 0 1px #5e4715,0 0 0 4px #e7ce91,0 0 0 7px #c39a47,0 8px 18px rgba(33,27,18,0.35);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 8px;}
+.stat-badge .val{font-family:var(--font-display);font-size:var(--text-xl);font-weight:500;color:var(--ink-900);line-height:1;
+  flex:1;display:flex;align-items:center;}
+.stat-badge .lab{font-family:var(--font-mono);font-size:var(--text-2xs);text-transform:uppercase;letter-spacing:var(--tracking-caps);
+  color:var(--ink-500);}
 
 /* ===== Buttons ===== */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:0.55em;font-family:var(--font-mono);
@@ -288,8 +290,7 @@ button,textarea,input,select,a{
 .site-footer{background:var(--ink-900);color:var(--paper-200);}
 .site-footer .row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:var(--space-5);}
 .foot-brand{display:flex;align-items:center;gap:var(--space-4);}
-.foot-mono{width:40px;height:40px;border:1.5px solid var(--brass-400);display:flex;align-items:center;justify-content:center;
-  font-family:var(--font-display);font-weight:600;font-size:20px;color:var(--paper-50);}
+.foot-mono{width:40px;height:40px;object-fit:contain;}
 .foot-brand .nm{font-family:var(--font-display);font-size:22px;color:var(--paper-50);}
 .foot-brand .role{font-family:var(--font-mono);font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:var(--brass-400);}
 .foot-icon{width:40px;height:40px;border:1px solid var(--brass-400);border-radius:2px;display:inline-flex;align-items:center;justify-content:center;}
@@ -314,5 +315,6 @@ button,textarea,input,select,a{
 @media (max-width:560px){
   .hero h1{font-size:var(--text-2xl);}
   .sec-head h2,.gallery-section .mast{font-size:var(--text-2xl);}
-  .stats{grid-template-columns:repeat(2,1fr);}
+  .stats{grid-template-columns:repeat(2,1fr);gap:var(--space-6);}
+  .stat-badge{width:88px;height:88px;}
 }

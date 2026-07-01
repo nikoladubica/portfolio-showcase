@@ -20,8 +20,8 @@ const Stats = () => {
                 >
                     <div className="stat-badge">
                         <span className="val">{stat.val}</span>
+                        <span className="lab">{stat.lab}</span>
                     </div>
-                    <div className="lab">{stat.lab}</div>
                 </motion.div>
             ))}
         </div>

@@ -1,5 +1,5 @@
 import { motion } from "framer-motion"
-import { stats } from "../data/projects"
+import Stats from "./stats"
 
 const rise = {
     initial: { opacity: 0, y: 20 },
@@ -16,7 +16,7 @@ const Hero = () => {
                 animate="animate"
                 transition={{ duration: 0.5, ease: "easeInOut" }}
             >
-                Anno MMXXVI · Belgrade, Serbia · Vol. I
+                Anno MMXXVI · Zrenjanin, Serbia · Vol. I
             </motion.div>
             <div className="rule-double"></div>
 
@@ -31,13 +31,13 @@ const Hero = () => {
                         Front-End Developer
                     </h1>
                     <p className="lead dropcap">
-                        Nikola Čučuković builds considered, performant interfaces for the modern web — React
+                        Nikola Čučuković builds considered, performant interfaces for the modern web - React
                         and Next.js at the core, an editor&apos;s eye throughout. Part engineer, part craftsman,
                         lately deep in AI-assisted workflows and the people side of shipping product.
                     </p>
                     <div className="cta-row">
                         <a className="btn btn--solid" href="#works">See the Work</a>
-                        <a className="btn btn--outline" href="#contact">Make Contact →</a>
+                        <a className="btn btn--gilt" href="#contact">Make Contact →</a>
                     </div>
                 </motion.div>
 
@@ -55,21 +55,7 @@ const Hero = () => {
                 </motion.div>
             </div>
 
-            <div className="stats">
-                {stats.map((stat, index) => (
-                    <motion.div
-                        key={stat.lab}
-                        className="stat"
-                        variants={rise}
-                        initial="initial"
-                        animate="animate"
-                        transition={{ duration: 0.5, delay: 0.5 + index * 0.1, ease: "easeInOut" }}
-                    >
-                        <div className="val">{stat.val}</div>
-                        <div className="lab">{stat.lab}</div>
-                    </motion.div>
-                ))}
-            </div>
+            <Stats />
         </section>
     )
 }

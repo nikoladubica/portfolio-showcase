@@ -30,7 +30,7 @@ const Works = () => {
                             ))}
                         </div>
                         <a
-                            className="btn btn--outline btn--sm"
+                            className="btn btn--gilt btn--sm"
                             href={project.url}
                             target="_blank"
                             rel="noreferrer"
