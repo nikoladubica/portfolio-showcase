@@ -45,7 +45,6 @@
     inset 0 0 0 1px rgba(94,71,33,0.55), inset 0 1px 4px rgba(33,27,18,0.12),
     0 0 0 1px #5e4715, 0 0 0 6px #e7ce91, 0 0 0 10px #c39a47, 0 0 0 13px #836427,
     0 0 0 15px #f1dca0, 0 0 0 17px #5e4715, 0 20px 36px rgba(33,27,18,0.45), 0 4px 8px rgba(33,27,18,0.32);
-  --shadow-wall:0 18px 50px rgba(33,27,18,0.4), inset 0 0 120px rgba(0,0,0,0.45);
 
   /* Layout / motion */
   --container:1180px;
@@ -185,9 +184,8 @@ button,textarea,input,select,a{
 .btn--sm{padding:8px 16px;font-size:var(--text-2xs);}
 
 /* ===== Section heading ===== */
-.section{padding:var(--space-8) 0;}
+.section{padding-top:var(--space-8);padding-bottom:var(--space-8);border-top:1px solid rgba(226,205,148,0.18);}
 .sec-head{margin-bottom:var(--space-7);}
-.sec-head .num{font-family:var(--font-mono);font-size:var(--text-sm);letter-spacing:var(--tracking-caps);color:var(--brass-600);}
 .sec-head .eyebrow{display:block;margin:var(--space-2) 0;}
 .sec-head h2{font-family:var(--font-blackletter);font-size:var(--text-3xl);font-weight:700;color:var(--text-heading);margin:var(--space-2) 0;
   letter-spacing:0.01em;text-shadow:0 2px 10px rgba(0,0,0,0.4);}
@@ -196,7 +194,9 @@ button,textarea,input,select,a{
 .sec-head.center p{margin-left:auto;margin-right:auto;}
 
 /* ===== Works ===== */
-.work{display:grid;grid-template-columns:320px 1fr;gap:var(--space-7);align-items:center;margin-top:var(--space-7);}
+.work{display:grid;grid-template-columns:320px 1fr;gap:var(--space-7);align-items:center;margin-top:var(--space-7);
+  background:var(--ink-800);padding:var(--space-6);
+  box-shadow:0 0 0 1px #5e4715,0 0 0 4px #e7ce91,0 0 0 7px #c39a47,0 8px 18px rgba(0,0,0,0.45);}
 .work:nth-child(even){grid-template-columns:1fr 320px;}
 .work:nth-child(even) .work-plate-col{order:2;}
 .work-plate-col{justify-self:center;}
@@ -218,12 +218,7 @@ button,textarea,input,select,a{
 /* ============================================================
    ★ ORNATE GALLERY — Skills on the dark walnut wall ★
    ============================================================ */
-.gallery-section{background:var(--bg-page);
-  background-image:
-    radial-gradient(circle at 50% 30%, rgba(154,123,54,0.10), transparent 60%),
-    repeating-linear-gradient(45deg, rgba(226,205,148,0.035) 0 1px, transparent 1px 26px),
-    repeating-linear-gradient(-45deg, rgba(226,205,148,0.035) 0 1px, transparent 1px 26px);
-  border-top:1px solid #1a140f;border-bottom:1px solid #1a140f;box-shadow:var(--shadow-wall);}
+.gallery-section{border-top:1px solid rgba(226,205,148,0.18);}
 .gallery-inner{position:relative;padding:var(--space-8) var(--space-6) var(--space-9);}
 .gallery-section .eyebrow{color:var(--brass-400);text-align:center;display:block;margin-bottom:10px;}
 .gallery-section .mast{font-family:var(--font-blackletter);font-weight:700;font-size:var(--text-3xl);line-height:1;
@@ -263,13 +258,7 @@ button,textarea,input,select,a{
   font-family:var(--font-mono);font-size:10px;letter-spacing:0.18em;text-transform:uppercase;padding:5px 16px;white-space:nowrap;
   box-shadow:0 3px 7px rgba(33,27,18,0.4),inset 0 1px 0 rgba(255,255,255,0.45);}
 
-/* ===== Ledger (inverse ink plate) ===== */
-.ledger{background:var(--ink-900);color:var(--paper-100);}
-.ledger .num{font-family:var(--font-mono);font-size:var(--text-xs);text-transform:uppercase;letter-spacing:var(--tracking-wider);
-  color:var(--brass-400);margin-bottom:var(--space-3);}
-.ledger .row{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:var(--space-4);margin-bottom:var(--space-6);}
-.ledger h2{font-family:var(--font-display);font-size:var(--text-2xl);font-weight:500;color:var(--paper-50);margin:0;}
-.ledger .note{font-family:var(--font-serif);font-style:italic;font-size:var(--text-base);color:var(--paper-300);}
+/* ===== Ledger ===== */
 .ledger .grid-wrap{border-top:1px solid rgba(241,232,213,0.18);padding-top:var(--space-5);}
 .contrib{display:grid;grid-template-columns:repeat(53,1fr);gap:3px;}
 .contrib-col{display:grid;grid-template-rows:repeat(7,1fr);gap:3px;}
@@ -279,8 +268,9 @@ button,textarea,input,select,a{
 .legend span.sw{width:13px;height:13px;border-radius:2px;border:1px solid rgba(0,0,0,0.25);}
 
 /* ===== Contact + footer ===== */
-.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-8);align-items:start;}
 .field{display:flex;flex-direction:column;gap:6px;margin-bottom:var(--space-5);}
+.field-row{display:flex;gap:var(--space-5);margin-bottom:var(--space-5);}
+.field-row .field{flex:1;margin-bottom:0;}
 .field label{font-family:var(--font-mono);font-size:var(--text-xs);text-transform:uppercase;letter-spacing:var(--tracking-caps);color:var(--paper-400);}
 .field input,.field textarea{font-family:var(--font-serif);font-size:var(--text-base);color:var(--ink-900);
   background:var(--paper-50);border:1px solid var(--ink-300);border-radius:2px;padding:10px 12px;}
@@ -307,7 +297,7 @@ button,textarea,input,select,a{
   .gallery{grid-template-columns:1fr;gap:64px;}
   .work,.work:nth-child(even){grid-template-columns:1fr;}
   .work:nth-child(even) .work-plate-col{order:0;}
-  .contact-grid{grid-template-columns:1fr;}
+  .field-row{flex-direction:column;}
   .stats{grid-template-columns:repeat(2,1fr);}
   .nav{display:none;}
   .picture-rail{display:none;}

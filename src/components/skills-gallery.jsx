@@ -4,7 +4,6 @@ const SkillsGallery = () => {
     return (
         <section className="gallery-section" id="skills">
             <div className="wrap gallery-inner">
-                <div className="picture-rail" style={{ top: "150px" }}></div>
                 <div className="eyebrow">§ II · Faculties &amp; Trades</div>
                 <h2 className="mast">A Catalogue of Skills</h2>
                 <p className="lead">Three disciplines, hung in careful balance.</p>

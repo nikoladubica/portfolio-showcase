@@ -37,10 +37,11 @@ const Ledger = () => {
     return (
         <section className="ledger" id="ledger">
             <div className="wrap section">
-                <div className="num">§ III · The Ledger</div>
-                <div className="row">
-                    <h2 className="mast">A Year of Contributions</h2>
-                    <span className="note">1,284 commits entered into the record this twelvemonth.</span>
+                <div className="sec-head center">
+                    <span className="eyebrow">§ III · The Ledger</span>
+                    <h2>A Year of Contributions</h2>
+                    <p>1,284 commits entered into the record this twelvemonth.</p>
+                    <div className="ornament">❧</div>
                 </div>
                 <div className="grid-wrap">
                     <div className="contrib">

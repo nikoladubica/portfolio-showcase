@@ -3,11 +3,11 @@ import { projects } from "../data/projects"
 const Works = () => {
     return (
         <section className="section wrap" id="works">
-            <div className="sec-head">
-                <span className="num">§ I</span>
-                <span className="eyebrow">Selected Works</span>
+            <div className="sec-head center">
+                <span className="eyebrow">§ I · Selected Works</span>
                 <h2>Projects &amp; Commissions</h2>
                 <p>A register of recent front-end engagements — each shipped to production.</p>
+                <div className="ornament">❧</div>
             </div>
 
             {projects.map(project => (
