@@ -86,10 +86,14 @@ export const openSourceProjects = [
 ]
 
 export const stats = [
-    { val: '8+', lab: 'Years Shipping' },
-    { val: '40+', lab: 'Projects Delivered' },
-    { val: '12', lab: 'Open-Source Repos' },
-    { val: '∞', lab: 'Cups of Coffee' }
+    { val: '50+', lab: 'Interviews Done' },
+    { val: '1000+', lab: 'Hours of Learning' },
+    { val: '∞', lab: 'Cups of Coffee' },
+    { val: '5+', lab: 'Years Shipping' },
+    { val: '10+', lab: 'Projects Delivered' },
+    { val: '4', lab: 'Open-Source Repos' },
+    { val: '99+', lab: 'Ideas Yet to start' },
+    { val: '3', lab: 'Products Coming' },
 ]
 
 export const skills = [

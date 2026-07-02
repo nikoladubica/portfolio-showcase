@@ -17,9 +17,6 @@ const Contact = () => {
                 description="For commissions, collaborations, or a considered conversation."
                 marginBottom="mb-4"
             />
-            <p className="manicule italic text-paper-300 text-center mb-6">
-                Replies are dispatched within a day or two.
-            </p>
 
             <form onSubmit={submitHandler}>
                 <div className="flex max-[900px]:flex-col gap-5 mb-5">

@@ -55,7 +55,7 @@ const Works = () => {
             <SectionHead
                 eyebrow="§ I · Selected Works"
                 heading="Projects & Commissions"
-                description="A register of recent front-end engagements — each shipped to production."
+                description="A register of recent front-end engagements - each shipped to production."
             />
 
             <div className="grid grid-cols-3 max-[900px]:grid-cols-2 max-[640px]:grid-cols-1 gap-4 mt-6">

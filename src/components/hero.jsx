@@ -8,7 +8,7 @@ const rise = {
 
 const Hero = () => {
     return (
-        <section className="pt-9 wrap">
+        <section className="pt-8 wrap">
             <motion.div
                 className="font-mono text-xs uppercase tracking-wider text-brass-400 text-center mb-4"
                 variants={rise}
@@ -27,13 +27,11 @@ const Hero = () => {
                     animate="animate"
                     transition={{ duration: 0.6, delay: 0.15, ease: "easeInOut" }}
                 >
-                    <h1 className="font-display font-medium text-4xl max-[560px]:text-2xl leading-[0.98] tracking-[-0.015em] mb-4 text-text-heading [text-shadow:0_2px_12px_rgba(0,0,0,0.4)]">
+                    <h1 className="font-display font-medium text-4xl max-[560px]:text-2xl leading-[0.9]! tracking-[-0.015em] mb-4 text-text-heading [text-shadow:0_2px_12px_rgba(0,0,0,0.4)]">
                         Front-End Developer
                     </h1>
-                    <p className="text-md text-paper-200 max-w-[52ch] leading-[1.6] dropcap">
-                        Nikola Čučuković builds considered, performant interfaces for the modern web - React
-                        and Next.js at the core, an editor&apos;s eye throughout. Part engineer, part craftsman,
-                        lately deep in AI-assisted workflows and the people side of shipping product.
+                    <p className="text-md text-paper-200 max-w-[60ch] leading-[1.4]! dropcap mt-5!">
+                        I am a developer who builds web apps that are fast to load and pleasant to use. What pulled me into front-end work was that it sits exactly between two things I like: design and making things (which turned to programming). I love turning a rough idea into something people click on every day.
                     </p>
                     <div className="flex gap-3 mt-5 flex-wrap">
                         <a className="btn btn--solid" href="#works">See the Work</a>
