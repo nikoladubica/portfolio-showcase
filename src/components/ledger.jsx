@@ -1,5 +1,10 @@
-import { useMemo } from "react"
+import { useEffect, useMemo, useState } from "react"
 import SectionHead from "./section-head"
+
+const GITHUB_USER = "nikoladubica"
+// Public, CORS-enabled proxy that scrapes GitHub's contribution calendar and
+// returns it as JSON. `?y=last` = the rolling last 365 days.
+const API = `https://github-contributions-api.jogruber.de/v4/${GITHUB_USER}?y=last`
 
 const FILLS = [
     "rgba(241,232,213,0.07)",
@@ -10,7 +15,8 @@ const FILLS = [
 ]
 
 // Deterministic stylised GitHub "contribution" grid — 53 weeks × 7 days.
-// Seeded PRNG (no Date/Math.random) so server and client render identically.
+// Seeded PRNG (no Date/Math.random) so it renders identically every time.
+// Used as a graceful fallback while the live data loads or if the fetch fails.
 const buildGrid = () => {
     let seed = 1847
     const rand = () => {
@@ -32,8 +38,54 @@ const buildGrid = () => {
     return weeks
 }
 
+// Turn the flat, day-by-day contribution list into columns of weeks (Sun→Sat),
+// padding the leading partial week with empty cells the way GitHub does.
+const toWeeks = (contributions) => {
+    const weeks = []
+    let current = new Array(7).fill(0)
+    let filled = false
+
+    for (const day of contributions) {
+        const dow = new Date(day.date).getDay() // 0 = Sunday
+        if (dow === 0 && filled) {
+            weeks.push(current)
+            current = new Array(7).fill(0)
+        }
+        current[dow] = day.level
+        filled = true
+    }
+    if (filled) weeks.push(current)
+    return weeks
+}
+
 const Ledger = () => {
-    const weeks = useMemo(() => buildGrid(), [])
+    const fallback = useMemo(() => buildGrid(), [])
+    const [weeks, setWeeks] = useState(fallback)
+    const [total, setTotal] = useState(null)
+
+    useEffect(() => {
+        let active = true
+        fetch(API)
+            .then((res) => {
+                if (!res.ok) throw new Error(`GitHub proxy returned ${res.status}`)
+                return res.json()
+            })
+            .then((data) => {
+                if (!active) return
+                setWeeks(toWeeks(data.contributions))
+                setTotal(data.total?.lastYear ?? null)
+            })
+            .catch(() => {
+                // Keep the seeded fallback grid already in state.
+            })
+        return () => {
+            active = false
+        }
+    }, [])
+
+    const description = total != null
+        ? `${total.toLocaleString()} contributions entered into the record this twelvemonth.`
+        : "Contributions entered into the record this twelvemonth."
 
     return (
         <section id="ledger">
@@ -41,10 +93,10 @@ const Ledger = () => {
                 <SectionHead
                     eyebrow="§ III · The Ledger"
                     heading="A Year of Contributions"
-                    description="1,284 commits entered into the record this twelvemonth."
+                    description={description}
                 />
                 <div className="border-t border-[rgba(241,232,213,0.18)] pt-5">
-                    <div className="grid grid-cols-[repeat(53,1fr)] gap-[3px]">
+                    <div className="grid gap-[3px]" style={{ gridTemplateColumns: `repeat(${weeks.length}, 1fr)` }}>
                         {weeks.map((days, w) => (
                             <div className="grid grid-rows-[repeat(7,1fr)] gap-[3px]" key={w}>
                                 {days.map((lvl, d) => (
@@ -62,7 +114,7 @@ const Ledger = () => {
                         <span className="flex-1"></span>
                         <a
                             className="btn btn--gilt btn--sm"
-                            href="https://github.com/nikoladubica"
+                            href={`https://github.com/${GITHUB_USER}`}
                             target="_blank"
                             rel="noreferrer"
                         >
