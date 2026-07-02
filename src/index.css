@@ -103,8 +103,6 @@ button,textarea,input,select,a{
 /* ============================================================
    UTILITY ESCAPE HATCHES — effects that can't be expressed as
    stock inline utilities (pseudo-elements, BEM button/tag sets).
-   Dormant until each corresponding legacy rule below is deleted
-   (unlayered legacy rules win the cascade over @utility until then).
    ============================================================ */
 @utility btn{
   display:inline-flex;align-items:center;justify-content:center;gap:0.55em;font-family:var(--font-mono);
@@ -183,21 +181,3 @@ button,textarea,input,select,a{
 }
 
 @utility wrap{max-width:var(--container);margin:0 auto;padding-left:var(--spacing-6);padding-right:var(--spacing-6);}
-
-/* ===== Buttons ===== */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:0.55em;font-family:var(--font-mono);
-  font-size:var(--text-sm);text-transform:uppercase;letter-spacing:var(--tracking-caps);line-height:1;
-  padding:14px 30px;border-radius:3px;cursor:pointer;text-decoration:none;
-  transition:background var(--dur) var(--ease-antique),box-shadow var(--dur) var(--ease-antique),
-    color var(--dur) var(--ease-antique),transform var(--dur-fast) var(--ease-antique);}
-.btn:active{transform:translateY(1px);}
-.btn--solid{background:linear-gradient(180deg,#8b3028 0%,#6e2218 55%,#521a12 100%);color:var(--color-paper-100);
-  border:1px solid #3d1209;box-shadow:0 3px 8px rgba(33,27,18,0.45),inset 0 1px 0 rgba(255,255,255,0.14);}
-.btn--solid:hover{background:linear-gradient(180deg,#9e3832 0%,#7c2820 55%,#5c1e14 100%);color:var(--color-paper-50);}
-.btn--outline{background:transparent;color:var(--color-oxblood-300);border:1px solid var(--color-brass-400);}
-.btn--outline:hover{background:linear-gradient(180deg,#ead49a 0%,#c19a47 55%,#9a7b36 100%);color:#2a2012;border-color:#5e4715;}
-.btn--gilt{background:linear-gradient(180deg,#ead49a 0%,#c19a47 55%,#9a7b36 100%);color:#2a2012;border:1px solid #5e4715;
-  box-shadow:0 3px 8px rgba(33,27,18,0.45),inset 0 1px 0 rgba(255,255,255,0.45);}
-.btn--gilt:hover{background:linear-gradient(180deg,#f2e0ac 0%,#d4a84e 55%,#a8872e 100%);color:#2a2012;}
-.btn--sm{padding:8px 16px;font-size:var(--text-2xs);}
-

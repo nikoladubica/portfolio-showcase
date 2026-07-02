@@ -30,7 +30,7 @@ import "./index.css"
 createRoot(document.getElementById("root")).render(
     <StrictMode>
         <ReduxProvider>
-            <div className="app-root">
+            <div>
                 <App />
             </div>
         </ReduxProvider>
