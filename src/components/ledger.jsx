@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react"
 import SectionHead from "./section-head"
+import Tooltip from "./tooltip"
 
 const GITHUB_USER = "nikoladubica"
 // Public, CORS-enabled proxy that scrapes GitHub's contribution calendar and
@@ -13,6 +14,15 @@ const FILLS = [
     "rgba(201,138,128,0.7)",
     "#94392F"
 ]
+
+// A cell with no real contribution behind it (leading week padding / fallback).
+const PAD = { level: 0 }
+
+// Parse GitHub's "YYYY-MM-DD" as local midnight so the weekday/month never
+// shift a day in negative-offset timezones (bare `new Date("YYYY-MM-DD")` is UTC).
+const parseDate = (iso) => new Date(`${iso}T00:00:00`)
+const formatDay = (iso) =>
+    parseDate(iso).toLocaleDateString(undefined, { weekday: "long", month: "long", day: "numeric", year: "numeric" })
 
 // Deterministic stylised GitHub "contribution" grid — 53 weeks × 7 days.
 // Seeded PRNG (no Date/Math.random) so it renders identically every time.
@@ -31,37 +41,62 @@ const buildGrid = () => {
             const r = rand()
             let lvl = r < 0.42 ? 0 : r < 0.66 ? 1 : r < 0.84 ? 2 : r < 0.95 ? 3 : 4
             if ((d === 0 || d === 6) && r < 0.6) lvl = Math.max(0, lvl - 1)
-            days.push(lvl)
+            days.push({ level: lvl })
         }
         weeks.push(days)
     }
     return weeks
 }
 
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+
 // Turn the flat, day-by-day contribution list into columns of weeks (Sun→Sat),
 // padding the leading partial week with empty cells the way GitHub does.
+// Also returns a per-column month row — labelled only where a new month begins.
 const toWeeks = (contributions) => {
-    const weeks = []
-    let current = new Array(7).fill(0)
+    const grid = []
+    const weekStarts = []
+    let days = new Array(7).fill(PAD)
+    let start = null
     let filled = false
 
     for (const day of contributions) {
-        const dow = new Date(day.date).getDay() // 0 = Sunday
+        const dow = parseDate(day.date).getDay() // 0 = Sunday
         if (dow === 0 && filled) {
-            weeks.push(current)
-            current = new Array(7).fill(0)
+            grid.push(days)
+            weekStarts.push(start)
+            days = new Array(7).fill(PAD)
+            start = null
         }
-        current[dow] = day.level
+        if (start === null) start = day.date
+        days[dow] = { level: day.level, count: day.count, date: day.date }
         filled = true
     }
-    if (filled) weeks.push(current)
-    return weeks
+    if (filled) {
+        grid.push(days)
+        weekStarts.push(start)
+    }
+
+    let prevMonth = -1
+    const months = weekStarts.map((date) => {
+        const m = parseDate(date).getMonth()
+        if (m === prevMonth) return ""
+        prevMonth = m
+        return MONTHS[m]
+    })
+    // Drop the leading label — the first month is only a sliver of weeks and
+    // sits too close to the second to read cleanly.
+    if (months.length) months[0] = ""
+
+    return { grid, months }
 }
 
 const Ledger = () => {
     const fallback = useMemo(() => buildGrid(), [])
     const [weeks, setWeeks] = useState(fallback)
+    const [months, setMonths] = useState([])
     const [total, setTotal] = useState(null)
+    const [hover, setHover] = useState(null)
 
     useEffect(() => {
         let active = true
@@ -72,7 +107,9 @@ const Ledger = () => {
             })
             .then((data) => {
                 if (!active) return
-                setWeeks(toWeeks(data.contributions))
+                const { grid, months: monthRow } = toWeeks(data.contributions)
+                setWeeks(grid)
+                setMonths(monthRow)
                 setTotal(data.total?.lastYear ?? null)
             })
             .catch(() => {
@@ -99,12 +136,35 @@ const Ledger = () => {
                     <div className="grid gap-[3px]" style={{ gridTemplateColumns: `repeat(${weeks.length}, 1fr)` }}>
                         {weeks.map((days, w) => (
                             <div className="grid grid-rows-[repeat(7,1fr)] gap-[3px]" key={w}>
-                                {days.map((lvl, d) => (
-                                    <span className="aspect-square rounded-[2px] border border-[rgba(0,0,0,0.25)]" key={d} style={{ background: FILLS[lvl] }} />
+                                {days.map((cell, d) => (
+                                    <span
+                                        className="aspect-square rounded-[2px] border border-[rgba(0,0,0,0.25)]"
+                                        key={d}
+                                        style={{ background: FILLS[cell.level] }}
+                                        onMouseEnter={cell.date ? (e) => setHover({ rect: e.currentTarget.getBoundingClientRect(), cell }) : undefined}
+                                        onMouseLeave={cell.date ? () => setHover(null) : undefined}
+                                    />
                                 ))}
                             </div>
                         ))}
                     </div>
+                    {hover && (
+                        <Tooltip anchor={hover.rect}>
+                            <div className="font-mono text-[10px] uppercase tracking-[0.08em] text-ink-900">
+                                {formatDay(hover.cell.date)}
+                            </div>
+                            <div className="font-mono text-[10px] tracking-[0.06em] text-oxblood-600">
+                                {hover.cell.count} contribution{hover.cell.count === 1 ? "" : "s"}
+                            </div>
+                        </Tooltip>
+                    )}
+                    {months.length > 0 && (
+                        <div className="grid gap-[3px] mt-2 font-mono text-[10px] text-paper-400 tracking-[0.08em]" style={{ gridTemplateColumns: `repeat(${months.length}, 1fr)` }}>
+                            {months.map((label, i) => (
+                                <span className="whitespace-nowrap overflow-visible" key={i}>{label}</span>
+                            ))}
+                        </div>
+                    )}
                     <div className="flex items-center gap-2 mt-5 font-mono text-[10px] text-paper-400 tracking-[0.08em]">
                         <span>LESS</span>
                         {FILLS.map((fill, i) => (
