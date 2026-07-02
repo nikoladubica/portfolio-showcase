@@ -1,0 +1,178 @@
+@import "tailwindcss";
+
+/* ============================================================
+   THEME — Antique broadsheet design system (Tailwind v4 @theme)
+   Fonts are self-hosted via @fontsource (see src/main.jsx); the
+   family names are available globally once @font-face is
+   registered, independent of where the --font-* var is declared.
+   ============================================================ */
+@theme{
+  /* Paper */
+  --color-paper-50:#F8F2E4; --color-paper-100:#F1E8D5; --color-paper-200:#E8DBBF; --color-paper-300:#DBCBA6; --color-paper-400:#C9B88C;
+  /* Ink */
+  --color-ink-900:#211B12; --color-ink-800:#2E2619; --color-ink-700:#3F3424; --color-ink-600:#574836; --color-ink-500:#6E5C44; --color-ink-400:#8E7B5F; --color-ink-300:#B0A082;
+  /* Oxblood */
+  --color-oxblood-700:#5C211B; --color-oxblood-600:#7A2E26; --color-oxblood-500:#94392F; --color-oxblood-300:#C98A80;
+  /* Brass */
+  --color-brass-700:#7C5F26; --color-brass-600:#9A7B36; --color-brass-400:#C2A35E; --color-brass-200:#E2CE9C;
+  /* Verdigris */
+  --color-verdigris-700:#2E463C; --color-verdigris-600:#3F5A4E; --color-verdigris-400:#6E8A7C;
+  /* Status */
+  --color-status-positive:#4A6140;
+  /* Dark wall context / semantic aliases */
+  --color-bg-page:#271f18; --color-surface-card:var(--color-paper-50);
+  --color-text-heading:var(--color-paper-50); --color-text-body:var(--color-paper-200); --color-text-muted:var(--color-paper-400);
+  --color-gilt:var(--color-brass-200); --color-rule-strong:var(--color-brass-400);
+
+  /* Fonts */
+  --font-display:"Cormorant Garamond",Georgia,"Times New Roman",serif;
+  --font-serif:"EB Garamond",Georgia,"Times New Roman",serif;
+  --font-mono:"Courier Prime","Courier New",ui-monospace,monospace;
+  --font-blackletter:"UnifrakturCook",var(--font-display);
+
+  /* Type scale */
+  --text-2xs:0.6875rem; --text-xs:0.75rem; --text-sm:0.875rem; --text-base:1.125rem;
+  --text-md:1.25rem; --text-lg:1.5rem; --text-xl:2rem; --text-2xl:2.75rem; --text-3xl:3.75rem; --text-4xl:5rem;
+
+  /* Tracking */
+  --tracking-caps:0.16em; --tracking-wider:0.28em;
+
+  /* Spacing (spacing-5..9 intentionally override Tailwind's default multiplier scale
+     to match the original --space-N ramp; spacing-1..4 already coincide with it) */
+  --spacing-1:.25rem; --spacing-2:.5rem; --spacing-3:.75rem; --spacing-4:1rem; --spacing-5:1.5rem;
+  --spacing-6:2rem; --spacing-7:3rem; --spacing-8:4rem; --spacing-9:6rem;
+
+  /* Radii */
+  --radius:3px; --radius-sm:2px;
+
+  /* Shadows */
+  --shadow-sm:0 1px 2px rgba(33,27,18,0.10);
+  --shadow:0 2px 6px rgba(33,27,18,0.12);
+  --shadow-lg:0 10px 30px rgba(33,27,18,0.16);
+  --shadow-gilt-frame:
+    inset 0 0 0 1px rgba(94,71,33,0.55), inset 0 1px 4px rgba(33,27,18,0.12),
+    0 0 0 1px #5e4715, 0 0 0 6px #e7ce91, 0 0 0 10px #c39a47, 0 0 0 13px #836427,
+    0 0 0 15px #f1dca0, 0 0 0 17px #5e4715, 0 20px 36px rgba(33,27,18,0.45), 0 4px 8px rgba(33,27,18,0.32);
+}
+
+/* NOTE: Tailwind v4 Vite plugin silently drops author rules placed inside @layer base
+   whose selector exactly matches one Preflight already owns (body, html, img,
+   ::selection, * were all confirmed empirically to vanish from the production build when
+   wrapped in @layer base - h1..h4 and other compound selectors were unaffected). These
+   rules are kept unlayered instead (as in the pre-migration stylesheet), which is safe:
+   unlayered author CSS always outranks any @layer'd rule in the cascade regardless of
+   source order, so Preflight cannot override these. Also: a standalone :root{} rule is
+   similarly dropped if it sits outside Tailwind's own @theme-generated :root,:host{}
+   block - plain custom properties that are not theme tokens (--container/--ease-antique/
+   --dur/--dur-fast) are declared on body below instead, which survives intact. */
+*,*::before,*::after{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+
+body{
+  --container:1180px;
+  --ease-antique:cubic-bezier(0.22,0.61,0.36,1); --dur:260ms; --dur-fast:140ms;
+
+  margin:0;
+  /* The dark walnut wall — crosshatched square lattice, lit from above */
+  background-color:var(--color-bg-page);
+  background-image:
+    radial-gradient(circle at 50% 24%, rgba(154,123,54,0.10), transparent 60%),
+    repeating-linear-gradient(45deg, rgba(226,205,148,0.04) 0 1px, transparent 1px 26px),
+    repeating-linear-gradient(-45deg, rgba(226,205,148,0.04) 0 1px, transparent 1px 26px);
+  background-attachment:fixed;
+  color:var(--color-text-body);
+  font-family:var(--font-serif);
+  font-size:var(--text-base);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+h1,h2,h3,h4{font-family:var(--font-display);color:var(--color-text-heading);font-weight:600;line-height:1.12;margin:0;letter-spacing:-0.01em;}
+p{margin:0;}
+/* :not(.btn) - this rule is unlayered (see note above the base rules), so it would
+   otherwise always outrank the @utility btn/btn--* color declarations on <a class="btn
+   ..."> buttons regardless of specificity, overriding their intended text color. */
+a:not(.btn){color:var(--color-brass-400);text-decoration-thickness:1px;text-underline-offset:2px;transition:color var(--dur) var(--ease-antique);}
+a:not(.btn):hover{color:var(--color-brass-200);}
+img{display:block;}
+::selection{background:var(--color-brass-600);color:var(--color-paper-50);}
+
+/* Tap-highlight / selection reset for interactive elements */
+button,textarea,input,select,a{
+  -webkit-tap-highlight-color:transparent;
+  -webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;
+}
+
+/* ============================================================
+   UTILITY ESCAPE HATCHES — effects that can't be expressed as
+   stock inline utilities (pseudo-elements, BEM button/tag sets).
+   ============================================================ */
+@utility btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:0.55em;font-family:var(--font-mono);
+  font-size:var(--text-sm);text-transform:uppercase;letter-spacing:var(--tracking-caps);line-height:1;
+  padding:14px 30px;border-radius:3px;cursor:pointer;text-decoration:none;
+  transition:background var(--dur) var(--ease-antique),box-shadow var(--dur) var(--ease-antique),
+    color var(--dur) var(--ease-antique),transform var(--dur-fast) var(--ease-antique);
+  &:active{transform:translateY(1px);}
+}
+@utility btn--solid{
+  background:linear-gradient(180deg,#8b3028 0%,#6e2218 55%,#521a12 100%);color:var(--color-paper-100);
+  border:1px solid #3d1209;box-shadow:0 3px 8px rgba(33,27,18,0.45),inset 0 1px 0 rgba(255,255,255,0.14);
+  &:hover{background:linear-gradient(180deg,#9e3832 0%,#7c2820 55%,#5c1e14 100%);}
+}
+@utility btn--outline{
+  background:transparent;color:var(--color-oxblood-300);border:1px solid var(--color-brass-400);
+  &:hover{background:linear-gradient(180deg,#ead49a 0%,#c19a47 55%,#9a7b36 100%);color:#2a2012;border-color:#5e4715;}
+}
+@utility btn--gilt{
+  background:linear-gradient(180deg,#ead49a 0%,#c19a47 55%,#9a7b36 100%);color:#2a2012;border:1px solid #5e4715;
+  box-shadow:0 3px 8px rgba(33,27,18,0.45),inset 0 1px 0 rgba(255,255,255,0.45);
+  &:hover{background:linear-gradient(180deg,#f2e0ac 0%,#d4a84e 55%,#a8872e 100%);color:#2a2012;}
+}
+@utility btn--sm{padding:8px 16px;font-size:var(--text-2xs);}
+
+/* Colors are assigned per-technology in works.jsx (TAG_TONES) and applied via inline
+   style, since they are real per-tag brand hex values rather than a fixed variant set -
+   this utility only supplies the shared pill shape/typography. */
+@utility tag{
+  font-family:var(--font-mono);font-size:var(--text-2xs);text-transform:uppercase;letter-spacing:0.1em;
+  border-radius:4px;padding:3px 8px;white-space:nowrap;border:1px solid transparent;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.12),0 1px 3px rgba(33,27,18,0.45);
+}
+
+@utility dropcap{
+  &::first-letter{
+    font-family:var(--font-blackletter);font-weight:700;float:left;font-size:4em;line-height:0.82;
+    padding:0.04em 0.10em 0 0;color:var(--color-oxblood-500);
+  }
+}
+
+@utility ornament{
+  display:flex;align-items:center;gap:var(--spacing-4);color:var(--color-brass-600);text-align:center;justify-content:center;font-size:var(--text-lg);margin:var(--spacing-5) 0;
+  &::before,&::after{content:"";flex:1;max-width:120px;height:1px;background:linear-gradient(to right,transparent,rgba(176,160,130,0.6),transparent);}
+}
+
+@utility manicule{
+  &::before{content:"☞";margin-right:0.4em;color:var(--color-brass-400);}
+}
+
+/* skills-gallery.jsx variant of the ornament divider: same shape, different color/margin
+   and a different ::before/::after gradient tint, so it cannot reuse the shared ornament
+   utility above (pseudo-element content/background cannot be overridden from a sibling
+   utility class). */
+@utility ornament-gallery{
+  display:flex;align-items:center;gap:var(--spacing-4);text-align:center;justify-content:center;font-size:var(--text-lg);
+  color:var(--color-brass-400);margin:14px auto 0;
+  &::before,&::after{content:"";flex:1;max-width:120px;height:1px;background:linear-gradient(to right,transparent,rgba(226,205,148,0.35),transparent);}
+}
+
+/* skills-gallery.jsx .pic gilt-frame card: inset border pseudo-element and the "❧ "
+   glyph prefix on each list item cannot be expressed as inline utilities. */
+@utility pic-frame{
+  &::before{content:"";position:absolute;inset:7px;border:1px solid rgba(124,95,38,0.55);pointer-events:none;}
+}
+@utility pic-li-glyph{
+  &::before{content:"❧ ";color:var(--color-brass-600);font-size:12px;}
+}
+
+@utility wrap{max-width:var(--container);margin:0 auto;padding-left:var(--spacing-6);padding-right:var(--spacing-6);}
