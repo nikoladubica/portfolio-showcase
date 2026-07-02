@@ -17,9 +17,14 @@ const SkillsGallery = () => {
                             <span className="absolute text-brass-700 text-[15px] leading-none pointer-events-none bottom-[11px] left-[13px]">❦</span>
                             <span className="absolute text-brass-700 text-[15px] leading-none pointer-events-none bottom-[11px] right-[13px]">❦</span>
                             <div className="text-center text-[28px] text-brass-600 leading-none mb-[6px]">{skill.glyph}</div>
-                            <div className="text-center font-display italic text-[20px] text-oxblood-600 mb-[2px]">{skill.num}</div>
-                            <h3 className="font-display font-semibold text-[20px] leading-[1.12] text-center text-ink-900 mb-[6px]">{skill.title}</h3>
-                            <p className="font-serif italic text-[14px] text-center text-ink-500 mb-[14px]">{skill.clead}</p>
+                            <div className="text-center font-display italic text-[20px] text-oxblood-600 mb-2">{skill.num}</div>
+                            <h3 className="font-display font-semibold text-[20px] leading-[1.12] text-center text-ink-900 h-0">{skill.title}</h3>
+                            {skill.img && (
+                                <div className="relative p-[5px] bg-paper-50 border border-ink-300 shadow-[inset_0_0_0_1px_rgba(94,71,21,0.25),0_2px_6px_rgba(33,27,18,0.25)]">
+                                    <img src={skill.img} alt={skill.title} loading="lazy" className="block w-full h-[130px] object-cover [filter:sepia(0.35)_contrast(0.95)_brightness(0.98)]" />
+                                </div>
+                            )}
+                            <p className="font-serif italic text-[14px] text-center text-ink-500 mb-4!">{skill.clead}</p>
                             <div className="h-[4px] border-t border-b border-ink-300 w-[44px] mx-auto mb-[14px]"></div>
                             <ul className="list-none m-0 p-0 divide-y divide-dotted divide-ink-300">
                                 {skill.items.map(item => (

@@ -16,7 +16,13 @@ const TAG_TONES = {
     'Node.js': '#339933',
     'Docker': '#2496ED',
     'Zustand': '#B45309',
-    'Vanilla JS': '#F7DF1E'
+    'Vanilla JS': '#F7DF1E',
+    'Inertia.js': '#155dfc',
+    'Alpine.js': '#48a9c1',
+    'Tanstack Query': '#fd9a00',
+    'MySQL': '#3E6E93',
+    'CI/CD': '#dddddd',
+    'C': '#000000',
 }
 
 const hexToRgb = (hex) => ({

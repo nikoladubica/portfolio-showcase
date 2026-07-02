@@ -2,86 +2,86 @@
 
 export const projects = [
     {
-        no: 'No. 01 · 2024',
+        no: 'No. 01 · 2020 - present',
         name: 'One Versus One',
         status: 'Live',
         image: '/img/projects/one-versus-one.png',
         url: 'https://www.one-versus-one.com',
         description:
-            'A head-to-head competition platform. Front-end built for fast, animated match flows and a responsive mobile-first interface.',
-        tags: ['React', 'Next.js', 'Framer Motion', 'Redux']
+            'A head-to-head competition platform. Front-end optimized for speed, fast loading and a responsive mobile-first interface.',
+        tags: ['Laravel', 'Vanilla JS', 'Tailwind', 'Swiper', 'Docker']
     },
     {
-        no: 'No. 02 · 2023',
+        no: 'No. 02 · 2022 - present',
         name: 'Premium Switzerland',
         status: 'Live',
         image: '/img/projects/premiumswitzerland.png',
         url: 'https://www.premiumswitzerland.com',
         description:
-            'A bespoke luxury-travel presence for the Swiss market — editorial layouts, refined typography, and a polished booking journey.',
-        tags: ['Next.js', 'TypeScript', 'Tailwind']
+            'A luxury-travel presence for the Swiss market - presentations of luxury properties, best boarding schools and private clinics.',
+        tags: ['Laravel', 'Vanilla JS', 'React', 'Tailwind']
     },
     {
-        no: 'No. 03 · 2023',
+        no: 'No. 03 · 2025 - present',
         name: 'My Premium Europe',
         status: 'Live',
         image: '/img/projects/mypremiumeurope.png',
-        url: '#',
+        url: 'https://mypremiumeurope.com',
         description:
-            'A sister site extending the luxury-travel brand across the wider European market, with a shared design system and localized booking flows.',
-        tags: ['Next.js', 'TypeScript', 'Tailwind']
+            'A sister site extending the luxury-travel brand across the wider European market, with improved design and better technologies.',
+        tags: ['React', 'Inertia.js', 'Alpine.js', 'Tailwind', 'CI/CD']
     },
     {
-        no: 'No. 04 · 2023',
+        no: 'No. 04 · 2023 - 2024',
         name: 'PastorsLine',
         status: 'Live',
         image: '/img/projects/pastorsline.png',
-        url: '#',
+        url: 'https://pastorsline.com',
         description:
-            'A messaging & outreach platform front-end — dashboard views, contact management, and campaign tools built for daily-use reliability.',
-        tags: ['React', 'Redux', 'Tailwind']
+            'A messaging & outreach platform front-end - dashboard views, contact management, and campaign tools built for daily-use reliability.',
+        tags: ['React', 'Redux', 'TypeScript', 'Docker']
     },
     {
-        no: 'No. 05 · 2022',
+        no: 'No. 05 · 2026',
         name: 'Maler Xpress',
         status: 'Live',
         image: '/img/projects/maler-xpress.png',
-        url: '#',
+        url: 'https://maler-xpress.ch',
         description:
-            'A local trades service site for a Swiss painting company — clear service listings, quote requests, and a fast, mobile-first layout.',
-        tags: ['React', 'Tailwind']
+            'A market place for Swiss painters - Full-Stack and DevOps work, setting up the whole project, full CMS system and a smart algorithm.',
+        tags: ['React', 'Tanstack Query', 'Tailwind', 'Laravel', 'MySQL', 'CI/CD']
     },
     {
-        no: 'No. 06 · 2022',
+        no: 'No. 06 · 2025 - present',
         name: 'ZR Bus',
         status: 'Live',
         image: '/img/projects/zr-bus.png',
-        url: '#',
+        url: 'https://zrbus.ddns.net',
         description:
-            'A regional coach & shuttle booking site — route search, schedules, and a streamlined ticket-booking journey for everyday commuters.',
-        tags: ['React', 'Next.js', 'Swiper']
+            'City wide "next bus" information type website - a personal project as something to give back to my city.',
+        tags: ['React', 'Zustand', 'Tailwind', 'MySQL', 'CI/CD']
     }
 ]
 
 // ☞ Replace with real repositories
 export const openSourceProjects = [
     {
-        name: 'antique-ui-kit',
-        url: 'https://github.com/nikoladubica/antique-ui-kit',
-        description: 'A small React component library exploring the broadsheet aesthetic used on this site.',
-        tags: ['React', 'Vite']
+        name: 'c-calendar',
+        url: 'https://github.com/nikoladubica/c-calendar',
+        description: 'No-AI, only small documentation, hand coded project - something to keep the brain cells working.',
+        tags: ['Programming Language C']
     },
     {
-        name: 'eslint-config-nc',
-        url: 'https://github.com/nikoladubica/eslint-config-nc',
-        description: 'Shareable ESLint config for React + Next.js projects, tuned for readability over strictness.',
-        tags: ['ESLint', 'Node']
+        name: 'zr-bus',
+        url: 'https://github.com/nikoladubica/zr-bus',
+        description: 'A project for my city, that everyone can join - since we have no good transportation app, I decided to make one.',
+        tags: ['React', 'Node.js', 'MySQL', 'CI/CD']
     },
     {
-        name: 'redux-slice-utils',
-        url: 'https://github.com/nikoladubica/redux-slice-utils',
-        description: 'A handful of small helpers for trimming boilerplate out of Redux Toolkit slices.',
-        tags: ['Redux Toolkit', 'TypeScript']
+        name: 'meta-ai-builder',
+        url: 'https://github.com/nikoladubica/meta-ai-builder',
+        description: 'Simple app that uses OpenAI, Claude or Gemini API key and allow the users to create metas for their website.',
+        tags: ['React', 'Node.js', 'MySQL']
     }
 ]
 
@@ -102,7 +102,8 @@ export const skills = [
         num: 'I.',
         title: 'Front‑End Craft',
         clead: 'Fast, accessible, maintainable.',
-        items: ['React', 'Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'Redux Toolkit'],
+        img: '/img/skills/frontend-old.jpg',
+        items: ['React', 'Next.js', 'TypeScript', 'Tailwind CSS', 'Laravel', 'Alpine.js'],
         plate: 'I · Front-End'
     },
     {
@@ -110,7 +111,8 @@ export const skills = [
         num: 'II.',
         title: 'Lead & Manage',
         clead: 'Shipping is a team sport.',
-        items: ['Team Leadership', 'Mentorship', 'Client Relations', 'Code Review', 'Agile & Scrum'],
+        img: '/img/skills/leadership-old.jpg',
+        items: ['Team Leadership', 'Mentorship', 'Client Relations', 'Code Review', 'Agile & Scrum', 'Project Management'],
         plate: 'II · Leadership'
     },
     {
@@ -118,7 +120,8 @@ export const skills = [
         num: 'III.',
         title: 'AI & Automation',
         clead: 'Building with agents & LLMs.',
-        items: ['AI Agents', 'LLM Integration', 'RAG Pipelines', 'Prompt Engineering', 'AI-Assisted Dev'],
+        img: '/img/skills/intelligence-old.jpg',
+        items: ['AI Agents', 'LLM Integration', 'AI Project Workflows', 'Prompt Engineering', 'AI-Assisted Dev', 'Automation'],
         plate: 'III · Intelligence'
     }
 ]
