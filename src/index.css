@@ -89,8 +89,11 @@ body{
 }
 h1,h2,h3,h4{font-family:var(--font-display);color:var(--color-text-heading);font-weight:600;line-height:1.12;margin:0;letter-spacing:-0.01em;}
 p{margin:0;}
-a{color:var(--color-brass-400);text-decoration-thickness:1px;text-underline-offset:2px;transition:color var(--dur) var(--ease-antique);}
-a:hover{color:var(--color-brass-200);}
+/* :not(.btn) - this rule is unlayered (see note above the base rules), so it would
+   otherwise always outrank the @utility btn/btn--* color declarations on <a class="btn
+   ..."> buttons regardless of specificity, overriding their intended text color. */
+a:not(.btn){color:var(--color-brass-400);text-decoration-thickness:1px;text-underline-offset:2px;transition:color var(--dur) var(--ease-antique);}
+a:not(.btn):hover{color:var(--color-brass-200);}
 img{display:block;}
 ::selection{background:var(--color-brass-600);color:var(--color-paper-50);}
 
@@ -115,7 +118,7 @@ button,textarea,input,select,a{
 @utility btn--solid{
   background:linear-gradient(180deg,#8b3028 0%,#6e2218 55%,#521a12 100%);color:var(--color-paper-100);
   border:1px solid #3d1209;box-shadow:0 3px 8px rgba(33,27,18,0.45),inset 0 1px 0 rgba(255,255,255,0.14);
-  &:hover{background:linear-gradient(180deg,#9e3832 0%,#7c2820 55%,#5c1e14 100%);color:var(--color-paper-50);}
+  &:hover{background:linear-gradient(180deg,#9e3832 0%,#7c2820 55%,#5c1e14 100%);}
 }
 @utility btn--outline{
   background:transparent;color:var(--color-oxblood-300);border:1px solid var(--color-brass-400);
