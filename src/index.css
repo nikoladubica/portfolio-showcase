@@ -174,29 +174,6 @@ button,textarea,input,select,a{
 .ornament{display:flex;align-items:center;gap:var(--spacing-4);color:var(--color-brass-600);text-align:center;justify-content:center;font-size:var(--text-lg);margin:var(--spacing-5) 0;}
 .ornament::before,.ornament::after{content:"";flex:1;max-width:120px;height:1px;background:linear-gradient(to right,transparent,rgba(176,160,130,0.6),transparent);}
 
-/* ===== Masthead (sticky header) ===== */
-.masthead{position:sticky;top:0;z-index:50;background:rgba(26,20,15,0.82);backdrop-filter:blur(6px);
-  border-bottom:1px solid var(--color-rule-strong);}
-.masthead .bar{height:68px;display:flex;align-items:center;justify-content:space-between;}
-.brand{display:flex;align-items:center;gap:12px;text-decoration:none;background:none;border:none;cursor:pointer;}
-.monogram{width:34px;height:34px;object-fit:contain;}
-.brand-name{font-family:var(--font-display);font-size:20px;color:var(--color-paper-50);}
-.nav{display:flex;gap:var(--spacing-6);align-items:center;}
-.nav a{font-family:var(--font-mono);font-size:var(--text-xs);text-transform:uppercase;letter-spacing:var(--tracking-caps);
-  color:var(--color-paper-200);text-decoration:none;}
-.nav a:hover{color:var(--color-brass-400);}
-
-/* Mobile notice banner */
-.mobile-notice{position:fixed;top:0;left:0;width:100%;z-index:1001;
-  background:linear-gradient(180deg,#ead49a 0%,#c19a47 55%,#9a7b36 100%);color:#2a2012;
-  border-bottom:1px solid #5e4715;padding:var(--spacing-5) var(--spacing-7) var(--spacing-5) var(--spacing-6);
-  font-family:var(--font-serif);font-size:var(--text-base);
-  box-shadow:0 6px 18px rgba(33,27,18,0.4);
-  transition:transform var(--dur) var(--ease-antique);transform:translateY(0);}
-.mobile-notice.dismissed{transform:translateY(-100%);}
-.mobile-notice .close{position:absolute;top:50%;right:var(--spacing-5);transform:translateY(-50%);
-  background:none;border:none;cursor:pointer;font-family:var(--font-mono);font-size:20px;color:#2a2012;line-height:1;padding:4px;}
-
 /* ===== Hero ===== */
 .hero{padding:var(--spacing-9) 0 0 0;}
 .hero .kicker{font-family:var(--font-mono);font-size:var(--text-xs);text-transform:uppercase;letter-spacing:var(--tracking-wider);
@@ -410,7 +387,6 @@ button,textarea,input,select,a{
   .oss-meta{grid-column:1 / -1;text-align:left;margin-top:4px;}
   .field-row{flex-direction:column;}
   .stats{grid-template-columns:repeat(2,1fr);}
-  .nav{display:none;}
   .picture-rail{display:none;}
 }
 @media (max-width:640px){
