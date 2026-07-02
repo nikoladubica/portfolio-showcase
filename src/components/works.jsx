@@ -12,35 +12,39 @@ const TAG_TONES = {
 
 const Works = () => {
     return (
-        <section className="section wrap" id="works">
-            <div className="sec-head center">
-                <span className="eyebrow">§ I · Selected Works</span>
-                <h2>Projects &amp; Commissions</h2>
-                <p>A register of recent front-end engagements — each shipped to production.</p>
+        <section className="pt-8 pb-8 border-t border-[rgba(226,205,148,0.18)] wrap" id="works">
+            <div className="mb-7 text-center">
+                <span className="font-mono text-xs uppercase tracking-wider text-brass-400 block my-2">§ I · Selected Works</span>
+                <h2 className="font-blackletter text-3xl max-[560px]:text-2xl font-bold text-text-heading my-2 tracking-[0.01em] [text-shadow:0_2px_10px_rgba(0,0,0,0.4)]">Projects &amp; Commissions</h2>
+                <p className="font-serif italic text-md text-paper-300 max-w-[60ch] mx-auto">A register of recent front-end engagements — each shipped to production.</p>
                 <div className="ornament">❧</div>
             </div>
 
-            <div className="wgrid">
+            <div className="grid grid-cols-3 max-[900px]:grid-cols-2 max-[640px]:grid-cols-1 gap-4 mt-6">
                 {projects.map(project => (
-                    <article className="wcard-v4" key={project.name}>
-                        <div className="wcard-v4-frame">
-                            <span className="pin tl"></span>
-                            <span className="pin tr"></span>
-                            <span className="pin bl"></span>
-                            <span className="pin br"></span>
-                            <img src={project.image} alt={project.name} />
-                            <div className="wcard-v4-plate">{project.name}</div>
+                    <article className="bg-ink-800 p-4 shadow-lg border border-[rgba(226,205,148,0.15)] flex flex-col" key={project.name}>
+                        <div className="relative w-full shrink-0 aspect-[2/1] border border-brass-400 p-[2px] bg-paper-50 mb-[26px]">
+                            <span className="absolute w-2 h-2 rounded-full bg-[radial-gradient(circle_at_35%_35%,#f2e0ac,#9a7b36_70%,#5e4715)] shadow-[0_1px_2px_rgba(0,0,0,0.5)] z-2 -top-1 -left-1"></span>
+                            <span className="absolute w-2 h-2 rounded-full bg-[radial-gradient(circle_at_35%_35%,#f2e0ac,#9a7b36_70%,#5e4715)] shadow-[0_1px_2px_rgba(0,0,0,0.5)] z-2 -top-1 -right-1"></span>
+                            <span className="absolute w-2 h-2 rounded-full bg-[radial-gradient(circle_at_35%_35%,#f2e0ac,#9a7b36_70%,#5e4715)] shadow-[0_1px_2px_rgba(0,0,0,0.5)] z-2 -bottom-1 -left-1"></span>
+                            <span className="absolute w-2 h-2 rounded-full bg-[radial-gradient(circle_at_35%_35%,#f2e0ac,#9a7b36_70%,#5e4715)] shadow-[0_1px_2px_rgba(0,0,0,0.5)] z-2 -bottom-1 -right-1"></span>
+                            <img
+                                className="w-full h-full object-cover object-top [filter:sepia(0.42)_contrast(1.05)_brightness(0.99)] border border-ink-300"
+                                src={project.image}
+                                alt={project.name}
+                            />
+                            <div className="absolute left-1/2 -bottom-4 -translate-x-1/2 max-w-[88%] bg-[linear-gradient(180deg,#ead49a_0%,#c19a47_55%,#9a7b36_100%)] border border-[#5e4715] text-[#2a2012] font-display font-semibold text-[14px] py-[6px] px-[18px] whitespace-nowrap overflow-hidden text-ellipsis shadow-[0_3px_7px_rgba(33,27,18,0.4),inset_0_1px_0_rgba(255,255,255,0.45)]">{project.name}</div>
                         </div>
-                        <div className="wcard-v4-body">
-                            <div className="work-no">{project.no}</div>
-                            <p>{project.description}</p>
-                            <div className="tags">
+                        <div className="text-center pt-[6px] flex flex-col flex-1">
+                            <div className="font-mono text-xs text-brass-400 tracking-caps uppercase">{project.no}</div>
+                            <p className="text-[14px] text-paper-300 leading-[1.55] mt-2 mb-[14px] min-h-[4.65em] line-clamp-3">{project.description}</p>
+                            <div className="flex flex-wrap gap-2 justify-center mb-4">
                                 {project.tags.map(tag => (
                                     <span className={`tag tag--${TAG_TONES[tag] || 'ink'}`} key={tag}>{tag}</span>
                                 ))}
                             </div>
                             <a
-                                className="btn btn--solid btn--sm"
+                                className="btn btn--solid btn--sm w-max mx-auto mt-auto"
                                 href={project.url}
                                 target="_blank"
                                 rel="noreferrer"
