@@ -28,7 +28,8 @@ const Hero = () => {
                     transition={{ duration: 0.6, delay: 0.15, ease: "easeInOut" }}
                 >
                     <h1 className="font-display font-medium text-4xl max-[560px]:text-2xl leading-[0.9]! tracking-[-0.015em] mb-4 text-text-heading [text-shadow:0_2px_12px_rgba(0,0,0,0.4)]">
-                        Front-End Developer
+                        <span className="sr-only">Nikola Čučuković</span>
+                        <span aria-hidden="true">Front-End Developer</span>
                     </h1>
                     <p className="text-md text-paper-200 max-w-[60ch] leading-[1.4]! dropcap mt-5!">
                         I am a developer who builds web apps that are fast to load and pleasant to use. What pulled me into front-end work was that it sits exactly between two things I like: design and making things (which turned to programming). I love turning a rough idea into something people click on every day.
@@ -47,7 +48,7 @@ const Hero = () => {
                     transition={{ duration: 0.6, delay: 0.3, ease: "easeInOut" }}
                 >
                     <div className="w-[220px] h-[264px] border border-brass-400 p-[6px] bg-paper-50 shadow">
-                        <img className="h-full w-full object-cover" src="img/profile.jpg" alt="" />
+                        <img className="h-full w-full object-cover" src="img/profile.jpg" alt="Nikola Čučuković, Front-End Developer" />
                     </div>
                 </motion.div>
             </div>
