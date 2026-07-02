@@ -35,31 +35,31 @@ const Ledger = () => {
     const weeks = useMemo(() => buildGrid(), [])
 
     return (
-        <section className="ledger" id="ledger">
-            <div className="wrap section">
-                <div className="sec-head center">
-                    <span className="eyebrow">§ III · The Ledger</span>
-                    <h2>A Year of Contributions</h2>
-                    <p>1,284 commits entered into the record this twelvemonth.</p>
+        <section id="ledger">
+            <div className="wrap pt-8 pb-8 border-t border-[rgba(226,205,148,0.18)]">
+                <div className="mb-7 text-center">
+                    <span className="font-mono text-xs uppercase tracking-wider text-brass-400 block my-2">§ III · The Ledger</span>
+                    <h2 className="font-blackletter text-3xl max-[560px]:text-2xl font-bold text-text-heading my-2 tracking-[0.01em] [text-shadow:0_2px_10px_rgba(0,0,0,0.4)]">A Year of Contributions</h2>
+                    <p className="font-serif italic text-md text-paper-300 max-w-[60ch] mx-auto">1,284 commits entered into the record this twelvemonth.</p>
                     <div className="ornament">❧</div>
                 </div>
-                <div className="grid-wrap">
-                    <div className="contrib">
+                <div className="border-t border-[rgba(241,232,213,0.18)] pt-5">
+                    <div className="grid grid-cols-[repeat(53,1fr)] gap-[3px]">
                         {weeks.map((days, w) => (
-                            <div className="contrib-col" key={w}>
+                            <div className="grid grid-rows-[repeat(7,1fr)] gap-[3px]" key={w}>
                                 {days.map((lvl, d) => (
-                                    <span key={d} style={{ background: FILLS[lvl] }} />
+                                    <span className="aspect-square rounded-[2px] border border-[rgba(0,0,0,0.25)]" key={d} style={{ background: FILLS[lvl] }} />
                                 ))}
                             </div>
                         ))}
                     </div>
-                    <div className="legend">
+                    <div className="flex items-center gap-2 mt-5 font-mono text-[10px] text-paper-400 tracking-[0.08em]">
                         <span>LESS</span>
                         {FILLS.map((fill, i) => (
-                            <span className="sw" key={i} style={{ background: fill }} />
+                            <span className="w-[13px] h-[13px] rounded-[2px] border border-[rgba(0,0,0,0.25)]" key={i} style={{ background: fill }} />
                         ))}
                         <span>MORE</span>
-                        <span style={{ flex: 1 }}></span>
+                        <span className="flex-1"></span>
                         <a
                             className="btn btn--gilt btn--sm"
                             href="https://github.com/nikoladubica"
