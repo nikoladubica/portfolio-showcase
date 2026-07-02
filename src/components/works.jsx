@@ -1,5 +1,15 @@
 import { projects } from "../data/projects"
 
+const TAG_TONES = {
+    'React': 'oxblood',
+    'Next.js': 'ink',
+    'Framer Motion': 'gilt',
+    'Redux': 'patina',
+    'TypeScript': 'oxblood',
+    'Tailwind': 'patina',
+    'Swiper': 'gilt'
+}
+
 const Works = () => {
     return (
         <section className="section wrap" id="works">
@@ -10,36 +20,37 @@ const Works = () => {
                 <div className="ornament">❧</div>
             </div>
 
-            {projects.map(project => (
-                <article className="work" key={project.name}>
-                    <div className="work-plate-col">
-                        <div className="work-plate">
-                            <span className="badge"><span className="dot"></span>{project.status}</span>
-                            <div className="frame">
-                                <img src={project.image} alt={project.name} />
+            <div className="wgrid">
+                {projects.map(project => (
+                    <article className="wcard-v4" key={project.name}>
+                        <div className="wcard-v4-frame">
+                            <span className="pin tl"></span>
+                            <span className="pin tr"></span>
+                            <span className="pin bl"></span>
+                            <span className="pin br"></span>
+                            <img src={project.image} alt={project.name} />
+                            <div className="wcard-v4-plate">{project.name}</div>
+                        </div>
+                        <div className="wcard-v4-body">
+                            <div className="work-no">{project.no}</div>
+                            <p>{project.description}</p>
+                            <div className="tags">
+                                {project.tags.map(tag => (
+                                    <span className={`tag tag--${TAG_TONES[tag] || 'ink'}`} key={tag}>{tag}</span>
+                                ))}
                             </div>
+                            <a
+                                className="btn btn--solid btn--sm"
+                                href={project.url}
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                Visit Live ↗
+                            </a>
                         </div>
-                    </div>
-                    <div>
-                        <div className="work-no">{project.no}</div>
-                        <h3>{project.name}</h3>
-                        <p>{project.description}</p>
-                        <div className="tags">
-                            {project.tags.map(tag => (
-                                <span className="tag" key={tag}>{tag}</span>
-                            ))}
-                        </div>
-                        <a
-                            className="btn btn--gilt btn--sm"
-                            href={project.url}
-                            target="_blank"
-                            rel="noreferrer"
-                        >
-                            Visit Live ↗
-                        </a>
-                    </div>
-                </article>
-            ))}
+                    </article>
+                ))}
+            </div>
         </section>
     )
 }

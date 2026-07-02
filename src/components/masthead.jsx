@@ -39,6 +39,7 @@ const Masthead = () => {
                         <a href="#works">Works</a>
                         <a href="#skills">Skills</a>
                         <a href="#ledger">Ledger</a>
+                        <a href="#open-source">Open Source</a>
                         <a href="#contact">Contact</a>
                     </nav>
                 </div>

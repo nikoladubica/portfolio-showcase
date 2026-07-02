@@ -49,9 +49,8 @@ const Hero = () => {
                     transition={{ duration: 0.6, delay: 0.3, ease: "easeInOut" }}
                 >
                     <div className="portrait-plate">
-                        <div className="portrait-oval"><span>NČ</span></div>
+                        <img className="h-full w-full object-cover" src="public/img/profile.jpg" alt="" />
                     </div>
-                    <div className="portrait-cap">☞ Replace with portrait</div>
                 </motion.div>
             </div>
 

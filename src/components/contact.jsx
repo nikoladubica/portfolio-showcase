@@ -11,7 +11,7 @@ const Contact = () => {
     return (
         <section className="section wrap" id="contact">
             <div className="sec-head center" style={{ marginBottom: "var(--space-4)" }}>
-                <span className="eyebrow">§ IV · Correspondence</span>
+                <span className="eyebrow">§ V · Correspondence</span>
                 <h2>Send Word</h2>
                 <p>For commissions, collaborations, or a considered conversation.</p>
                 <div className="ornament">❧</div>
@@ -24,10 +24,6 @@ const Contact = () => {
             </p>
 
             <form onSubmit={submitHandler}>
-                <div className="field">
-                    <label htmlFor="c-msg">Message</label>
-                    <textarea id="c-msg" rows="4" placeholder="A few lines on what you have in mind…"></textarea>
-                </div>
                 <div className="field-row">
                     <div className="field">
                         <label htmlFor="c-name">Your Name</label>
@@ -37,6 +33,10 @@ const Contact = () => {
                         <label htmlFor="c-email">Electronic Mail</label>
                         <input id="c-email" type="email" placeholder="ada@analytical.engine" required />
                     </div>
+                </div>
+                <div className="field">
+                    <label htmlFor="c-msg">Message</label>
+                    <textarea id="c-msg" rows="4" placeholder="A few lines on what you have in mind…"></textarea>
                 </div>
                 <div style={{ display: "flex", alignItems: "center", gap: "var(--space-4)" }}>
                     <button className="btn btn--solid" type="submit">Dispatch</button>
