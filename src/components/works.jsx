@@ -19,14 +19,34 @@ const TAG_TONES = {
     'Vanilla JS': '#F7DF1E'
 }
 
+const hexToRgb = (hex) => ({
+    r: parseInt(hex.slice(1, 3), 16),
+    g: parseInt(hex.slice(3, 5), 16),
+    b: parseInt(hex.slice(5, 7), 16)
+})
+
+const getLuminance = (hex) => {
+    const { r, g, b } = hexToRgb(hex)
+    return (0.299 * r + 0.587 * g + 0.114 * b) / 255
+}
+
 // Picks readable text color (the same light/dark tones already used elsewhere in the
 // design system) based on the tag's background luminance.
-const getTagTextColor = (hex) => {
-    const r = parseInt(hex.slice(1, 3), 16)
-    const g = parseInt(hex.slice(3, 5), 16)
-    const b = parseInt(hex.slice(5, 7), 16)
-    const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255
-    return luminance > 0.6 ? '#2a2012' : '#f5edd8'
+const getTagTextColor = (luminance) => (luminance > 0.6 ? '#2a2012' : '#f5edd8')
+
+// Light colors get a transparent-to-black/40 overlay (top to bottom), dark colors get a
+// white/40-to-transparent overlay, so every pill reads as a subtle gradient regardless
+// of how bright or dark its brand color is.
+const getTagOverlay = (luminance) =>
+    luminance > 0.6
+        ? 'linear-gradient(to bottom, transparent, rgba(0,0,0,0.4))'
+        : 'linear-gradient(to bottom, rgba(255,255,255,0.4), transparent)'
+
+const darkenColor = (hex, percent) => {
+    const { r, g, b } = hexToRgb(hex)
+    const factor = 1 - percent / 100
+    const toHex = (channel) => Math.round(channel * factor).toString(16).padStart(2, '0')
+    return `#${toHex(r)}${toHex(g)}${toHex(b)}`
 }
 
 const Works = () => {
@@ -59,11 +79,16 @@ const Works = () => {
                             <div className="flex flex-wrap gap-2 justify-center mb-4">
                                 {project.tags.map(tag => {
                                     const color = TAG_TONES[tag] || '#8E7B5F'
+                                    const luminance = getLuminance(color)
                                     return (
                                         <span
                                             className="tag"
                                             key={tag}
-                                            style={{ background: color, borderColor: color, color: getTagTextColor(color) }}
+                                            style={{
+                                                background: `${getTagOverlay(luminance)}, ${color}`,
+                                                borderColor: darkenColor(color, 40),
+                                                color: getTagTextColor(luminance)
+                                            }}
                                         >
                                             {tag}
                                         </span>
