@@ -1,4 +1,5 @@
 import { useMemo } from "react"
+import SectionHead from "./section-head"
 
 const FILLS = [
     "rgba(241,232,213,0.07)",
@@ -37,12 +38,11 @@ const Ledger = () => {
     return (
         <section id="ledger">
             <div className="wrap pt-8 pb-8 border-t border-[rgba(226,205,148,0.18)]">
-                <div className="mb-7 text-center">
-                    <span className="font-mono text-xs uppercase tracking-wider text-brass-400 block my-2">§ III · The Ledger</span>
-                    <h2 className="font-blackletter text-3xl max-[560px]:text-2xl font-bold text-text-heading my-2 tracking-[0.01em] [text-shadow:0_2px_10px_rgba(0,0,0,0.4)]">A Year of Contributions</h2>
-                    <p className="font-serif italic text-md text-paper-300 max-w-[60ch] mx-auto">1,284 commits entered into the record this twelvemonth.</p>
-                    <div className="ornament">❧</div>
-                </div>
+                <SectionHead
+                    eyebrow="§ III · The Ledger"
+                    heading="A Year of Contributions"
+                    description="1,284 commits entered into the record this twelvemonth."
+                />
                 <div className="border-t border-[rgba(241,232,213,0.18)] pt-5">
                     <div className="grid grid-cols-[repeat(53,1fr)] gap-[3px]">
                         {weeks.map((days, w) => (

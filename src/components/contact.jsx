@@ -1,4 +1,5 @@
 import { useState } from "react"
+import SectionHead from "./section-head"
 
 const Contact = () => {
     const [sent, setSent] = useState(false)
@@ -10,12 +11,12 @@ const Contact = () => {
 
     return (
         <section className="pt-8 pb-8 border-t border-[rgba(226,205,148,0.18)] wrap" id="contact">
-            <div className="text-center mb-4">
-                <span className="font-mono text-xs uppercase tracking-wider text-brass-400 block my-2">§ V · Correspondence</span>
-                <h2 className="font-blackletter text-3xl max-[560px]:text-2xl font-bold text-text-heading my-2 tracking-[0.01em] [text-shadow:0_2px_10px_rgba(0,0,0,0.4)]">Send Word</h2>
-                <p className="font-serif italic text-md text-paper-300 max-w-[60ch] mx-auto">For commissions, collaborations, or a considered conversation.</p>
-                <div className="ornament">❧</div>
-            </div>
+            <SectionHead
+                eyebrow="§ V · Correspondence"
+                heading="Send Word"
+                description="For commissions, collaborations, or a considered conversation."
+                marginBottom="mb-4"
+            />
             <p className="manicule italic text-paper-300 text-center mb-6">
                 Replies are dispatched within a day or two.
             </p>

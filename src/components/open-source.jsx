@@ -1,14 +1,14 @@
 import { openSourceProjects } from "../data/projects"
+import SectionHead from "./section-head"
 
 const OpenSource = () => {
     return (
         <section className="pt-8 pb-8 border-t border-[rgba(226,205,148,0.18)] wrap" id="open-source">
-            <div className="mb-7 text-center">
-                <span className="font-mono text-xs uppercase tracking-wider text-brass-400 block my-2">§ IV · Open Source</span>
-                <h2 className="font-blackletter text-3xl max-[560px]:text-2xl font-bold text-text-heading my-2 tracking-[0.01em] [text-shadow:0_2px_10px_rgba(0,0,0,0.4)]">Public Repositories</h2>
-                <p className="font-serif italic text-md text-paper-300 max-w-[60ch] mx-auto">Smaller tools and experiments, kept in the open on GitHub.</p>
-                <div className="ornament">❧</div>
-            </div>
+            <SectionHead
+                eyebrow="§ IV · Open Source"
+                heading="Public Repositories"
+                description="Smaller tools and experiments, kept in the open on GitHub."
+            />
 
             <div className="mt-6 border-t border-[rgba(226,205,148,0.18)]">
                 {openSourceProjects.map(project => (

@@ -1,4 +1,5 @@
 import { projects } from "../data/projects"
+import SectionHead from "./section-head"
 
 const TAG_TONES = {
     'React': 'oxblood',
@@ -13,12 +14,11 @@ const TAG_TONES = {
 const Works = () => {
     return (
         <section className="pt-8 pb-8 border-t border-[rgba(226,205,148,0.18)] wrap" id="works">
-            <div className="mb-7 text-center">
-                <span className="font-mono text-xs uppercase tracking-wider text-brass-400 block my-2">§ I · Selected Works</span>
-                <h2 className="font-blackletter text-3xl max-[560px]:text-2xl font-bold text-text-heading my-2 tracking-[0.01em] [text-shadow:0_2px_10px_rgba(0,0,0,0.4)]">Projects &amp; Commissions</h2>
-                <p className="font-serif italic text-md text-paper-300 max-w-[60ch] mx-auto">A register of recent front-end engagements — each shipped to production.</p>
-                <div className="ornament">❧</div>
-            </div>
+            <SectionHead
+                eyebrow="§ I · Selected Works"
+                heading="Projects & Commissions"
+                description="A register of recent front-end engagements — each shipped to production."
+            />
 
             <div className="grid grid-cols-3 max-[900px]:grid-cols-2 max-[640px]:grid-cols-1 gap-4 mt-6">
                 {projects.map(project => (
