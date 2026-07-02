@@ -131,22 +131,14 @@ button,textarea,input,select,a{
 }
 @utility btn--sm{padding:8px 16px;font-size:var(--text-2xs);}
 
+/* Colors are assigned per-technology in works.jsx (TAG_TONES) and applied via inline
+   style, since they are real per-tag brand hex values rather than a fixed variant set -
+   this utility only supplies the shared pill shape/typography. */
 @utility tag{
   font-family:var(--font-mono);font-size:var(--text-2xs);text-transform:uppercase;letter-spacing:0.1em;
-  border-radius:4px;padding:3px 8px;white-space:nowrap;
+  border-radius:4px;padding:3px 8px;white-space:nowrap;border:1px solid transparent;
   box-shadow:inset 0 1px 0 rgba(255,255,255,0.12),0 1px 3px rgba(33,27,18,0.45);
 }
-/* Plain (non-@utility) rules: works.jsx builds these class names via a template
-   literal (`tag tag--${TAG_TONES[tag]}`), so the literal strings "tag--ink" etc. never
-   appear in the source for Tailwind's content scanner to detect - @utility variants
-   would silently never generate. Plain CSS is never purged, so it is used here instead. */
-.tag--ink{color:#f5edd8;border:1px solid #8a7040;background:linear-gradient(180deg,#5a4828 0%,#3a2e18 100%);}
-.tag--oxblood{color:#f5d0cc;border:1px solid #7a2018;background:linear-gradient(180deg,#8b3028 0%,#521a12 100%);}
-.tag--gilt{
-  color:#2a2012;border:1px solid #5e4715;background:linear-gradient(180deg,#ead49a 0%,#c19a47 55%,#9a7b36 100%);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,0.45),0 2px 6px rgba(33,27,18,0.42);
-}
-.tag--patina{color:#c8eacf;border:1px solid #2e6640;background:linear-gradient(180deg,#3a7a4a 0%,#1e4a2a 100%);}
 
 @utility dropcap{
   &::first-letter{
