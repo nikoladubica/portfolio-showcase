@@ -5,7 +5,7 @@ export const projects = [
         no: 'No. 01 · 2020 - present',
         name: 'One Versus One',
         status: 'Live',
-        image: '/img/projects/one-versus-one.png',
+        image: '/img/projects/one-versus-one.webp',
         url: 'https://www.one-versus-one.com',
         description:
             'A head-to-head competition platform. Front-end optimized for speed, fast loading and a responsive mobile-first interface.',
@@ -15,7 +15,7 @@ export const projects = [
         no: 'No. 02 · 2022 - present',
         name: 'Premium Switzerland',
         status: 'Live',
-        image: '/img/projects/premiumswitzerland.png',
+        image: '/img/projects/premiumswitzerland.webp',
         url: 'https://www.premiumswitzerland.com',
         description:
             'A luxury-travel presence for the Swiss market - presentations of luxury properties, best boarding schools and private clinics.',
@@ -25,7 +25,7 @@ export const projects = [
         no: 'No. 03 · 2025 - present',
         name: 'My Premium Europe',
         status: 'Live',
-        image: '/img/projects/mypremiumeurope.png',
+        image: '/img/projects/mypremiumeurope.webp',
         url: 'https://mypremiumeurope.com',
         description:
             'A sister site extending the luxury-travel brand across the wider European market, with improved design and better technologies.',
@@ -35,7 +35,7 @@ export const projects = [
         no: 'No. 04 · 2023 - 2024',
         name: 'PastorsLine',
         status: 'Live',
-        image: '/img/projects/pastorsline.png',
+        image: '/img/projects/pastorsline.webp',
         url: 'https://pastorsline.com',
         description:
             'A messaging & outreach platform front-end - dashboard views, contact management, and campaign tools built for daily-use reliability.',
@@ -45,7 +45,7 @@ export const projects = [
         no: 'No. 05 · 2026',
         name: 'Maler Xpress',
         status: 'Live',
-        image: '/img/projects/maler-xpress.png',
+        image: '/img/projects/maler-xpress.webp',
         url: 'https://maler-xpress.ch',
         description:
             'A market place for Swiss painters - Full-Stack and DevOps work, setting up the whole project, full CMS system and a smart algorithm.',
@@ -55,7 +55,7 @@ export const projects = [
         no: 'No. 06 · 2025 - present',
         name: 'ZR Bus',
         status: 'Live',
-        image: '/img/projects/zr-bus.png',
+        image: '/img/projects/zr-bus.webp',
         url: 'https://zrbus.ddns.net',
         description:
             'City wide "next bus" information type website - a personal project as something to give back to my city.',
@@ -102,7 +102,7 @@ export const skills = [
         num: 'I.',
         title: 'Front‑End Craft',
         clead: 'Fast, accessible, maintainable.',
-        img: '/img/skills/frontend-old.jpg',
+        img: '/img/skills/frontend-old.webp',
         items: ['React', 'Next.js', 'TypeScript', 'Tailwind CSS', 'Laravel', 'Alpine.js'],
         plate: 'I · Front-End'
     },
@@ -111,7 +111,7 @@ export const skills = [
         num: 'II.',
         title: 'Lead & Manage',
         clead: 'Shipping is a team sport.',
-        img: '/img/skills/leadership-old.jpg',
+        img: '/img/skills/leadership-old.webp',
         items: ['Team Leadership', 'Mentorship', 'Client Relations', 'Code Review', 'Agile & Scrum', 'Project Management'],
         plate: 'II · Leadership'
     },
@@ -120,7 +120,7 @@ export const skills = [
         num: 'III.',
         title: 'AI & Automation',
         clead: 'Building with agents & LLMs.',
-        img: '/img/skills/intelligence-old.jpg',
+        img: '/img/skills/intelligence-old.webp',
         items: ['AI Agents', 'LLM Integration', 'AI Project Workflows', 'Prompt Engineering', 'AI-Assisted Dev', 'Automation'],
         plate: 'III · Intelligence'
     }

@@ -76,6 +76,8 @@ const Works = () => {
                                 className="w-full h-full object-cover object-top [filter:sepia(0.42)_contrast(1.05)_brightness(0.99)] border border-ink-300"
                                 src={project.image}
                                 alt={project.name}
+                                loading="lazy"
+                                decoding="async"
                             />
                             <div className="absolute left-1/2 -bottom-4 -translate-x-1/2 max-w-[88%] bg-[linear-gradient(180deg,#ead49a_0%,#c19a47_55%,#9a7b36_100%)] border border-[#5e4715] text-[#2a2012] font-display font-semibold text-[14px] py-[6px] px-[18px] whitespace-nowrap overflow-hidden text-ellipsis shadow-[0_3px_7px_rgba(33,27,18,0.4),inset_0_1px_0_rgba(255,255,255,0.45)]">{project.name}</div>
                         </div>
