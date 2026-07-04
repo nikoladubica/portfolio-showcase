@@ -66,7 +66,9 @@
    block - plain custom properties that are not theme tokens (--container/--ease-antique/
    --dur/--dur-fast) are declared on body below instead, which survives intact. */
 *,*::before,*::after{box-sizing:border-box;}
-html{scroll-behavior:smooth;}
+/* overflow-x:clip (not hidden) stops any stray-wide element from scrolling the page
+   sideways without establishing a scroll container - so the sticky masthead keeps working. */
+html{scroll-behavior:smooth;overflow-x:clip;}
 
 body{
   --container:1180px;

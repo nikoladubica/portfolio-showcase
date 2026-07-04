@@ -1,6 +1,5 @@
 import { StrictMode } from "react"
 import { createRoot } from "react-dom/client"
-import { ReduxProvider } from "./redux/provider"
 import App from "./App"
 
 // Only the weights/styles actually rendered are imported. Audited against src/ and
@@ -21,10 +20,6 @@ import "./index.css"
 
 createRoot(document.getElementById("root")).render(
     <StrictMode>
-        <ReduxProvider>
-            <div>
-                <App />
-            </div>
-        </ReduxProvider>
+        <App />
     </StrictMode>
 )

@@ -13,12 +13,9 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@reduxjs/toolkit": "^2.12.0",
     "framer-motion": "^12.42.0",
     "react": "^19.2.7",
-    "react-device-detect": "^2.2.3",
     "react-dom": "^19.2.7",
-    "react-redux": "^9.3.0",
     "swiper": "^14.0.1",
     "tailwindcss": "^4.3.2"
   },
