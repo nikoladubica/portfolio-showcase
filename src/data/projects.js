@@ -97,6 +97,13 @@ export const stats = [
     { val: '12', lab: 'Happy Clients' },          // ☞ placeholder
 ]
 
+// ☞ Placeholder quotes - replace with real, permission-cleared testimonials before shipping.
+// The Testimonials component (src/components/testimonials.jsx) is intentionally NOT mounted in
+// App.jsx until these are real. Do not ship placeholder praise.
+export const testimonials = [
+    { quote: '…', name: '…', role: '…', company: '…' },
+]
+
 export const skills = [
     {
         glyph: '❦',
