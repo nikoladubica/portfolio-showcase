@@ -48,7 +48,7 @@ export const projects = [
         image: '/img/projects/maler-xpress.webp',
         url: 'https://maler-xpress.ch',
         description:
-            'A market place for Swiss painters - Full-Stack and DevOps work, setting up the whole project, full CMS system and a smart algorithm.',
+            'A marketplace for Swiss painters - full-stack and DevOps work: project setup from zero, a full CMS, and a smart matching algorithm.',
         tags: ['React', 'Tanstack Query', 'Tailwind', 'Laravel', 'MySQL', 'CI/CD']
     },
     {
@@ -58,17 +58,16 @@ export const projects = [
         image: '/img/projects/zr-bus.webp',
         url: 'https://zrbus.ddns.net',
         description:
-            'City wide "next bus" information type website - a personal project as something to give back to my city.',
+            'A city-wide "next bus" information site - a personal project, built to give something back to my city.',
         tags: ['React', 'Zustand', 'Tailwind', 'MySQL', 'CI/CD']
     }
 ]
 
-// ☞ Replace with real repositories
 export const openSourceProjects = [
     {
         name: 'c-calendar',
         url: 'https://github.com/nikoladubica/c-calendar',
-        description: 'No-AI, only small documentation, hand coded project - something to keep the brain cells working.',
+        description: 'No-AI, only small documentation, hand-coded project - something to keep the brain cells working.',
         tags: ['Programming Language C']
     },
     {
@@ -80,20 +79,22 @@ export const openSourceProjects = [
     {
         name: 'meta-ai-builder',
         url: 'https://github.com/nikoladubica/meta-ai-builder',
-        description: 'Simple app that uses OpenAI, Claude or Gemini API key and allow the users to create metas for their website.',
+        description: 'A small app that takes an OpenAI, Claude, or Gemini API key and lets users generate meta tags for their website.',
         tags: ['React', 'Node.js', 'MySQL']
     }
 ]
 
+// ☞ Placeholder values - confirm real numbers with Nikola before shipping (marked ☞ below).
+// Open-Source Repos is derived from openSourceProjects.length so it can never drift from the list.
 export const stats = [
-    { val: '50+', lab: 'Interviews Done' },
-    { val: '1000+', lab: 'Hours of Learning' },
+    { val: '3', lab: 'Countries Served' },        // ☞ placeholder
+    { val: '8', lab: 'Sites Maintained' },        // ☞ placeholder
     { val: '∞', lab: 'Cups of Coffee' },
     { val: '5+', lab: 'Years Shipping' },
     { val: '10+', lab: 'Projects Delivered' },
-    { val: '4', lab: 'Open-Source Repos' },
-    { val: '99+', lab: 'Ideas Yet to start' },
-    { val: '3', lab: 'Products Coming' },
+    { val: String(openSourceProjects.length), lab: 'Open-Source Repos' },
+    { val: '6', lab: 'Production Sites Live' },    // ☞ placeholder
+    { val: '12', lab: 'Happy Clients' },          // ☞ placeholder
 ]
 
 export const skills = [

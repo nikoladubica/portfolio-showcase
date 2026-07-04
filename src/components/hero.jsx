@@ -32,7 +32,7 @@ const Hero = () => {
                         <span aria-hidden="true">Front-End Developer</span>
                     </h1>
                     <p className="text-md text-paper-200 max-w-[60ch] leading-[1.4]! dropcap mt-5!">
-                        I am a developer who builds web apps that are fast to load and pleasant to use. What pulled me into front-end work was that it sits exactly between two things I like: design and making things (which turned to programming). I love turning a rough idea into something people click on every day.
+                        I am a developer who builds web apps that are fast to load and pleasant to use. What pulled me into front-end work was that it sits exactly between two things I love: design, and making things - which, over time, turned into programming. I love turning a rough idea into something people click on every day.
                     </p>
                     <div className="flex gap-3 mt-5 flex-wrap">
                         <a className="btn btn--solid" href="#works">See the Work</a>
