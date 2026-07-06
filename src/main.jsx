@@ -1,5 +1,5 @@
 import { StrictMode } from "react"
-import { createRoot } from "react-dom/client"
+import { createRoot, hydrateRoot } from "react-dom/client"
 import { MotionConfig } from "framer-motion"
 import App from "./App"
 
@@ -19,10 +19,23 @@ import "@fontsource/unifrakturcook/700.css"
 
 import "./index.css"
 
-createRoot(document.getElementById("root")).render(
+const appTree = (
     <StrictMode>
         <MotionConfig reducedMotion="user">
             <App />
         </MotionConfig>
     </StrictMode>
 )
+
+if (typeof window !== "undefined") {
+    const target = document.getElementById("root")
+    // Dev server never runs the prerender step (target starts empty), so a plain
+    // mount is correct there. The production build ships prerendered markup in
+    // dist/index.html, so the client must hydrate onto it instead of re-rendering.
+    import.meta.env.DEV ? createRoot(target).render(appTree) : hydrateRoot(target, appTree)
+}
+
+export async function prerender() {
+    const { renderToString } = await import("react-dom/server")
+    return { html: renderToString(appTree) }
+}
