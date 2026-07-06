@@ -53,7 +53,7 @@ const Hero = () => {
                     transition={{ duration: 0.6, delay: 0.3, ease: "easeInOut" }}
                 >
                     <div className="w-[220px] h-[264px] border border-brass-400 p-[6px] bg-paper-50 shadow">
-                        <img className="h-full w-full object-cover" src="img/profile.jpg" alt="Nikola Čučuković, Front-End Developer" />
+                        <img className="h-full w-full object-cover" src="/img/profile.jpg" alt="Nikola Čučuković, Front-End Developer" />
                     </div>
                 </motion.div>
             </div>

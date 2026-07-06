@@ -120,9 +120,10 @@ const Ledger = () => {
         }
     }, [])
 
-    const description = total != null
+    const live = total != null
+    const description = live
         ? `${total.toLocaleString()} contributions entered into the record this twelvemonth.`
-        : "Contributions entered into the record this twelvemonth."
+        : "An illustrative plate - the live record is being fetched from GitHub."
 
     return (
         <section id="ledger">
@@ -133,7 +134,7 @@ const Ledger = () => {
                     description={description}
                 />
                 <div className="border-t border-[rgba(241,232,213,0.18)] pt-5">
-                    <div className="grid gap-[3px]" style={{ gridTemplateColumns: `repeat(${weeks.length}, 1fr)` }}>
+                    <div className={`grid gap-[3px] ${live ? "" : "opacity-60"}`} style={{ gridTemplateColumns: `repeat(${weeks.length}, 1fr)` }}>
                         {weeks.map((days, w) => (
                             <div className="grid grid-rows-[repeat(7,1fr)] gap-[3px]" key={w}>
                                 {days.map((cell, d) => (

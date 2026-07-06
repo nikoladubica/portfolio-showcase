@@ -1,5 +1,6 @@
 import { StrictMode } from "react"
 import { createRoot } from "react-dom/client"
+import { MotionConfig } from "framer-motion"
 import App from "./App"
 
 // Only the weights/styles actually rendered are imported. Audited against src/ and
@@ -20,6 +21,8 @@ import "./index.css"
 
 createRoot(document.getElementById("root")).render(
     <StrictMode>
-        <App />
+        <MotionConfig reducedMotion="user">
+            <App />
+        </MotionConfig>
     </StrictMode>
 )
