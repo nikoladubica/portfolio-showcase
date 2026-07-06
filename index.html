@@ -1,18 +1,12 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-HD4B4JXNNS"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-HD4B4JXNNS');
-    </script>
+    <!-- Umami analytics (self-hosted, cookieless) — set UMAMI_SCRIPT_URL and UMAMI_WEBSITE_ID once the instance is deployed -->
+    <script defer src="https://cloud.umami.is/script.js" data-website-id="05526fd0-866a-4d95-b09b-c7e2352cddd3"></script>
 
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#271f18" />
     <title>Nikola Čučuković (Nikola Cucukovic) - Front-End Developer</title>
     <meta
       name="description"
@@ -26,7 +20,9 @@
       content="Nikola Čučuković (Nikola Cucukovic) builds considered, performant interfaces for the modern web."
     />
     <meta property="og:url" content="https://nikolacucukovic.com/" />
-    <meta property="og:image" content="https://nikolacucukovic.com/img/profile.jpg" />
+    <meta property="og:image" content="https://nikolacucukovic.com/img/og-card.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
     <script type="application/ld+json">
       {
@@ -37,8 +33,12 @@
         "jobTitle": "Front-End Developer",
         "url": "https://nikolacucukovic.com",
         "image": "https://nikolacucukovic.com/img/profile.jpg",
+        "address": { "@type": "PostalAddress", "addressLocality": "Zrenjanin", "addressCountry": "RS" },
         "knowsAbout": ["React", "Next.js", "Front-End Development", "UI Engineering"],
-        "sameAs": ["https://github.com/nikoladubica"]
+        "sameAs": [
+          "https://github.com/nikoladubica",
+          "https://www.linkedin.com/in/nikola-čučuković/"
+        ]
       }
     </script>
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
@@ -48,6 +48,6 @@
   </head>
   <body>
     <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
+    <script prerender type="module" src="/src/main.jsx"></script>
   </body>
 </html>

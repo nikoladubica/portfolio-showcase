@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react"
 import { motion } from "framer-motion"
 import { stats } from "../data/projects"
 
@@ -36,8 +37,28 @@ const TIERS = [
 ]
 
 const Stats = () => {
+    const scrollRef = useRef(null)
+
+    // The strip is a symmetric fan, so on narrow viewports where the tiles overflow we
+    // start the scroll centered - putting the full-size center pair in view by default
+    // rather than the faint outermost tile. Re-centers on resize/orientation change.
+    useEffect(() => {
+        const el = scrollRef.current
+        if (!el) return
+        const center = () => {
+            el.scrollLeft = (el.scrollWidth - el.clientWidth) / 2
+        }
+        center()
+        window.addEventListener("resize", center)
+        return () => window.removeEventListener("resize", center)
+    }, [])
+
     return (
-        <div className="flex items-center justify-center gap-6 mt-8 border-t border-b border-[rgba(226,205,148,0.25)] pt-8 pb-8">
+        <div ref={scrollRef} className="mt-8 border-t border-b border-[rgba(226,205,148,0.25)] pt-8 pb-8 overflow-x-auto max-[900px]:-mx-6">
+            {/* min-w-full + w-max: the row centers when the tiles fit, and becomes a
+                self-contained horizontal scroll (reachable from the left) when they don't -
+                8 fixed-width tiles otherwise overflow the page on narrow viewports. */}
+            <div className="flex items-center justify-center gap-4 min-w-full w-max mx-auto px-6">
             {stats.map((stat, index) => {
                 const tier = TIERS[Math.min(index, stats.length - 1 - index)]
                 return (
@@ -55,6 +76,7 @@ const Stats = () => {
                     </motion.div>
                 )
             })}
+            </div>
         </div>
     )
 }

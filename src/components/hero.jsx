@@ -32,11 +32,16 @@ const Hero = () => {
                         <span aria-hidden="true">Front-End Developer</span>
                     </h1>
                     <p className="text-md text-paper-200 max-w-[60ch] leading-[1.4]! dropcap mt-5!">
-                        I am a developer who builds web apps that are fast to load and pleasant to use. What pulled me into front-end work was that it sits exactly between two things I like: design and making things (which turned to programming). I love turning a rough idea into something people click on every day.
+                        I am a developer who builds web apps that are fast to load and pleasant to use. What pulled me into front-end work was that it sits exactly between two things I love: design, and making things - which, over time, turned into programming. I love turning a rough idea into something people click on every day.
                     </p>
                     <div className="flex gap-3 mt-5 flex-wrap">
                         <a className="btn btn--solid" href="#works">See the Work</a>
                         <a className="btn btn--gilt" href="#contact">Make Contact →</a>
+                        {/*
+                          ☞ CV download — uncomment once a PDF exists at
+                          public/cv/nikola-cucukovic-cv.pdf (do not ship without a real file).
+                        <a className="btn btn--outline" href="/cv/nikola-cucukovic-cv.pdf" download>Curriculum Vitae ↓</a>
+                        */}
                     </div>
                 </motion.div>
 
@@ -48,7 +53,7 @@ const Hero = () => {
                     transition={{ duration: 0.6, delay: 0.3, ease: "easeInOut" }}
                 >
                     <div className="w-[220px] h-[264px] border border-brass-400 p-[6px] bg-paper-50 shadow">
-                        <img className="h-full w-full object-cover" src="img/profile.jpg" alt="Nikola Čučuković, Front-End Developer" />
+                        <img className="h-full w-full object-cover" src="/img/profile.jpg" alt="Nikola Čučuković, Front-End Developer" />
                     </div>
                 </motion.div>
             </div>

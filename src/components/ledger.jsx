@@ -120,9 +120,10 @@ const Ledger = () => {
         }
     }, [])
 
-    const description = total != null
+    const live = total != null
+    const description = live
         ? `${total.toLocaleString()} contributions entered into the record this twelvemonth.`
-        : "Contributions entered into the record this twelvemonth."
+        : "An illustrative plate - the live record is being fetched from GitHub."
 
     return (
         <section id="ledger">
@@ -133,20 +134,33 @@ const Ledger = () => {
                     description={description}
                 />
                 <div className="border-t border-[rgba(241,232,213,0.18)] pt-5">
-                    <div className="grid gap-[3px]" style={{ gridTemplateColumns: `repeat(${weeks.length}, 1fr)` }}>
-                        {weeks.map((days, w) => (
-                            <div className="grid grid-rows-[repeat(7,1fr)] gap-[3px]" key={w}>
-                                {days.map((cell, d) => (
-                                    <span
-                                        className="aspect-square rounded-[2px] border border-[rgba(0,0,0,0.25)]"
-                                        key={d}
-                                        style={{ background: FILLS[cell.level] }}
-                                        onMouseEnter={cell.date ? (e) => setHover({ rect: e.currentTarget.getBoundingClientRect(), cell }) : undefined}
-                                        onMouseLeave={cell.date ? () => setHover(null) : undefined}
-                                    />
+                    {/* Columns have a minmax floor so cells stay legible instead of being
+                        squeezed to slivers on narrow viewports - fr still fills the full
+                        width on desktop, but below the floor the grid overflows and this
+                        wrapper (not the page) scrolls horizontally to contain it. */}
+                    <div className="overflow-x-auto md:overflow-hidden">
+                        <div className={`grid gap-[3px] ${live ? "" : "opacity-60"}`} style={{ gridTemplateColumns: `repeat(${weeks.length}, minmax(10px, 1fr))` }}>
+                            {weeks.map((days, w) => (
+                                <div className="grid grid-rows-[repeat(7,1fr)] gap-[3px]" key={w}>
+                                    {days.map((cell, d) => (
+                                        <span
+                                            className="aspect-square rounded-[2px] border border-[rgba(0,0,0,0.25)]"
+                                            key={d}
+                                            style={{ background: FILLS[cell.level] }}
+                                            onMouseEnter={cell.date ? (e) => setHover({ rect: e.currentTarget.getBoundingClientRect(), cell }) : undefined}
+                                            onMouseLeave={cell.date ? () => setHover(null) : undefined}
+                                        />
+                                    ))}
+                                </div>
+                            ))}
+                        </div>
+                        {months.length > 0 && (
+                            <div className="grid gap-[3px] mt-2 font-mono text-[10px] text-paper-400 tracking-[0.08em]" style={{ gridTemplateColumns: `repeat(${months.length}, minmax(10px, 1fr))` }}>
+                                {months.map((label, i) => (
+                                    <span className="whitespace-nowrap overflow-visible" key={i}>{label}</span>
                                 ))}
                             </div>
-                        ))}
+                        )}
                     </div>
                     {hover && (
                         <Tooltip anchor={hover.rect}>
@@ -157,13 +171,6 @@ const Ledger = () => {
                                 {hover.cell.count} contribution{hover.cell.count === 1 ? "" : "s"}
                             </div>
                         </Tooltip>
-                    )}
-                    {months.length > 0 && (
-                        <div className="grid gap-[3px] mt-2 font-mono text-[10px] text-paper-400 tracking-[0.08em]" style={{ gridTemplateColumns: `repeat(${months.length}, 1fr)` }}>
-                            {months.map((label, i) => (
-                                <span className="whitespace-nowrap overflow-visible" key={i}>{label}</span>
-                            ))}
-                        </div>
                     )}
                     <div className="flex items-center gap-2 mt-5 font-mono text-[10px] text-paper-400 tracking-[0.08em]">
                         <span>LESS</span>
