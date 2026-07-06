@@ -138,7 +138,7 @@ const Ledger = () => {
                         squeezed to slivers on narrow viewports - fr still fills the full
                         width on desktop, but below the floor the grid overflows and this
                         wrapper (not the page) scrolls horizontally to contain it. */}
-                    <div className="overflow-x-auto">
+                    <div className="overflow-x-auto md:overflow-hidden">
                         <div className={`grid gap-[3px] ${live ? "" : "opacity-60"}`} style={{ gridTemplateColumns: `repeat(${weeks.length}, minmax(10px, 1fr))` }}>
                             {weeks.map((days, w) => (
                                 <div className="grid grid-rows-[repeat(7,1fr)] gap-[3px]" key={w}>
