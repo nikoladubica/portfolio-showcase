@@ -1,13 +1,22 @@
-import { useState } from "react"
+import { useRef, useState } from "react"
+import HCaptcha from "@hcaptcha/react-hcaptcha"
 import SectionHead from "./section-head"
 
 const Contact = () => {
     const [sent, setSent] = useState(false)
     const [sending, setSending] = useState(false)
     const [error, setError] = useState(null)
+    const [captchaToken, setCaptchaToken] = useState(null)
+    const captchaRef = useRef(null)
 
     const submitHandler = async (event) => {
         event.preventDefault()
+
+        if (!captchaToken) {
+            setError("Please complete the captcha before dispatching.")
+            return
+        }
+
         setSending(true)
         setError(null)
 
@@ -15,6 +24,7 @@ const Contact = () => {
         const payload = Object.fromEntries(new FormData(form))
         payload.access_key = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY
         payload.subject = "New message from your portfolio"
+        payload["h-captcha-response"] = captchaToken
 
         try {
             const response = await fetch("https://api.web3forms.com/submit", {
@@ -34,6 +44,8 @@ const Contact = () => {
             setError("Something went wrong. Please try again, or email me directly.")
         } finally {
             setSending(false)
+            captchaRef.current?.resetCaptcha()
+            setCaptchaToken(null)
         }
     }
 
@@ -83,6 +95,17 @@ const Contact = () => {
                     ></textarea>
                 </div>
                 <input type="checkbox" name="botcheck" className="hidden" style={{ display: "none" }} tabIndex="-1" autoComplete="off" />
+                <div className="mb-5">
+                    <HCaptcha
+                        ref={captchaRef}
+                        sitekey="50b2fe65-b00b-4b9e-ad62-3ba471098be2"
+                        reCaptchaCompat={false}
+                        theme="dark"
+                        onVerify={setCaptchaToken}
+                        onExpire={() => setCaptchaToken(null)}
+                        onError={() => setCaptchaToken(null)}
+                    />
+                </div>
                 <div className="flex items-center gap-4">
                     <button className="btn btn--solid" type="submit" disabled={sending}>
                         {sending ? "Dispatching…" : "Dispatch"}
