@@ -54,7 +54,7 @@ const Stats = () => {
     }, [])
 
     return (
-        <div ref={scrollRef} className="mt-8 border-t border-b border-[rgba(226,205,148,0.25)] pt-8 pb-8 overflow-x-auto">
+        <div ref={scrollRef} className="mt-8 border-t border-b border-[rgba(226,205,148,0.25)] pt-8 pb-8 overflow-x-auto max-[900px]:-mx-6">
             {/* min-w-full + w-max: the row centers when the tiles fit, and becomes a
                 self-contained horizontal scroll (reachable from the left) when they don't -
                 8 fixed-width tiles otherwise overflow the page on narrow viewports. */}
