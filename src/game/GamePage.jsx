@@ -7,6 +7,8 @@ const GamePage = () => {
     const [status, setStatus] = useState("loading")
     const [islands, setIslands] = useState([])
     const [introActive, setIntroActive] = useState(true)
+    const [hud, setHud] = useState(null)
+    const [activeIsland, setActiveIsland] = useState(null)
 
     const load = () => {
         fetchIslands()
@@ -27,11 +29,19 @@ const GamePage = () => {
     useEffect(() => {
         const onReady = () => console.log("game:ready")
         const onIntroComplete = () => setIntroActive(false)
+        const onHudUpdate = (payload) => setHud(payload)
+        const onIslandEnter = (island) => setActiveIsland(island)
+
         gameEvents.on("game:ready", onReady)
         gameEvents.on("intro:complete", onIntroComplete)
+        gameEvents.on("hud:update", onHudUpdate)
+        gameEvents.on("island:enter", onIslandEnter)
+
         return () => {
             gameEvents.off("game:ready", onReady)
             gameEvents.off("intro:complete", onIntroComplete)
+            gameEvents.off("hud:update", onHudUpdate)
+            gameEvents.off("island:enter", onIslandEnter)
         }
     }, [])
 
@@ -45,7 +55,12 @@ const GamePage = () => {
                     <span className="font-display text-[20px] text-paper-50">N. Čučuković</span>
                 </a>
                 <div className="flex items-center gap-4">
-                    {status === "ready" && (
+                    {status === "ready" && hud && (
+                        <span className="font-mono text-xs uppercase tracking-caps text-brass-400">
+                            {hud.score} pts · {hud.isleLabel} · {hud.islandName}
+                        </span>
+                    )}
+                    {status === "ready" && !hud && (
                         <span className="font-mono text-xs uppercase tracking-caps text-brass-400">
                             {islands.length} isles charted
                         </span>
@@ -92,6 +107,25 @@ const GamePage = () => {
                     </div>
                 )}
             </main>
+
+            {activeIsland && (
+                <div className="fixed inset-0 z-20 flex items-center justify-center bg-[rgba(13,10,7,0.72)] p-4">
+                    <div className="max-w-[50ch] bg-ink-800 border border-brass-400 shadow-[var(--shadow-gilt-frame)] p-6">
+                        <p className="font-mono text-xs uppercase tracking-caps text-brass-400 mb-2">
+                            {activeIsland.name}
+                        </p>
+                        <p className="font-display text-lg text-paper-100 mb-4">{activeIsland.description}</p>
+                        <div className="flex gap-3 flex-wrap">
+                            <button type="button" className="btn btn--outline btn--sm" onClick={() => setActiveIsland(null)}>
+                                Close
+                            </button>
+                            <a className="btn btn--outline btn--sm" href={activeIsland.url} target="_blank" rel="noreferrer">
+                                Live ↗
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     )
 }

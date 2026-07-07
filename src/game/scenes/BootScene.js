@@ -6,7 +6,11 @@ const ASSETS = [
     ["map-parchment", "/img/game/intro/map-parchment.webp"],
     ["cloud-1", "/img/game/intro/cloud-1.webp"],
     ["cloud-2", "/img/game/intro/cloud-2.webp"],
-    ["cloud-3", "/img/game/intro/cloud-3.webp"]
+    ["cloud-3", "/img/game/intro/cloud-3.webp"],
+    ["parchment", "/img/game/map/parchment.webp"],
+    ["island-blob", "/img/game/map/island-blob.webp"],
+    ["compass-rose", "/img/game/map/compass-rose.webp"],
+    ["harbour-marker", "/img/game/map/harbour-marker.webp"]
 ]
 
 export default class BootScene extends Phaser.Scene {
