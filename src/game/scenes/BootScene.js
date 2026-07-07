@@ -10,8 +10,16 @@ const ASSETS = [
     ["parchment", "/img/game/map/parchment.webp"],
     ["island-blob", "/img/game/map/island-blob.webp"],
     ["compass-rose", "/img/game/map/compass-rose.webp"],
-    ["harbour-marker", "/img/game/map/harbour-marker.webp"]
+    ["harbour-marker", "/img/game/map/harbour-marker.webp"],
+    ["ground", "/img/game/island/ground.webp"],
+    ["rock", "/img/game/island/rock.webp"],
+    ["palm", "/img/game/island/palm.webp"],
+    ["ruin", "/img/game/island/ruin.webp"],
+    ["discovery-marker", "/img/game/island/discovery-marker.webp"],
+    ["discovery-glint", "/img/game/island/discovery-glint.webp"]
 ]
+
+const SPRITESHEETS = [["player", "/img/game/island/player.webp", { frameWidth: 32, frameHeight: 48 }]]
 
 export default class BootScene extends Phaser.Scene {
     constructor() {
@@ -43,6 +51,10 @@ export default class BootScene extends Phaser.Scene {
 
         for (const [key, url] of ASSETS) {
             this.load.image(key, url)
+        }
+
+        for (const [key, url, frameConfig] of SPRITESHEETS) {
+            this.load.spritesheet(key, url, frameConfig)
         }
 
         // Placeholder art must never dead-end the intro — a failed asset just means

@@ -1,7 +1,7 @@
 import Phaser from "phaser"
 import { gameEvents } from "../events"
 import { createFog } from "../fog"
-import { loadSave, updateSave } from "../save"
+import { loadSave, updateSave, setInIsland } from "../save"
 
 const START_HALO_RADIUS = 150
 
@@ -15,6 +15,8 @@ export default class MapScene extends Phaser.Scene {
     }
 
     create() {
+        gameEvents.emit("map:entered")
+
         const { width, height } = this.scale
         this.cameras.main.setZoom(1)
         this.cameras.main.setScroll(0, 0)
@@ -42,7 +44,7 @@ export default class MapScene extends Phaser.Scene {
             .setDepth(1100)
             .setAlpha(0.85)
 
-        this.islands.forEach((island) => this.drawIsland(island, currentIslandId, width, height))
+        this.islands.forEach((island) => this.drawIsland(island, currentIslandId, width, height, save))
 
         this.input.keyboard.on("keydown-ENTER", () => {
             const currentIsland = this.islands.find((island) => island.id === currentIslandId)
@@ -72,15 +74,17 @@ export default class MapScene extends Phaser.Scene {
         return this.add.rectangle(x, y, w, h, color)
     }
 
-    drawIsland(island, currentIslandId, width, height) {
+    drawIsland(island, currentIslandId, width, height, save) {
         const x = this.toWorldX(island.mapX, width)
         const y = this.toWorldY(island.mapY, height)
         const isCurrent = island.id === currentIslandId
+        const visitResult = save.visited[island.id]
 
         const blob = this.addImageOrFallback(x, y, "island-blob", 140, 100, 0xdbcba6).setDepth(10)
+        if (visitResult) blob.setTint(0xc2a35e)
 
         this.add
-            .text(x, y + 60, island.name, {
+            .text(x, y + 60, visitResult ? `${island.name} ✓` : island.name, {
                 fontFamily: "Cormorant Garamond, serif",
                 fontSize: "18px",
                 color: "#211b12"
@@ -116,11 +120,7 @@ export default class MapScene extends Phaser.Scene {
     }
 
     enterIsland(island) {
-        gameEvents.emit("island:enter", {
-            id: island.id,
-            name: island.name,
-            description: island.description,
-            url: island.url
-        })
+        setInIsland(island.id)
+        this.scene.start("IslandScene", { island, islands: this.islands })
     }
 }

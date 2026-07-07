@@ -3,6 +3,7 @@ import Phaser from "phaser"
 import BootScene from "./scenes/BootScene"
 import IntroScene from "./scenes/IntroScene"
 import MapScene from "./scenes/MapScene"
+import IslandScene from "./scenes/IslandScene"
 
 const PhaserMount = ({ islands }) => {
     const containerRef = useRef(null)
@@ -23,7 +24,7 @@ const PhaserMount = ({ islands }) => {
                 default: "arcade",
                 arcade: { debug: false }
             },
-            scene: [BootScene, IntroScene, MapScene]
+            scene: [BootScene, IntroScene, MapScene, IslandScene]
         })
 
         game.registry.set("islands", islands)

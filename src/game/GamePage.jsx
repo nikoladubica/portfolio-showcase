@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import PhaserMount from "./PhaserMount"
 import { fetchIslands } from "./api"
 import { gameEvents } from "./events"
+import DiscoveryCard from "./ui/DiscoveryCard"
 
 const GamePage = () => {
     const [status, setStatus] = useState("loading")
@@ -9,6 +10,10 @@ const GamePage = () => {
     const [introActive, setIntroActive] = useState(true)
     const [hud, setHud] = useState(null)
     const [activeIsland, setActiveIsland] = useState(null)
+    const [islandProgress, setIslandProgress] = useState(null)
+    const [showSkipConfirm, setShowSkipConfirm] = useState(false)
+    const [discovery, setDiscovery] = useState(null)
+    const [celebrate, setCelebrate] = useState(false)
 
     const load = () => {
         fetchIslands()
@@ -29,23 +34,63 @@ const GamePage = () => {
     useEffect(() => {
         const onReady = () => console.log("game:ready")
         const onIntroComplete = () => setIntroActive(false)
-        const onHudUpdate = (payload) => setHud(payload)
-        const onIslandEnter = (island) => setActiveIsland(island)
+        const onHudUpdate = (payload) => setHud((prev) => ({ ...prev, ...payload }))
+        const onIslandIntro = (island) => setActiveIsland(island)
+        const onIslandProgress = (payload) => {
+            setIslandProgress((prev) => {
+                if (payload.completed && !prev?.completed) setCelebrate(true)
+                return payload
+            })
+        }
+        const onMapEntered = () => setIslandProgress(null)
+        const onDiscoveryFound = (payload) => setDiscovery(payload)
 
         gameEvents.on("game:ready", onReady)
         gameEvents.on("intro:complete", onIntroComplete)
         gameEvents.on("hud:update", onHudUpdate)
-        gameEvents.on("island:enter", onIslandEnter)
+        gameEvents.on("island:intro", onIslandIntro)
+        gameEvents.on("island:progress", onIslandProgress)
+        gameEvents.on("map:entered", onMapEntered)
+        gameEvents.on("discovery:found", onDiscoveryFound)
 
         return () => {
             gameEvents.off("game:ready", onReady)
             gameEvents.off("intro:complete", onIntroComplete)
             gameEvents.off("hud:update", onHudUpdate)
-            gameEvents.off("island:enter", onIslandEnter)
+            gameEvents.off("island:intro", onIslandIntro)
+            gameEvents.off("island:progress", onIslandProgress)
+            gameEvents.off("map:entered", onMapEntered)
+            gameEvents.off("discovery:found", onDiscoveryFound)
         }
     }, [])
 
+    useEffect(() => {
+        if (!celebrate) return undefined
+        const timer = setTimeout(() => setCelebrate(false), 3000)
+        return () => clearTimeout(timer)
+    }, [celebrate])
+
     const skipIntro = () => gameEvents.emit("intro:skip")
+
+    const startWalking = () => {
+        setActiveIsland(null)
+        gameEvents.emit("island:start")
+    }
+
+    const requestExit = () => {
+        if (islandProgress?.completed) {
+            gameEvents.emit("island:exit", { skip: false })
+            setIslandProgress(null)
+            return
+        }
+        setShowSkipConfirm(true)
+    }
+
+    const confirmSkip = () => {
+        setShowSkipConfirm(false)
+        gameEvents.emit("island:exit", { skip: true })
+        setIslandProgress(null)
+    }
 
     return (
         <div className="min-h-screen flex flex-col bg-ink-900 text-paper-100">
@@ -57,7 +102,8 @@ const GamePage = () => {
                 <div className="flex items-center gap-4">
                     {status === "ready" && hud && (
                         <span className="font-mono text-xs uppercase tracking-caps text-brass-400">
-                            {hud.score} pts · {hud.isleLabel} · {hud.islandName}
+                            {hud.score} pts{hud.isleLabel ? ` · ${hud.isleLabel}` : ""}
+                            {hud.islandName ? ` · ${hud.islandName}` : ""}
                         </span>
                     )}
                     {status === "ready" && !hud && (
@@ -95,6 +141,7 @@ const GamePage = () => {
                 {status === "ready" && (
                     <div className="relative w-full max-w-[1280px] aspect-video border border-brass-400 shadow-[var(--shadow-gilt-frame)]">
                         <PhaserMount islands={islands} />
+
                         {introActive && (
                             <button
                                 type="button"
@@ -104,6 +151,27 @@ const GamePage = () => {
                                 Skip ⇢
                             </button>
                         )}
+
+                        {islandProgress && (
+                            <div className="absolute bottom-3 left-3 right-3 z-10 flex items-center justify-between gap-3 bg-[rgba(13,10,7,0.78)] border border-brass-400 px-4 py-2 flex-wrap">
+                                <span className="font-mono text-xs uppercase tracking-caps text-brass-400">
+                                    Found {islandProgress.found} / {islandProgress.total}
+                                </span>
+                                <button type="button" className="btn btn--outline btn--sm" onClick={requestExit}>
+                                    {islandProgress.completed ? "Embark ⚓" : "Set Sail ⇢"}
+                                </button>
+                            </div>
+                        )}
+
+                        {celebrate && (
+                            <div className="absolute top-16 left-1/2 -translate-x-1/2 z-10 bg-[rgba(13,10,7,0.85)] border border-brass-400 px-5 py-3">
+                                <p className="font-display text-lg text-brass-200 whitespace-nowrap">
+                                    Isle fully charted! +{islandProgress?.total ?? 0} discoveries
+                                </p>
+                            </div>
+                        )}
+
+                        <DiscoveryCard discovery={discovery} onDismiss={() => setDiscovery(null)} />
                     </div>
                 )}
             </main>
@@ -116,12 +184,30 @@ const GamePage = () => {
                         </p>
                         <p className="font-display text-lg text-paper-100 mb-4">{activeIsland.description}</p>
                         <div className="flex gap-3 flex-wrap">
-                            <button type="button" className="btn btn--outline btn--sm" onClick={() => setActiveIsland(null)}>
-                                Close
+                            <button type="button" className="btn btn--outline btn--sm" onClick={startWalking}>
+                                Start Walking ⚓
                             </button>
                             <a className="btn btn--outline btn--sm" href={activeIsland.url} target="_blank" rel="noreferrer">
                                 Live ↗
                             </a>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {showSkipConfirm && (
+                <div className="fixed inset-0 z-30 flex items-center justify-center bg-[rgba(13,10,7,0.72)] p-4">
+                    <div className="max-w-[42ch] bg-ink-800 border border-brass-400 shadow-[var(--shadow-gilt-frame)] p-6 text-center">
+                        <p className="font-display text-lg text-paper-100 mb-4">
+                            Leave {(islandProgress?.total ?? 0) - (islandProgress?.found ?? 0)} treasures behind?
+                        </p>
+                        <div className="flex gap-3 justify-center flex-wrap">
+                            <button type="button" className="btn btn--outline btn--sm" onClick={() => setShowSkipConfirm(false)}>
+                                Keep Exploring
+                            </button>
+                            <button type="button" className="btn btn--gilt btn--sm" onClick={confirmSkip}>
+                                Set Sail ⇢
+                            </button>
                         </div>
                     </div>
                 </div>

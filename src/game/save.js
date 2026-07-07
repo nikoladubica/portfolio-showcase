@@ -7,6 +7,8 @@ function defaultSave() {
         currentIslandId: null,
         fog: [], // [{ x, y, radius }] reveal calls, in native map coords (0-1280 x 0-720)
         found: {}, // { [islandId]: [discoverableId, ...] }
+        visited: {}, // { [islandId]: { completed, pointsEarned } }
+        inIsland: null, // islandId of an in-progress exploration, so a refresh resumes on the island
         score: 0,
         runStartedAt: Date.now(),
     }
@@ -38,4 +40,35 @@ export function updateSave(mutator) {
 
 export function clearSave() {
     localStorage.removeItem(SAVE_KEY)
+}
+
+export function getFoundIds(save, islandId) {
+    return save.found[islandId] ?? []
+}
+
+// Records a discoverable as found (idempotent) and adds its points to the score.
+// Returns the updated save.
+export function recordFound(islandId, discoverable) {
+    return updateSave((save) => {
+        const foundForIsland = getFoundIds(save, islandId)
+        if (foundForIsland.includes(discoverable.id)) return save
+
+        return {
+            ...save,
+            score: save.score + discoverable.points,
+            found: { ...save.found, [islandId]: [...foundForIsland, discoverable.id] }
+        }
+    })
+}
+
+export function markVisited(islandId, result) {
+    return updateSave((save) => ({ ...save, visited: { ...save.visited, [islandId]: result } }))
+}
+
+export function setInIsland(islandId) {
+    return updateSave((save) => ({ ...save, inIsland: islandId }))
+}
+
+export function clearInIsland() {
+    return updateSave((save) => ({ ...save, inIsland: null }))
 }

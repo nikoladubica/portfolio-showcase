@@ -1,5 +1,6 @@
 import Phaser from "phaser"
 import { gameEvents } from "../events"
+import { loadSave } from "../save"
 
 const INTRO_SEEN_KEY = "game:introSeen"
 
@@ -177,6 +178,14 @@ export default class IntroScene extends Phaser.Scene {
         this.finished = true
         localStorage.setItem(INTRO_SEEN_KEY, "1")
         gameEvents.emit("intro:complete")
+
+        const save = loadSave()
+        const resumedIsland = save.inIsland && this.islands.find((island) => island.id === save.inIsland)
+        if (resumedIsland) {
+            this.scene.start("IslandScene", { island: resumedIsland, islands: this.islands })
+            return
+        }
+
         this.scene.start("MapScene", { islands: this.islands })
     }
 }
