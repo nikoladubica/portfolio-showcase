@@ -99,6 +99,18 @@ const GamePage = () => {
         setIslandProgress(null)
     }
 
+    // Esc closes whichever dialog is on top; FinaleCard has no close by design (the run is over).
+    useEffect(() => {
+        const onKeyDown = (e) => {
+            if (e.key !== "Escape") return
+            if (showSkipConfirm) setShowSkipConfirm(false)
+            else if (showLedger) setShowLedger(false)
+            else if (activeIsland) startWalking()
+        }
+        window.addEventListener("keydown", onKeyDown)
+        return () => window.removeEventListener("keydown", onKeyDown)
+    }, [showSkipConfirm, showLedger, activeIsland])
+
     return (
         <div className="min-h-screen flex flex-col bg-ink-900 text-paper-100">
             <header className="flex items-center justify-between px-6 h-[68px] border-b border-rule-strong">
@@ -132,6 +144,20 @@ const GamePage = () => {
                     </a>
                 </div>
             </header>
+
+            <p className="text-center font-display italic text-sm text-paper-300 py-2 px-4">
+                Prefer reading to sailing?{" "}
+                <a className="text-brass-400 hover:text-brass-200" href="/#works">
+                    See the projects directly
+                </a>
+                .
+            </p>
+
+            <div className="hidden max-[640px]:portrait:flex items-center justify-center gap-2 mx-4 mb-2 px-4 py-2 border border-brass-400 bg-[rgba(13,10,7,0.6)]">
+                <span className="font-mono text-xs uppercase tracking-caps text-brass-400 text-center">
+                    ⟲ Rotate your device for the best experience
+                </span>
+            </div>
 
             <main className="flex-1 flex items-center justify-center p-4">
                 {status === "loading" && (
@@ -194,7 +220,12 @@ const GamePage = () => {
 
             {activeIsland && (
                 <div className="fixed inset-0 z-20 flex items-center justify-center bg-[rgba(13,10,7,0.72)] p-4">
-                    <div className="max-w-[50ch] bg-ink-800 border border-brass-400 shadow-[var(--shadow-gilt-frame)] p-6">
+                    <div
+                        role="dialog"
+                        aria-modal="true"
+                        aria-label={activeIsland.name}
+                        className="max-w-[50ch] w-full bg-ink-800 border border-brass-400 shadow-[var(--shadow-gilt-frame)] p-6 max-h-[90vh] overflow-y-auto"
+                    >
                         <p className="font-mono text-xs uppercase tracking-caps text-brass-400 mb-2">
                             {activeIsland.name}
                         </p>
@@ -213,7 +244,11 @@ const GamePage = () => {
 
             {showSkipConfirm && (
                 <div className="fixed inset-0 z-30 flex items-center justify-center bg-[rgba(13,10,7,0.72)] p-4">
-                    <div className="max-w-[42ch] bg-ink-800 border border-brass-400 shadow-[var(--shadow-gilt-frame)] p-6 text-center">
+                    <div
+                        role="alertdialog"
+                        aria-modal="true"
+                        className="max-w-[42ch] w-full bg-ink-800 border border-brass-400 shadow-[var(--shadow-gilt-frame)] p-6 text-center max-h-[90vh] overflow-y-auto"
+                    >
                         <p className="font-display text-lg text-paper-100 mb-4">
                             Leave {(islandProgress?.total ?? 0) - (islandProgress?.found ?? 0)} treasures behind?
                         </p>
@@ -233,7 +268,9 @@ const GamePage = () => {
 
             {showLedger && !finaleSummary && (
                 <div className="fixed inset-0 z-40 flex items-center justify-center bg-[rgba(13,10,7,0.85)] p-4">
-                    <Leaderboard onClose={() => setShowLedger(false)} />
+                    <div role="dialog" aria-modal="true" aria-label="The Ledger" className="max-h-[90vh] overflow-y-auto">
+                        <Leaderboard onClose={() => setShowLedger(false)} />
+                    </div>
                 </div>
             )}
         </div>

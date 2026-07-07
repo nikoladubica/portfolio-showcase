@@ -1,7 +1,7 @@
 import Phaser from "phaser"
 import { gameEvents } from "../events"
 import { createFog } from "../fog"
-import { loadSave, updateSave, setInIsland, getFoundIds } from "../save"
+import { loadSave, updateSave, setInIsland, getFoundIds, getRunDurationSeconds } from "../save"
 import { nextIsland, maxPossibleScore } from "../progression"
 
 const START_HALO_RADIUS = 150
@@ -249,7 +249,7 @@ export default class MapScene extends Phaser.Scene {
         gameEvents.emit("run:finished", {
             score: save.score,
             maxScore: maxPossibleScore(this.islands),
-            durationSeconds: Math.round((Date.now() - save.runStartedAt) / 1000),
+            durationSeconds: getRunDurationSeconds(save),
             breakdown
         })
     }

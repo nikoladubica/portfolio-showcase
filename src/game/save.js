@@ -13,6 +13,7 @@ function defaultSave() {
         runStartedAt: Date.now(),
         runFinished: false,
         scoreSubmitted: false,
+        pausedMs: 0, // time accumulated while the tab was hidden, excluded from run duration
     }
 }
 
@@ -88,4 +89,25 @@ export function getLastPlayerName() {
 
 export function setLastPlayerName(name) {
     localStorage.setItem(LAST_NAME_KEY, name)
+}
+
+// Run duration is wall-clock (runStartedAt) minus time spent with the tab hidden, so
+// leaving the game in a background tab doesn't inflate the score-plausibility duration.
+export function getRunDurationSeconds(save) {
+    const elapsed = Date.now() - save.runStartedAt - (save.pausedMs ?? 0)
+    return Math.max(0, Math.round(elapsed / 1000))
+}
+
+let hiddenSince = null
+
+if (typeof document !== "undefined") {
+    document.addEventListener("visibilitychange", () => {
+        if (document.hidden) {
+            hiddenSince = Date.now()
+        } else if (hiddenSince !== null) {
+            const hiddenMs = Date.now() - hiddenSince
+            hiddenSince = null
+            updateSave((save) => ({ ...save, pausedMs: (save.pausedMs ?? 0) + hiddenMs }))
+        }
+    })
 }

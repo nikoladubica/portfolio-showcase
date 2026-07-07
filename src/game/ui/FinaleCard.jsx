@@ -48,7 +48,12 @@ const FinaleCard = ({ summary }) => {
 
     return (
         <div className="fixed inset-0 z-40 flex items-center justify-center bg-[rgba(13,10,7,0.85)] p-4">
-            <div className="max-w-[60ch] w-full bg-ink-800 border border-brass-400 shadow-[var(--shadow-gilt-frame)] p-6 max-h-[85vh] overflow-y-auto">
+            <div
+                role="dialog"
+                aria-modal="true"
+                aria-label="The Voyage Concludes"
+                className="max-w-[60ch] w-full bg-ink-800 border border-brass-400 shadow-[var(--shadow-gilt-frame)] p-6 max-h-[85vh] overflow-y-auto"
+            >
                 <p className="font-mono text-xs uppercase tracking-caps text-brass-400 mb-2">The Voyage Concludes</p>
                 <p className="font-display text-3xl text-paper-50 mb-1">
                     {summary.score} / {summary.maxScore} points

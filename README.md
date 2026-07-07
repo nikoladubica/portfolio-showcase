@@ -79,3 +79,25 @@ npm run dev            # http://localhost:4000, auto-restarts on change (node --
 
 `db:seed` is idempotent — re-running it re-syncs islands/discoverables from
 `src/data/projects.js` without touching the `scores` table or duplicating rows.
+
+### Deploying the game (SPA + server + MariaDB)
+
+- **Build**: `npm run build` outputs a static `dist/` with two HTML entries — `index.html`
+  (the main site) and `game.html` (the game, Phaser code-split into its own chunk). Serve
+  `dist/` from any static host or from the same Node process as the API.
+- **Server**: `cd server && npm install && npm start` runs the Express app (`server/index.js`)
+  as a plain Node process. It expects `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD`,
+  `DB_NAME`, `API_PORT` in the environment (see `.env.example`) — run
+  `npm run db:setup && npm run db:seed` once per environment before first use.
+- **Routing `/api/*` in production**: put a reverse proxy (nginx, Caddy, or the same host's
+  existing web server) in front of both processes so `/api/*` reaches the Express app and
+  everything else serves `dist/`. With `/api/*` on the same origin as the site,
+  `VITE_API_URL` can stay unset in the production build (the front-end falls back to a
+  same-origin relative path only if you remove the `http://localhost:4000` default in
+  `src/game/api.js` — otherwise set `VITE_API_URL` to the public API origin at build time).
+- **CORS**: `server/index.js` reads `CORS_ORIGIN` from the environment — set it to the real
+  production origin (e.g. `https://nikolacucukovic.com`) rather than leaving the
+  `localhost:5173` dev default.
+- **MariaDB**: any managed or self-hosted MariaDB/MySQL-compatible instance works; point
+  `DB_HOST`/`DB_PORT`/`DB_USER`/`DB_PASSWORD`/`DB_NAME` at it and run `npm run db:setup` once
+  to create the schema, then `npm run db:seed` to load islands/discoverables.
