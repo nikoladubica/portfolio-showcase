@@ -12,6 +12,7 @@ function defaultSave() {
         score: 0,
         runStartedAt: Date.now(),
         runFinished: false,
+        scoreSubmitted: false,
     }
 }
 
@@ -72,4 +73,19 @@ export function setInIsland(islandId) {
 
 export function clearInIsland() {
     return updateSave((save) => ({ ...save, inIsland: null }))
+}
+
+export function markScoreSubmitted() {
+    return updateSave((save) => ({ ...save, scoreSubmitted: true }))
+}
+
+const LAST_NAME_KEY = "game:lastPlayerName"
+
+// Kept outside the versioned save blob (its own key) so it survives clearSave()/"Explore Again".
+export function getLastPlayerName() {
+    return localStorage.getItem(LAST_NAME_KEY) ?? ""
+}
+
+export function setLastPlayerName(name) {
+    localStorage.setItem(LAST_NAME_KEY, name)
 }

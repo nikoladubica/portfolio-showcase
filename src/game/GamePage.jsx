@@ -4,6 +4,7 @@ import { fetchIslands } from "./api"
 import { gameEvents } from "./events"
 import DiscoveryCard from "./ui/DiscoveryCard"
 import FinaleCard from "./ui/FinaleCard"
+import Leaderboard from "./ui/Leaderboard"
 
 const GamePage = () => {
     const [status, setStatus] = useState("loading")
@@ -16,6 +17,7 @@ const GamePage = () => {
     const [discovery, setDiscovery] = useState(null)
     const [celebrate, setCelebrate] = useState(false)
     const [finaleSummary, setFinaleSummary] = useState(null)
+    const [showLedger, setShowLedger] = useState(false)
 
     const load = () => {
         fetchIslands()
@@ -115,6 +117,15 @@ const GamePage = () => {
                         <span className="font-mono text-xs uppercase tracking-caps text-brass-400">
                             {islands.length} isles charted
                         </span>
+                    )}
+                    {status === "ready" && (
+                        <button
+                            type="button"
+                            className="font-mono text-xs uppercase tracking-caps text-paper-200 bg-transparent border-none cursor-pointer hover:text-brass-400"
+                            onClick={() => setShowLedger(true)}
+                        >
+                            The Ledger
+                        </button>
                     )}
                     <a className="font-mono text-xs uppercase tracking-caps text-paper-200 no-underline hover:text-brass-400" href="/">
                         ← Back to the Broadsheet
@@ -219,6 +230,12 @@ const GamePage = () => {
             )}
 
             {finaleSummary && <FinaleCard summary={finaleSummary} />}
+
+            {showLedger && !finaleSummary && (
+                <div className="fixed inset-0 z-40 flex items-center justify-center bg-[rgba(13,10,7,0.85)] p-4">
+                    <Leaderboard onClose={() => setShowLedger(false)} />
+                </div>
+            )}
         </div>
     )
 }
