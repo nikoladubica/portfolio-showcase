@@ -1,6 +1,8 @@
 import { useEffect, useRef } from "react"
 import Phaser from "phaser"
 import BootScene from "./scenes/BootScene"
+import IntroScene from "./scenes/IntroScene"
+import MapScene from "./scenes/MapScene"
 
 const PhaserMount = ({ islands }) => {
     const containerRef = useRef(null)
@@ -21,7 +23,7 @@ const PhaserMount = ({ islands }) => {
                 default: "arcade",
                 arcade: { debug: false }
             },
-            scene: [BootScene]
+            scene: [BootScene, IntroScene, MapScene]
         })
 
         game.registry.set("islands", islands)

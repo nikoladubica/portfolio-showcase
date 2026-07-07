@@ -6,6 +6,7 @@ import { gameEvents } from "./events"
 const GamePage = () => {
     const [status, setStatus] = useState("loading")
     const [islands, setIslands] = useState([])
+    const [introActive, setIntroActive] = useState(true)
 
     const load = () => {
         fetchIslands()
@@ -25,9 +26,16 @@ const GamePage = () => {
 
     useEffect(() => {
         const onReady = () => console.log("game:ready")
+        const onIntroComplete = () => setIntroActive(false)
         gameEvents.on("game:ready", onReady)
-        return () => gameEvents.off("game:ready", onReady)
+        gameEvents.on("intro:complete", onIntroComplete)
+        return () => {
+            gameEvents.off("game:ready", onReady)
+            gameEvents.off("intro:complete", onIntroComplete)
+        }
     }, [])
+
+    const skipIntro = () => gameEvents.emit("intro:skip")
 
     return (
         <div className="min-h-screen flex flex-col bg-ink-900 text-paper-100">
@@ -70,8 +78,17 @@ const GamePage = () => {
                 )}
 
                 {status === "ready" && (
-                    <div className="w-full max-w-[1280px] aspect-video border border-brass-400 shadow-[var(--shadow-gilt-frame)]">
+                    <div className="relative w-full max-w-[1280px] aspect-video border border-brass-400 shadow-[var(--shadow-gilt-frame)]">
                         <PhaserMount islands={islands} />
+                        {introActive && (
+                            <button
+                                type="button"
+                                className="btn btn--outline btn--sm absolute top-3 right-3 z-10"
+                                onClick={skipIntro}
+                            >
+                                Skip ⇢
+                            </button>
+                        )}
                     </div>
                 )}
             </main>
