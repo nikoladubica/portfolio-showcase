@@ -58,3 +58,24 @@ An "antique broadsheet" theme built on Tailwind v4 tokens defined in `src/index.
 ## Deployment
 
 Build with `npm run build`; the static output in `dist/` can be served by any static host.
+
+## Running the backend (game)
+
+The "Get to Know Me" game (`game.html`) is backed by an Express + MariaDB API in `server/`,
+kept out of the main app's `package.json` and bundle.
+
+```bash
+# MariaDB, if you don't already have it running:
+brew install mariadb && brew services start mariadb
+# or: docker run -d -p 3306:3306 -e MARIADB_ROOT_PASSWORD= -e MARIADB_ALLOW_EMPTY_ROOT_PASSWORD=yes mariadb:11
+
+cp .env.example .env   # fill in DB_* vars for your local MariaDB
+cd server
+npm install
+npm run db:setup       # creates the database + tables
+npm run db:seed        # seeds islands/discoverables from src/data/projects.js
+npm run dev            # http://localhost:4000, auto-restarts on change (node --watch)
+```
+
+`db:seed` is idempotent — re-running it re-syncs islands/discoverables from
+`src/data/projects.js` without touching the `scores` table or duplicating rows.
