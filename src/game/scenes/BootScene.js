@@ -11,6 +11,7 @@ const ASSETS = [
     ["island-blob", "/img/game/map/island-blob.webp"],
     ["compass-rose", "/img/game/map/compass-rose.webp"],
     ["harbour-marker", "/img/game/map/harbour-marker.webp"],
+    ["ship", "/img/game/map/ship.webp"],
     ["ground", "/img/game/island/ground.webp"],
     ["rock", "/img/game/island/rock.webp"],
     ["palm", "/img/game/island/palm.webp"],

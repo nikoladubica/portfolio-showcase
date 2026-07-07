@@ -11,6 +11,7 @@ function defaultSave() {
         inIsland: null, // islandId of an in-progress exploration, so a refresh resumes on the island
         score: 0,
         runStartedAt: Date.now(),
+        runFinished: false,
     }
 }
 

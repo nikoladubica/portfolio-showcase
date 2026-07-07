@@ -3,6 +3,7 @@ import PhaserMount from "./PhaserMount"
 import { fetchIslands } from "./api"
 import { gameEvents } from "./events"
 import DiscoveryCard from "./ui/DiscoveryCard"
+import FinaleCard from "./ui/FinaleCard"
 
 const GamePage = () => {
     const [status, setStatus] = useState("loading")
@@ -14,6 +15,7 @@ const GamePage = () => {
     const [showSkipConfirm, setShowSkipConfirm] = useState(false)
     const [discovery, setDiscovery] = useState(null)
     const [celebrate, setCelebrate] = useState(false)
+    const [finaleSummary, setFinaleSummary] = useState(null)
 
     const load = () => {
         fetchIslands()
@@ -44,6 +46,7 @@ const GamePage = () => {
         }
         const onMapEntered = () => setIslandProgress(null)
         const onDiscoveryFound = (payload) => setDiscovery(payload)
+        const onRunFinished = (summary) => setFinaleSummary(summary)
 
         gameEvents.on("game:ready", onReady)
         gameEvents.on("intro:complete", onIntroComplete)
@@ -52,6 +55,7 @@ const GamePage = () => {
         gameEvents.on("island:progress", onIslandProgress)
         gameEvents.on("map:entered", onMapEntered)
         gameEvents.on("discovery:found", onDiscoveryFound)
+        gameEvents.on("run:finished", onRunFinished)
 
         return () => {
             gameEvents.off("game:ready", onReady)
@@ -61,6 +65,7 @@ const GamePage = () => {
             gameEvents.off("island:progress", onIslandProgress)
             gameEvents.off("map:entered", onMapEntered)
             gameEvents.off("discovery:found", onDiscoveryFound)
+            gameEvents.off("run:finished", onRunFinished)
         }
     }, [])
 
@@ -212,6 +217,8 @@ const GamePage = () => {
                     </div>
                 </div>
             )}
+
+            {finaleSummary && <FinaleCard summary={finaleSummary} />}
         </div>
     )
 }
