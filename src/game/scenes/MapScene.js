@@ -117,8 +117,20 @@ export default class MapScene extends Phaser.Scene {
         const isCurrent = island.id === currentIslandId
         const visitResult = save.visited[island.id]
 
-        const blob = this.addImageOrFallback(x, y, "island-blob", 140, 100, 0xdbcba6).setDepth(10)
-        if (visitResult) blob.setTint(0xc2a35e)
+        const perIslandKey = `island-map-${island.slug}`
+        const hasPerIslandArt = this.textures.exists(perIslandKey)
+        const blob = this.addImageOrFallback(x, y, hasPerIslandArt ? perIslandKey : "island-blob", 140, 100, 0xdbcba6).setDepth(10)
+
+        if (visitResult) {
+            if (hasPerIslandArt) {
+                // A tint would muddy multi-colour art — mark explored islands with a brass seal instead.
+                this.addImageOrFallback(x + 55, y + 35, "harbour-marker", 24, 24, 0xc2a35e)
+                    .setDepth(11)
+                    .setAlpha(0.9)
+            } else {
+                blob.setTint(0xc2a35e)
+            }
+        }
 
         this.add
             .text(x, y + 60, visitResult ? `${island.name} ✓` : island.name, {

@@ -58,6 +58,17 @@ export default class BootScene extends Phaser.Scene {
             this.load.spritesheet(key, url, frameConfig)
         }
 
+        // Per-island map art is optional — the loaderror handler below turns a
+        // missing file into a warning and MapScene falls back to island-blob.
+        // Rasterised at 2× the 140×100 display size so hover bob/zoom stay crisp.
+        const islands = this.registry.get("islands") ?? []
+        for (const island of islands) {
+            this.load.svg(`island-map-${island.slug}`, `/img/game/map/islands/${island.slug}.svg`, {
+                width: 280,
+                height: 200
+            })
+        }
+
         // Placeholder art must never dead-end the intro — a failed asset just means
         // IntroScene draws a plain rectangle in its place instead of the loaded image.
         this.load.on("loaderror", (file) => {
