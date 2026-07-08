@@ -74,7 +74,7 @@ cd server
 npm install
 npm run db:setup       # creates the database + tables
 npm run db:seed        # seeds islands/discoverables from src/data/projects.js
-npm run dev            # http://localhost:4000, auto-restarts on change (node --watch)
+npm run dev            # http://localhost:4001, auto-restarts on change (node --watch)
 ```
 
 `db:seed` is idempotent — re-running it re-syncs islands/discoverables from
@@ -93,7 +93,7 @@ npm run dev            # http://localhost:4000, auto-restarts on change (node --
   existing web server) in front of both processes so `/api/*` reaches the Express app and
   everything else serves `dist/`. With `/api/*` on the same origin as the site,
   `VITE_API_URL` can stay unset in the production build (the front-end falls back to a
-  same-origin relative path only if you remove the `http://localhost:4000` default in
+  same-origin relative path only if you remove the `http://localhost:4001` default in
   `src/game/api.js` — otherwise set `VITE_API_URL` to the public API origin at build time).
 - **CORS**: `server/index.js` reads `CORS_ORIGIN` from the environment — set it to the real
   production origin (e.g. `https://nikolacucukovic.com`) rather than leaving the

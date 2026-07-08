@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import PhaserMount from "./PhaserMount"
 import { fetchIslands } from "./api"
+import { clearSave } from "./save"
 import { gameEvents } from "./events"
 import DiscoveryCard from "./ui/DiscoveryCard"
 import FinaleCard from "./ui/FinaleCard"
@@ -18,6 +19,7 @@ const GamePage = () => {
     const [celebrate, setCelebrate] = useState(false)
     const [finaleSummary, setFinaleSummary] = useState(null)
     const [showLedger, setShowLedger] = useState(false)
+    const [showRestartConfirm, setShowRestartConfirm] = useState(false)
 
     const load = () => {
         fetchIslands()
@@ -79,6 +81,12 @@ const GamePage = () => {
 
     const skipIntro = () => gameEvents.emit("intro:skip")
 
+    // Wipes the run and reloads so the game boots fresh from a default save.
+    const startOver = () => {
+        clearSave()
+        window.location.reload()
+    }
+
     const startWalking = () => {
         setActiveIsland(null)
         gameEvents.emit("island:start")
@@ -103,13 +111,14 @@ const GamePage = () => {
     useEffect(() => {
         const onKeyDown = (e) => {
             if (e.key !== "Escape") return
-            if (showSkipConfirm) setShowSkipConfirm(false)
+            if (showRestartConfirm) setShowRestartConfirm(false)
+            else if (showSkipConfirm) setShowSkipConfirm(false)
             else if (showLedger) setShowLedger(false)
             else if (activeIsland) startWalking()
         }
         window.addEventListener("keydown", onKeyDown)
         return () => window.removeEventListener("keydown", onKeyDown)
-    }, [showSkipConfirm, showLedger, activeIsland])
+    }, [showRestartConfirm, showSkipConfirm, showLedger, activeIsland])
 
     return (
         <div className="min-h-screen flex flex-col bg-ink-900 text-paper-100">
@@ -137,6 +146,15 @@ const GamePage = () => {
                             onClick={() => setShowLedger(true)}
                         >
                             The Ledger
+                        </button>
+                    )}
+                    {status === "ready" && (
+                        <button
+                            type="button"
+                            className="font-mono text-xs uppercase tracking-caps text-paper-200 bg-transparent border-none cursor-pointer hover:text-brass-400"
+                            onClick={() => setShowRestartConfirm(true)}
+                        >
+                            Start Over
                         </button>
                     )}
                     <a className="font-mono text-xs uppercase tracking-caps text-paper-200 no-underline hover:text-brass-400" href="/">
@@ -258,6 +276,28 @@ const GamePage = () => {
                             </button>
                             <button type="button" className="btn btn--gilt btn--sm" onClick={confirmSkip}>
                                 Set Sail ⇢
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {showRestartConfirm && (
+                <div className="fixed inset-0 z-30 flex items-center justify-center bg-[rgba(13,10,7,0.72)] p-4">
+                    <div
+                        role="alertdialog"
+                        aria-modal="true"
+                        className="max-w-[42ch] w-full bg-ink-800 border border-brass-400 shadow-[var(--shadow-gilt-frame)] p-6 text-center max-h-[90vh] overflow-y-auto"
+                    >
+                        <p className="font-display text-lg text-paper-100 mb-4">
+                            Start the voyage anew? Your charted isles and score will be lost.
+                        </p>
+                        <div className="flex gap-3 justify-center flex-wrap">
+                            <button type="button" className="btn btn--outline btn--sm" onClick={() => setShowRestartConfirm(false)}>
+                                Keep Sailing
+                            </button>
+                            <button type="button" className="btn btn--gilt btn--sm" onClick={startOver}>
+                                Start Over ⟲
                             </button>
                         </div>
                     </div>

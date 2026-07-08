@@ -3,7 +3,7 @@ import cors from 'cors'
 import gameRoutes from './routes/game.js'
 
 const app = express()
-const port = Number(process.env.API_PORT ?? 4000)
+const port = Number(process.env.API_PORT ?? 4001)
 
 app.use(cors({ origin: process.env.CORS_ORIGIN ?? 'http://localhost:5173' }))
 app.use(express.json())
