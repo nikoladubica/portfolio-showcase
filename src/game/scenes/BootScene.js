@@ -1,8 +1,6 @@
 import Phaser from "phaser"
 
 const ASSETS = [
-    ["book-closed", "/img/game/intro/book-closed.webp"],
-    ["book-open", "/img/game/intro/book-open.webp"],
     ["map-parchment", "/img/game/intro/map-parchment.webp"],
     ["cloud-1", "/img/game/intro/cloud-1.webp"],
     ["cloud-2", "/img/game/intro/cloud-2.webp"],
@@ -18,6 +16,15 @@ const ASSETS = [
     ["ruin", "/img/game/island/ruin.webp"],
     ["discovery-marker", "/img/game/island/discovery-marker.webp"],
     ["discovery-glint", "/img/game/island/discovery-glint.webp"]
+]
+
+// Intro book pieces, rasterised at their native SVG size so they stay crisp
+// through the camera's dive into the map. Loaded via load.svg (vector), the rest
+// are load.image (webp).
+const BOOK_SVGS = [
+    ["book-cover-front", "/img/game/intro/book-cover-front.svg", { width: 1500, height: 2000 }],
+    ["book-cover-inner", "/img/game/intro/book-cover-inner.svg", { width: 1500, height: 2000 }],
+    ["book-open-base", "/img/game/intro/book-open-base.svg", { width: 1500, height: 2000 }]
 ]
 
 const SPRITESHEETS = [["player", "/img/game/island/player.webp", { frameWidth: 32, frameHeight: 48 }]]
@@ -54,15 +61,21 @@ export default class BootScene extends Phaser.Scene {
             this.load.image(key, url)
         }
 
+        for (const [key, url, size] of BOOK_SVGS) {
+            this.load.svg(key, url, size)
+        }
+
         for (const [key, url, frameConfig] of SPRITESHEETS) {
             this.load.spritesheet(key, url, frameConfig)
         }
 
-        // Per-island map art is optional — the loaderror handler below turns a
-        // missing file into a warning and MapScene falls back to island-blob.
+        // Per-island map art is optional — only islands flagged `hasMapArt` (probed
+        // for a real SVG in GamePage, so the dev/host 200-HTML fallback can't hang the
+        // loader) are loaded here; MapScene falls back to island-blob for the rest.
         // Rasterised at 2× the 140×100 display size so hover bob/zoom stay crisp.
         const islands = this.registry.get("islands") ?? []
         for (const island of islands) {
+            if (!island.hasMapArt) continue
             this.load.svg(`island-map-${island.slug}`, `/img/game/map/islands/${island.slug}.svg`, {
                 width: 280,
                 height: 200

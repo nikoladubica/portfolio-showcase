@@ -5,6 +5,7 @@ import { loadSave, getFoundIds, recordFound, markVisited, clearInIsland } from "
 
 const INTERACT_RANGE = 70
 const PLAYER_SPEED = 220
+const DEPTH = { GROUND: 0, MARKERS: 5, PLAYER: 10, OVERLAY: 20, PROMPTS: 30 }
 const OBSTACLE_LAYOUT = [
     { rx: 0.15, ry: 0.2, key: "rock" },
     { rx: 0.8, ry: 0.15, key: "palm" },
@@ -27,6 +28,23 @@ export default class IslandScene extends Phaser.Scene {
         this.joystick = { active: false, originX: 0, originY: 0, vector: { x: 0, y: 0 } }
     }
 
+    preload() {
+        if (!this.island) return
+        const { width, height } = this.scale
+        const size = { width: width * 2, height: height * 2 }
+
+        // Lazy per-island scene art: only the island being entered is
+        // rasterised; Phaser skips keys already in the texture cache, so
+        // revisits within a session don't re-load. A missing -overlay.svg is
+        // normal (the layer is optional) — the warn below is expected then.
+        this.load.svg(`${this.island.slug}-ground`, `/img/game/island/scenes/${this.island.slug}-ground.svg`, size)
+        this.load.svg(`${this.island.slug}-overlay`, `/img/game/island/scenes/${this.island.slug}-overlay.svg`, size)
+
+        this.load.on("loaderror", (file) => {
+            console.warn(`Island scene layer missing, using fallback: ${file.key}`)
+        })
+    }
+
     create() {
         const { width, height } = this.scale
         const worldW = width * 2
@@ -36,13 +54,36 @@ export default class IslandScene extends Phaser.Scene {
         this.cameras.main.setBounds(0, 0, worldW, worldH)
         this.cameras.main.setZoom(1)
 
-        this.addGround(worldW, worldH)
-        const obstacles = this.addObstacles(worldW, worldH)
+        // With scene art the rocks/ruins are part of the drawing, so the
+        // placeholder obstacles (and their collision) only exist on the
+        // fallback path; blocking for art islands lands with the walkable
+        // polygon in ticket 11.
+        const hasSceneArt = this.textures.exists(`${this.island.slug}-ground`)
+
+        if (hasSceneArt) {
+            this.add
+                .image(worldW / 2, worldH / 2, `${this.island.slug}-ground`)
+                .setDisplaySize(worldW, worldH)
+                .setDepth(DEPTH.GROUND)
+            if (this.textures.exists(`${this.island.slug}-overlay`)) {
+                this.add
+                    .image(worldW / 2, worldH / 2, `${this.island.slug}-overlay`)
+                    .setDisplaySize(worldW, worldH)
+                    .setDepth(DEPTH.OVERLAY)
+            }
+        } else {
+            this.addGround(worldW, worldH)
+        }
 
         const startX = worldW / 2
         const startY = worldH / 2
         this.player = this.addPlayer(startX, startY)
-        this.physics.add.collider(this.player, obstacles)
+        this.player.setDepth(DEPTH.PLAYER)
+
+        if (!hasSceneArt) {
+            const obstacles = this.addObstacles(worldW, worldH)
+            this.physics.add.collider(this.player, obstacles)
+        }
 
         this.cameras.main.startFollow(this.player, true, 0.12, 0.12)
 
@@ -152,6 +193,7 @@ export default class IslandScene extends Phaser.Scene {
 
         return placed.map((discoverable) => {
             const marker = this.addImageOrFallback(discoverable.x, discoverable.y, "discovery-marker", 36, 36, 0x7c5f26)
+            marker.setDepth(DEPTH.MARKERS)
             marker.discoverable = discoverable
             marker.setInteractive({ useHandCursor: true })
             marker.on("pointerup", () => this.collect(marker))
@@ -164,6 +206,7 @@ export default class IslandScene extends Phaser.Scene {
                 })
                 .setOrigin(0.5)
                 .setAlpha(0)
+                .setDepth(DEPTH.PROMPTS)
 
             return marker
         })
@@ -192,6 +235,7 @@ export default class IslandScene extends Phaser.Scene {
         const { discoverable } = marker
         marker.promptText.destroy()
         const glint = this.addImageOrFallback(marker.x, marker.y, "discovery-glint", 48, 48, 0xe2ce9c)
+        glint.setDepth(DEPTH.MARKERS)
         this.tweens.add({
             targets: glint,
             scale: 1.6,

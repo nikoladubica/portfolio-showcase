@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2560 1440" width="2560" height="1440">
+  <!-- TEMPORARY hand-made test scene — replace with the Figma export
+       (frame "one-versus-one-interior", layer "ground") at this same path. -->
+
+  <!-- sea (must cover the whole frame — camera can see to the world edge) -->
+  <rect width="2560" height="1440" fill="#3e6b74"/>
+  <path d="M0 120 Q320 90 640 120 T1280 120 T1920 120 T2560 120" fill="none" stroke="#4d7d86" stroke-width="18" opacity="0.5"/>
+  <path d="M0 1320 Q320 1290 640 1320 T1280 1320 T1920 1320 T2560 1320" fill="none" stroke="#4d7d86" stroke-width="18" opacity="0.5"/>
+  <path d="M120 720 Q240 690 360 720" fill="none" stroke="#4d7d86" stroke-width="14" opacity="0.5"/>
+  <path d="M2200 620 Q2320 590 2440 620" fill="none" stroke="#4d7d86" stroke-width="14" opacity="0.5"/>
+
+  <!-- beach -->
+  <path d="M370 720
+           C340 480 560 250 900 190
+           C1240 130 1720 150 2000 280
+           C2260 400 2320 640 2240 880
+           C2160 1120 1880 1290 1480 1300
+           C1080 1310 760 1240 560 1080
+           C440 980 390 860 370 720 Z"
+        fill="#dbcba6"/>
+
+  <!-- terrain -->
+  <path d="M480 720
+           C460 520 650 340 940 290
+           C1230 240 1640 260 1880 370
+           C2100 470 2160 660 2090 860
+           C2020 1060 1780 1190 1440 1200
+           C1100 1210 830 1150 660 1020
+           C550 930 495 840 480 720 Z"
+        fill="#8a9a5b"/>
+
+  <!-- worn path across the island -->
+  <path d="M560 980 C820 860 1040 820 1280 760 C1520 700 1780 560 1980 460"
+        fill="none" stroke="#c9b487" stroke-width="56" stroke-linecap="round" opacity="0.9"/>
+
+  <!-- rocks (drawn into the ground — no separate game objects) -->
+  <g fill="#7a6f5d" stroke="#5d5344" stroke-width="6">
+    <path d="M760 480 l60 -50 70 20 25 55 -45 45 -80 -10 Z"/>
+    <path d="M1840 900 l55 -40 65 15 20 50 -40 45 -75 -12 Z"/>
+    <path d="M1180 1080 l40 -32 50 12 16 40 -32 34 -58 -8 Z"/>
+  </g>
+
+  <!-- ruined arch footing -->
+  <g fill="#b0a488" stroke="#7d7460" stroke-width="6">
+    <rect x="1560" y="420" width="60" height="150" rx="8"/>
+    <rect x="1700" y="420" width="60" height="150" rx="8"/>
+    <rect x="1540" y="560" width="240" height="34" rx="8"/>
+  </g>
+
+  <!-- palm trunks (canopies live in the overlay layer) -->
+  <g fill="none" stroke="#6e5333" stroke-width="26" stroke-linecap="round">
+    <path d="M1120 660 C1128 600 1122 550 1104 505"/>
+    <path d="M1420 640 C1414 585 1420 535 1440 495"/>
+  </g>
+</svg>

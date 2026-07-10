@@ -27,13 +27,25 @@ export default class IntroScene extends Phaser.Scene {
 
         this.finished = false
 
+        // Reduced-motion users get an instant cut, no gate. Everyone else waits for the
+        // "Start Animation" button in the page chrome before the sequence plays — we
+        // register the listener first, then announce readiness, so a click can't be missed.
         if (reducedMotion) {
             this.playReducedMotionCut(width, height)
-        } else if (alreadySeen) {
-            this.playShortReturnCut(width, height)
-        } else {
-            this.playFullSequence(width, height)
+            return
         }
+
+        const begin = () => {
+            if (alreadySeen) {
+                // this.playShortReturnCut(width, height)
+                this.playFullSequence(width, height)
+            } else {
+                this.playFullSequence(width, height)
+            }
+        }
+        gameEvents.once("intro:start", begin)
+        this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => gameEvents.off("intro:start", begin))
+        gameEvents.emit("intro:await-start")
     }
 
     addImageOrFallback(x, y, key, w, h, color) {
@@ -84,49 +96,88 @@ export default class IntroScene extends Phaser.Scene {
     playFullSequence(width, height) {
         const clouds = this.createClouds(width, height)
 
-        const book = this.addImageOrFallback(width / 2, height / 2, "book-closed", 320, 420, 0x5c211b)
-        book.setAlpha(0).setScale(0.9)
+        // Size the book to the screen so it always fits, then hinge it on its spine
+        // (left edge) rather than its centre. The closed cover is centred on screen.
+        const pageH = Math.min(height * 0.74, 500)
+        const pageW = pageH * 0.72
+        const cy = height / 2
+        const spineX = width / 2
+        const hingeX = spineX - pageW / 2
+
+        const book = this.addImageOrFallback(hingeX, cy, "book-cover-front", pageW, pageH, 0x5c211b)
+        book.setOrigin(0, 0.5)
+        // Tween relative to the display scale — never override it with setScale(1),
+        // which would snap the image back to its full intrinsic pixel size.
+        const coverScaleX = book.scaleX
+        const coverScaleY = book.scaleY
+        book.setAlpha(0).setScale(coverScaleX * 0.94, coverScaleY * 0.94)
 
         this.tweens.add({
             targets: book,
             alpha: 1,
-            scale: 1,
-            duration: 800,
+            scaleX: coverScaleX,
+            scaleY: coverScaleY,
+            duration: 1700,
             ease: "Sine.easeOut",
             onComplete: () => {
-                this.time.delayedCall(300, () => this.openBook(book, clouds, width, height))
+                this.time.delayedCall(1300, () =>
+                    this.openBook(book, clouds, spineX, cy, pageW, pageH, width, height)
+                )
             }
         })
     }
 
-    openBook(book, clouds, width, height) {
+    openBook(book, clouds, spineX, cy, pageW, pageH, width, height) {
+        const hingeX = spineX - pageW / 2
+
+        // The right-hand page, revealed as the cover lifts off it. The left page is
+        // formed by the cover's inner face landing on it (below). Under both faces.
+        const base = this.addImageOrFallback(spineX, cy, "book-open-base", pageW, pageH, 0xf1e8d5)
+        base.setDepth(0)
+
+        // The cover's inner face — hinged on the spine's right edge, edge-on to start,
+        // it swings down onto the left page as the outer face finishes lifting. The two
+        // faces together read as one rigid cover rotating from right to left.
+        const inner = this.addImageOrFallback(hingeX, cy, "book-cover-inner", pageW, pageH, 0x6b2b22)
+        inner.setOrigin(1, 0.5).setDepth(1)
+        const innerScaleX = inner.scaleX
+        inner.setScale(0, inner.scaleY)
+
+        book.setDepth(1)
+
+        // Phase 1 (0°→90°) — outer cover lifts off the right page and foreshortens
+        // into the spine. Sine.easeIn mimics the cosine of a rigid rotation.
         this.tweens.add({
             targets: book,
             scaleX: 0,
-            duration: 600,
+            duration: 900,
             ease: "Sine.easeIn",
             onComplete: () => {
                 book.destroy()
-                const open = this.addImageOrFallback(width / 2, height / 2, "book-open", 720, 450, 0xf1e8d5)
-                open.setScale(0, 1)
-                const mapW = 300
-                const mapH = 420
-                const mapX = width / 2 + 170
-                const mapY = height / 2
-                const map = this.addImageOrFallback(mapX, mapY, "map-parchment", mapW, mapH, 0xc9b88c)
-                map.setAlpha(0)
-                const dots = this.drawIslandDots(mapX, mapY, mapW, mapH)
-                dots.setAlpha(0)
 
+                // Phase 2 (90°→180°) — inner face rotates down onto the left page.
                 this.tweens.add({
-                    targets: open,
-                    scaleX: 1,
-                    duration: 600,
+                    targets: inner,
+                    scaleX: innerScaleX,
+                    duration: 900,
                     ease: "Sine.easeOut",
                     onComplete: () => {
-                        map.setAlpha(1)
-                        dots.setAlpha(1)
-                        this.time.delayedCall(400, () => this.zoomIntoMap(clouds, mapX, mapY, mapW, mapH, width, height))
+                        const mapW = pageW * 0.82
+                        const mapH = pageH * 0.86
+                        const map = this.addImageOrFallback(spineX, cy, "map-parchment", mapW, mapH, 0xc9b88c)
+                        map.setAlpha(0)
+                        const dots = this.drawIslandDots(spineX, cy, mapW, mapH)
+                        dots.setAlpha(0)
+
+                        this.tweens.add({
+                            targets: [map, ...dots.getChildren()],
+                            alpha: 1,
+                            duration: 700,
+                            onComplete: () =>
+                                this.time.delayedCall(900, () =>
+                                    this.zoomIntoMap(clouds, spineX, cy, mapW, mapH, width, height)
+                                )
+                        })
                     }
                 })
             }
@@ -153,10 +204,20 @@ export default class IntroScene extends Phaser.Scene {
     }
 
     playShortReturnCut(width, height) {
-        const open = this.addImageOrFallback(width / 2, height / 2, "book-open", 720, 450, 0xf1e8d5)
-        open.setAlpha(0)
+        const pageH = Math.min(height * 0.74, 500)
+        const pageW = pageH * 0.72
+        const cy = height / 2
+        const spineX = width / 2
+        const hingeX = spineX - pageW / 2
+
+        // Already open — the inner cover as the left page, the base as the right page.
+        const left = this.addImageOrFallback(hingeX, cy, "book-cover-inner", pageW, pageH, 0x6b2b22)
+        left.setOrigin(1, 0.5).setAlpha(0)
+        const right = this.addImageOrFallback(spineX, cy, "book-open-base", pageW, pageH, 0xf1e8d5)
+        right.setAlpha(0)
+
         this.tweens.add({
-            targets: open,
+            targets: [left, right],
             alpha: 1,
             duration: 400,
             onComplete: () => this.time.delayedCall(600, () => this.finish())

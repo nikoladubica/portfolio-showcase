@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import PhaserMount from "./PhaserMount"
-import { fetchIslands } from "./api"
+import { fetchIslands, mapArtExists } from "./api"
 import { clearSave } from "./save"
 import { gameEvents } from "./events"
 import DiscoveryCard from "./ui/DiscoveryCard"
@@ -11,6 +11,7 @@ const GamePage = () => {
     const [status, setStatus] = useState("loading")
     const [islands, setIslands] = useState([])
     const [introActive, setIntroActive] = useState(true)
+    const [awaitingStart, setAwaitingStart] = useState(false)
     const [hud, setHud] = useState(null)
     const [activeIsland, setActiveIsland] = useState(null)
     const [islandProgress, setIslandProgress] = useState(null)
@@ -23,8 +24,11 @@ const GamePage = () => {
 
     const load = () => {
         fetchIslands()
-            .then((data) => {
-                setIslands(data)
+            .then(async (data) => {
+                const withArt = await Promise.all(
+                    data.map(async (island) => ({ ...island, hasMapArt: await mapArtExists(island.slug) }))
+                )
+                setIslands(withArt)
                 setStatus("ready")
             })
             .catch(() => setStatus("error"))
@@ -39,6 +43,7 @@ const GamePage = () => {
 
     useEffect(() => {
         const onReady = () => console.log("game:ready")
+        const onAwaitStart = () => setAwaitingStart(true)
         const onIntroComplete = () => setIntroActive(false)
         const onHudUpdate = (payload) => setHud((prev) => ({ ...prev, ...payload }))
         const onIslandIntro = (island) => setActiveIsland(island)
@@ -53,6 +58,7 @@ const GamePage = () => {
         const onRunFinished = (summary) => setFinaleSummary(summary)
 
         gameEvents.on("game:ready", onReady)
+        gameEvents.on("intro:await-start", onAwaitStart)
         gameEvents.on("intro:complete", onIntroComplete)
         gameEvents.on("hud:update", onHudUpdate)
         gameEvents.on("island:intro", onIslandIntro)
@@ -63,6 +69,7 @@ const GamePage = () => {
 
         return () => {
             gameEvents.off("game:ready", onReady)
+            gameEvents.off("intro:await-start", onAwaitStart)
             gameEvents.off("intro:complete", onIntroComplete)
             gameEvents.off("hud:update", onHudUpdate)
             gameEvents.off("island:intro", onIslandIntro)
@@ -78,6 +85,11 @@ const GamePage = () => {
         const timer = setTimeout(() => setCelebrate(false), 3000)
         return () => clearTimeout(timer)
     }, [celebrate])
+
+    const startAnimation = () => {
+        setAwaitingStart(false)
+        gameEvents.emit("intro:start")
+    }
 
     const skipIntro = () => gameEvents.emit("intro:skip")
 
@@ -202,7 +214,15 @@ const GamePage = () => {
                     <div className="relative w-full max-w-[1280px] aspect-video border border-brass-400 shadow-[var(--shadow-gilt-frame)]">
                         <PhaserMount islands={islands} />
 
-                        {introActive && (
+                        {awaitingStart && (
+                            <div className="absolute inset-0 z-10 flex items-center justify-center bg-[rgba(13,10,7,0.55)]">
+                                <button type="button" className="btn btn--gilt" onClick={startAnimation}>
+                                    Start Animation
+                                </button>
+                            </div>
+                        )}
+
+                        {introActive && !awaitingStart && (
                             <button
                                 type="button"
                                 className="btn btn--outline btn--sm absolute top-3 right-3 z-10"
