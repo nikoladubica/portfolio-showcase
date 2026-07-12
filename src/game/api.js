@@ -1,7 +1,7 @@
 const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:4001"
 
 export async function fetchIslands() {
-    const response = await fetch(`${API_URL}/api/game/islands`)
+    const response = await fetch(`${API_URL}/api/game/islands`, { signal: AbortSignal.timeout(8000) })
 
     if (!response.ok) {
         throw new Error(`Failed to load islands (${response.status})`)
@@ -41,7 +41,7 @@ export async function mapArtExists(slug) {
 }
 
 export async function fetchLeaderboard(limit = 10) {
-    const response = await fetch(`${API_URL}/api/game/leaderboard?limit=${limit}`)
+    const response = await fetch(`${API_URL}/api/game/leaderboard?limit=${limit}`, { signal: AbortSignal.timeout(8000) })
 
     if (!response.ok) {
         throw new Error(`Failed to load leaderboard (${response.status})`)

@@ -2,8 +2,6 @@ import Phaser from "phaser"
 import { gameEvents } from "../events"
 import { loadSave } from "../save"
 
-const INTRO_SEEN_KEY = "game:introSeen"
-
 export default class IntroScene extends Phaser.Scene {
     constructor() {
         super("IntroScene")
@@ -19,11 +17,19 @@ export default class IntroScene extends Phaser.Scene {
         this.cameras.main.setScroll(0, 0)
 
         const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
-        const alreadySeen = localStorage.getItem(INTRO_SEEN_KEY) === "1"
 
         const onSkip = () => this.finish()
+        const begin = () => this.playFullSequence(width, height)
         gameEvents.on("intro:skip", onSkip)
-        this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => gameEvents.off("intro:skip", onSkip))
+
+        // Scenes emit SHUTDOWN on scene swap but DESTROY on game teardown (React unmount /
+        // StrictMode) — clean up on both so listeners don't leak on the gameEvents singleton.
+        const cleanup = () => {
+            gameEvents.off("intro:skip", onSkip)
+            gameEvents.off("intro:start", begin)
+        }
+        this.events.once(Phaser.Scenes.Events.SHUTDOWN, cleanup)
+        this.events.once(Phaser.Scenes.Events.DESTROY, cleanup)
 
         this.finished = false
 
@@ -35,16 +41,7 @@ export default class IntroScene extends Phaser.Scene {
             return
         }
 
-        const begin = () => {
-            if (alreadySeen) {
-                // this.playShortReturnCut(width, height)
-                this.playFullSequence(width, height)
-            } else {
-                this.playFullSequence(width, height)
-            }
-        }
         gameEvents.once("intro:start", begin)
-        this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => gameEvents.off("intro:start", begin))
         gameEvents.emit("intro:await-start")
     }
 
@@ -203,27 +200,6 @@ export default class IntroScene extends Phaser.Scene {
         })
     }
 
-    playShortReturnCut(width, height) {
-        const pageH = Math.min(height * 0.74, 500)
-        const pageW = pageH * 0.72
-        const cy = height / 2
-        const spineX = width / 2
-        const hingeX = spineX - pageW / 2
-
-        // Already open — the inner cover as the left page, the base as the right page.
-        const left = this.addImageOrFallback(hingeX, cy, "book-cover-inner", pageW, pageH, 0x6b2b22)
-        left.setOrigin(1, 0.5).setAlpha(0)
-        const right = this.addImageOrFallback(spineX, cy, "book-open-base", pageW, pageH, 0xf1e8d5)
-        right.setAlpha(0)
-
-        this.tweens.add({
-            targets: [left, right],
-            alpha: 1,
-            duration: 400,
-            onComplete: () => this.time.delayedCall(600, () => this.finish())
-        })
-    }
-
     playReducedMotionCut(width, height) {
         const fade = this.add.rectangle(width / 2, height / 2, width, height, 0x211b12, 1)
         this.tweens.add({
@@ -237,7 +213,6 @@ export default class IntroScene extends Phaser.Scene {
     finish() {
         if (this.finished) return
         this.finished = true
-        localStorage.setItem(INTRO_SEEN_KEY, "1")
         gameEvents.emit("intro:complete")
 
         const save = loadSave()

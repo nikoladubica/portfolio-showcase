@@ -5,6 +5,9 @@ import gameRoutes from './routes/game.js'
 const app = express()
 const port = Number(process.env.API_PORT ?? 4001)
 
+// Behind a reverse proxy, req.ip must come from X-Forwarded-For or the rate limiter throttles everyone as one client.
+if (process.env.TRUST_PROXY) app.set('trust proxy', Number(process.env.TRUST_PROXY))
+
 app.use(cors({ origin: process.env.CORS_ORIGIN ?? 'http://localhost:5173' }))
 app.use(express.json())
 

@@ -6,6 +6,7 @@ import { gameEvents } from "./events"
 import DiscoveryCard from "./ui/DiscoveryCard"
 import FinaleCard from "./ui/FinaleCard"
 import Leaderboard from "./ui/Leaderboard"
+import GameDialog from "./ui/GameDialog"
 
 const GamePage = () => {
     const [status, setStatus] = useState("loading")
@@ -42,7 +43,6 @@ const GamePage = () => {
     }
 
     useEffect(() => {
-        const onReady = () => console.log("game:ready")
         const onAwaitStart = () => setAwaitingStart(true)
         const onIntroComplete = () => setIntroActive(false)
         const onHudUpdate = (payload) => setHud((prev) => ({ ...prev, ...payload }))
@@ -57,7 +57,6 @@ const GamePage = () => {
         const onDiscoveryFound = (payload) => setDiscovery(payload)
         const onRunFinished = (summary) => setFinaleSummary(summary)
 
-        gameEvents.on("game:ready", onReady)
         gameEvents.on("intro:await-start", onAwaitStart)
         gameEvents.on("intro:complete", onIntroComplete)
         gameEvents.on("hud:update", onHudUpdate)
@@ -68,7 +67,6 @@ const GamePage = () => {
         gameEvents.on("run:finished", onRunFinished)
 
         return () => {
-            gameEvents.off("game:ready", onReady)
             gameEvents.off("intro:await-start", onAwaitStart)
             gameEvents.off("intro:complete", onIntroComplete)
             gameEvents.off("hud:update", onHudUpdate)
@@ -126,11 +124,12 @@ const GamePage = () => {
             if (showRestartConfirm) setShowRestartConfirm(false)
             else if (showSkipConfirm) setShowSkipConfirm(false)
             else if (showLedger) setShowLedger(false)
+            else if (discovery) setDiscovery(null)
             else if (activeIsland) startWalking()
         }
         window.addEventListener("keydown", onKeyDown)
         return () => window.removeEventListener("keydown", onKeyDown)
-    }, [showRestartConfirm, showSkipConfirm, showLedger, activeIsland])
+    }, [showRestartConfirm, showSkipConfirm, showLedger, discovery, activeIsland])
 
     return (
         <div className="min-h-screen flex flex-col bg-ink-900 text-paper-100">
@@ -183,7 +182,7 @@ const GamePage = () => {
                 .
             </p>
 
-            <div className="hidden max-[640px]:portrait:flex items-center justify-center gap-2 mx-4 mb-2 px-4 py-2 border border-brass-400 bg-[rgba(13,10,7,0.6)]">
+            <div className="hidden max-[640px]:portrait:flex items-center justify-center gap-2 mx-4 mb-2 px-4 py-2 border border-brass-400 bg-scrim/60">
                 <span className="font-mono text-xs uppercase tracking-caps text-brass-400 text-center">
                     ⟲ Rotate your device for the best experience
                 </span>
@@ -211,11 +210,11 @@ const GamePage = () => {
                 )}
 
                 {status === "ready" && (
-                    <div className="relative w-full max-w-[1280px] aspect-video border border-brass-400 shadow-[var(--shadow-gilt-frame)]">
+                    <div className="relative w-full max-w-[1280px] aspect-video border border-brass-400 shadow-gilt-frame">
                         <PhaserMount islands={islands} />
 
                         {awaitingStart && (
-                            <div className="absolute inset-0 z-10 flex items-center justify-center bg-[rgba(13,10,7,0.55)]">
+                            <div className="absolute inset-0 z-10 flex items-center justify-center bg-scrim/55">
                                 <button type="button" className="btn btn--gilt" onClick={startAnimation}>
                                     Start Animation
                                 </button>
@@ -233,7 +232,7 @@ const GamePage = () => {
                         )}
 
                         {islandProgress && (
-                            <div className="absolute bottom-3 left-3 right-3 z-10 flex items-center justify-between gap-3 bg-[rgba(13,10,7,0.78)] border border-brass-400 px-4 py-2 flex-wrap">
+                            <div className="absolute bottom-3 left-3 right-3 z-10 flex items-center justify-between gap-3 bg-scrim/78 border border-brass-400 px-4 py-2 flex-wrap">
                                 <span className="font-mono text-xs uppercase tracking-caps text-brass-400">
                                     Found {islandProgress.found} / {islandProgress.total}
                                 </span>
@@ -244,7 +243,7 @@ const GamePage = () => {
                         )}
 
                         {celebrate && (
-                            <div className="absolute top-16 left-1/2 -translate-x-1/2 z-10 bg-[rgba(13,10,7,0.85)] border border-brass-400 px-5 py-3">
+                            <div className="absolute top-16 left-1/2 -translate-x-1/2 z-10 bg-scrim/85 border border-brass-400 px-5 py-3">
                                 <p className="font-display text-lg text-brass-200 whitespace-nowrap">
                                     Isle fully charted! +{islandProgress?.total ?? 0} discoveries
                                 </p>
@@ -257,81 +256,60 @@ const GamePage = () => {
             </main>
 
             {activeIsland && (
-                <div className="fixed inset-0 z-20 flex items-center justify-center bg-[rgba(13,10,7,0.72)] p-4">
-                    <div
-                        role="dialog"
-                        aria-modal="true"
-                        aria-label={activeIsland.name}
-                        className="max-w-[50ch] w-full bg-ink-800 border border-brass-400 shadow-[var(--shadow-gilt-frame)] p-6 max-h-[90vh] overflow-y-auto"
-                    >
-                        <p className="font-mono text-xs uppercase tracking-caps text-brass-400 mb-2">
-                            {activeIsland.name}
-                        </p>
-                        <p className="font-display text-lg text-paper-100 mb-4">{activeIsland.description}</p>
-                        <div className="flex gap-3 flex-wrap">
-                            <button type="button" className="btn btn--outline btn--sm" onClick={startWalking}>
-                                Start Walking ⚓
-                            </button>
-                            <a className="btn btn--outline btn--sm" href={activeIsland.url} target="_blank" rel="noreferrer">
-                                Live ↗
-                            </a>
-                        </div>
+                <GameDialog ariaLabel={activeIsland.name} zClass="z-20">
+                    <p className="font-mono text-xs uppercase tracking-caps text-brass-400 mb-2">
+                        {activeIsland.name}
+                    </p>
+                    <p className="font-display text-lg text-paper-100 mb-4">{activeIsland.description}</p>
+                    <div className="flex gap-3 flex-wrap">
+                        <button type="button" className="btn btn--outline btn--sm" onClick={startWalking}>
+                            Start Walking ⚓
+                        </button>
+                        <a className="btn btn--outline btn--sm" href={activeIsland.url} target="_blank" rel="noreferrer">
+                            Live ↗
+                        </a>
                     </div>
-                </div>
+                </GameDialog>
             )}
 
             {showSkipConfirm && (
-                <div className="fixed inset-0 z-30 flex items-center justify-center bg-[rgba(13,10,7,0.72)] p-4">
-                    <div
-                        role="alertdialog"
-                        aria-modal="true"
-                        className="max-w-[42ch] w-full bg-ink-800 border border-brass-400 shadow-[var(--shadow-gilt-frame)] p-6 text-center max-h-[90vh] overflow-y-auto"
-                    >
-                        <p className="font-display text-lg text-paper-100 mb-4">
-                            Leave {(islandProgress?.total ?? 0) - (islandProgress?.found ?? 0)} treasures behind?
-                        </p>
-                        <div className="flex gap-3 justify-center flex-wrap">
-                            <button type="button" className="btn btn--outline btn--sm" onClick={() => setShowSkipConfirm(false)}>
-                                Keep Exploring
-                            </button>
-                            <button type="button" className="btn btn--gilt btn--sm" onClick={confirmSkip}>
-                                Set Sail ⇢
-                            </button>
-                        </div>
+                <GameDialog role="alertdialog" maxWidthClass="max-w-[42ch]" className="text-center">
+                    <p className="font-display text-lg text-paper-100 mb-4">
+                        Leave {(islandProgress?.total ?? 0) - (islandProgress?.found ?? 0)} treasures behind?
+                    </p>
+                    <div className="flex gap-3 justify-center flex-wrap">
+                        <button type="button" className="btn btn--outline btn--sm" onClick={() => setShowSkipConfirm(false)}>
+                            Keep Exploring
+                        </button>
+                        <button type="button" className="btn btn--gilt btn--sm" onClick={confirmSkip}>
+                            Set Sail ⇢
+                        </button>
                     </div>
-                </div>
+                </GameDialog>
             )}
 
             {showRestartConfirm && (
-                <div className="fixed inset-0 z-30 flex items-center justify-center bg-[rgba(13,10,7,0.72)] p-4">
-                    <div
-                        role="alertdialog"
-                        aria-modal="true"
-                        className="max-w-[42ch] w-full bg-ink-800 border border-brass-400 shadow-[var(--shadow-gilt-frame)] p-6 text-center max-h-[90vh] overflow-y-auto"
-                    >
-                        <p className="font-display text-lg text-paper-100 mb-4">
-                            Start the voyage anew? Your charted isles and score will be lost.
-                        </p>
-                        <div className="flex gap-3 justify-center flex-wrap">
-                            <button type="button" className="btn btn--outline btn--sm" onClick={() => setShowRestartConfirm(false)}>
-                                Keep Sailing
-                            </button>
-                            <button type="button" className="btn btn--gilt btn--sm" onClick={startOver}>
-                                Start Over ⟲
-                            </button>
-                        </div>
+                <GameDialog role="alertdialog" maxWidthClass="max-w-[42ch]" className="text-center">
+                    <p className="font-display text-lg text-paper-100 mb-4">
+                        Start the voyage anew? Your charted isles and score will be lost.
+                    </p>
+                    <div className="flex gap-3 justify-center flex-wrap">
+                        <button type="button" className="btn btn--outline btn--sm" onClick={() => setShowRestartConfirm(false)}>
+                            Keep Sailing
+                        </button>
+                        <button type="button" className="btn btn--gilt btn--sm" onClick={startOver}>
+                            Start Over ⟲
+                        </button>
                     </div>
-                </div>
+                </GameDialog>
             )}
 
             {finaleSummary && <FinaleCard summary={finaleSummary} />}
 
             {showLedger && !finaleSummary && (
-                <div className="fixed inset-0 z-40 flex items-center justify-center bg-[rgba(13,10,7,0.85)] p-4">
-                    <div role="dialog" aria-modal="true" aria-label="The Ledger" className="max-h-[90vh] overflow-y-auto">
-                        <Leaderboard onClose={() => setShowLedger(false)} />
-                    </div>
-                </div>
+                <GameDialog ariaLabel="The Ledger" zClass="z-40" scrimClass="bg-scrim/85" maxWidthClass="" chrome={false}>
+                    <Leaderboard onClose={() => setShowLedger(false)} />
+                </GameDialog>
             )}
         </div>
     )

@@ -7,11 +7,10 @@ import IslandScene from "./scenes/IslandScene"
 
 const PhaserMount = ({ islands }) => {
     const containerRef = useRef(null)
-    const gameRef = useRef(null)
 
     useEffect(() => {
         const game = new Phaser.Game({
-            type: Phaser.AUTO,
+            type: Phaser.CANVAS,
             parent: containerRef.current,
             width: 1280,
             height: 720,
@@ -28,11 +27,17 @@ const PhaserMount = ({ islands }) => {
         })
 
         game.registry.set("islands", islands)
-        gameRef.current = game
+
+        // Canvas can go blank after a tab switch/resize; refresh the scale manager
+        // when the document returns to the foreground to re-fit and repaint.
+        const onVisibility = () => {
+            if (!document.hidden) game.scale.refresh()
+        }
+        document.addEventListener("visibilitychange", onVisibility)
 
         return () => {
+            document.removeEventListener("visibilitychange", onVisibility)
             game.destroy(true)
-            gameRef.current = null
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps -- islands are seeded once at mount via the registry, not reactively
     }, [])

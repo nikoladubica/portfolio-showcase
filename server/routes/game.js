@@ -125,7 +125,8 @@ router.post('/scores', async (req, res, next) => {
             [cleanName, score, islandsCompleted, Math.round(durationSeconds)]
         )
 
-        const [[{ rank }]] = await pool.query('SELECT COUNT(*) + 1 AS rank FROM scores WHERE score > ?', [score])
+        // RANK is a reserved word on MySQL 8 — alias it player_rank to stay portable.
+        const [[{ player_rank: rank }]] = await pool.query('SELECT COUNT(*) + 1 AS player_rank FROM scores WHERE score > ?', [score])
 
         res.status(201).json({
             id: result.insertId,

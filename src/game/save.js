@@ -95,7 +95,8 @@ export function setLastPlayerName(name) {
 // leaving the game in a background tab doesn't inflate the score-plausibility duration.
 export function getRunDurationSeconds(save) {
     const elapsed = Date.now() - save.runStartedAt - (save.pausedMs ?? 0)
-    return Math.max(0, Math.round(elapsed / 1000))
+    // Clamp to 1s minimum: the server rejects a durationSeconds of 0 (an instant run).
+    return Math.max(1, Math.round(elapsed / 1000))
 }
 
 let hiddenSince = null

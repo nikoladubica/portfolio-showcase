@@ -79,6 +79,9 @@ npm run dev            # http://localhost:4001, auto-restarts on change (node --
 
 `db:seed` is idempotent — re-running it re-syncs islands/discoverables from
 `src/data/projects.js` without touching the `scores` table or duplicating rows.
+Note that reseeding deletes and reinserts discoverables, changing their IDs — after
+reseeding in production, bump `SAVE_VERSION` in `src/game/save.js` so stale
+localStorage saves are wiped cleanly.
 
 ### Deploying the game (SPA + server + MariaDB)
 

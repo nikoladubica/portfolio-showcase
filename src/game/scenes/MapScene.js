@@ -91,7 +91,7 @@ export default class MapScene extends Phaser.Scene {
             this.setupInteraction(currentIslandId, save)
         }
 
-        if (save.runFinished && this.result && !animateSail) {
+        if (save.runFinished && !animateSail) {
             this.emitFinale(save)
         }
     }

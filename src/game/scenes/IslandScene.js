@@ -104,10 +104,14 @@ export default class IslandScene extends Phaser.Scene {
         const onExit = ({ skip }) => this.exitIsland(skip)
         gameEvents.on("island:start", onStart)
         gameEvents.on("island:exit", onExit)
-        this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
+        // Scenes emit SHUTDOWN on scene swap but DESTROY on game teardown (React unmount /
+        // StrictMode) — clean up on both so listeners don't leak on the gameEvents singleton.
+        const cleanup = () => {
             gameEvents.off("island:start", onStart)
             gameEvents.off("island:exit", onExit)
-        })
+        }
+        this.events.once(Phaser.Scenes.Events.SHUTDOWN, cleanup)
+        this.events.once(Phaser.Scenes.Events.DESTROY, cleanup)
 
         gameEvents.emit("island:intro", {
             name: this.island.name,
@@ -257,7 +261,11 @@ export default class IslandScene extends Phaser.Scene {
         const found = getFoundIds(save, this.island.id).length
         const completed = total > 0 && found === total
 
-        gameEvents.emit("hud:update", { score: save.score })
+        gameEvents.emit("hud:update", {
+            score: save.score,
+            isleLabel: `Isle ${this.island.sortOrder} of ${this.islands.length}`,
+            islandName: this.island.name
+        })
         gameEvents.emit("island:progress", { islandId: this.island.id, found, total, completed })
     }
 
