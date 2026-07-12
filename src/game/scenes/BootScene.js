@@ -1,7 +1,6 @@
 import Phaser from "phaser"
 
 const ASSETS = [
-    ["map-parchment", "/img/game/intro/map-parchment.webp"],
     ["cloud-1", "/img/game/intro/cloud-1.webp"],
     ["cloud-2", "/img/game/intro/cloud-2.webp"],
     ["cloud-3", "/img/game/intro/cloud-3.webp"],
@@ -18,13 +17,14 @@ const ASSETS = [
     ["discovery-glint", "/img/game/island/discovery-glint.webp"]
 ]
 
-// Intro book pieces, rasterised at their native SVG size so they stay crisp
-// through the camera's dive into the map. Loaded via load.svg (vector), the rest
-// are load.image (webp).
-const BOOK_SVGS = [
+// Intro pieces (book faces + the world-map parchment), rasterised well above
+// their display size so they stay crisp through the camera's dive into the map.
+// Loaded via load.svg (vector), the rest are load.image (webp).
+const INTRO_SVGS = [
     ["book-cover-front", "/img/game/intro/book-cover-front.svg", { width: 1500, height: 2000 }],
     ["book-cover-inner", "/img/game/intro/book-cover-inner.svg", { width: 1500, height: 2000 }],
-    ["book-open-base", "/img/game/intro/book-open-base.svg", { width: 1500, height: 2000 }]
+    ["book-open-base", "/img/game/intro/book-open-base.svg", { width: 1500, height: 2000 }],
+    ["map-parchment", "/img/game/intro/map-parchment.svg", { width: 1717, height: 2500 }]
 ]
 
 const SPRITESHEETS = [["player", "/img/game/island/player.webp", { frameWidth: 32, frameHeight: 48 }]]
@@ -61,7 +61,7 @@ export default class BootScene extends Phaser.Scene {
             this.load.image(key, url)
         }
 
-        for (const [key, url, size] of BOOK_SVGS) {
+        for (const [key, url, size] of INTRO_SVGS) {
             this.load.svg(key, url, size)
         }
 

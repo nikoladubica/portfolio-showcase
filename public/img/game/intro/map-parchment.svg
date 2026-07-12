@@ -1,0 +1,236 @@
+<svg viewBox="0 0 1030 1500" xmlns="http://www.w3.org/2000/svg" font-family="Georgia, 'Times New Roman', serif">
+  <defs>
+    <!-- Parchment ground: warm centre falling to toasted edges -->
+    <radialGradient id="paper" cx="0.5" cy="0.42" r="0.85">
+      <stop offset="0" stop-color="#f2e6c6"/>
+      <stop offset="0.55" stop-color="#e9dab4"/>
+      <stop offset="0.85" stop-color="#dcc79c"/>
+      <stop offset="1" stop-color="#cbb183"/>
+    </radialGradient>
+    <radialGradient id="vign" cx="0.5" cy="0.5" r="0.72">
+      <stop offset="0.55" stop-color="#8a6a3f" stop-opacity="0"/>
+      <stop offset="1" stop-color="#8a6a3f" stop-opacity="0.22"/>
+    </radialGradient>
+
+    <!-- Large watery mottling + fine grain, both pure turbulence -->
+    <filter id="blotch" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.006 0.009" numOctaves="3" seed="11"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 0.55  0 0 0 0 0.44  0 0 0 0 0.26  0 0 0 0.5 0"/>
+    </filter>
+    <filter id="grain" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.5" numOctaves="2" seed="4"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 0.36  0 0 0 0 0.28  0 0 0 0 0.16  0 0 0 0.3 0"/>
+    </filter>
+    <filter id="soft"><feGaussianBlur stdDeviation="7"/></filter>
+    <filter id="soften"><feGaussianBlur stdDeviation="14"/></filter>
+
+    <!-- Guilloche ribbon for the border band -->
+    <pattern id="ribbonH" width="64" height="36" patternUnits="userSpaceOnUse">
+      <rect width="64" height="36" fill="#d8d2ab"/>
+      <path d="M0 18 C16 -2 24 -2 32 18 C40 38 48 38 64 18" stroke="#a8842e" stroke-width="5" fill="none"/>
+      <path d="M0 18 C16 38 24 38 32 18 C40 -2 48 -2 64 18" stroke="#c2a35e" stroke-width="5" fill="none"/>
+    </pattern>
+    <pattern id="ribbonV" width="64" height="36" patternUnits="userSpaceOnUse" patternTransform="rotate(90)">
+      <rect width="64" height="36" fill="#d8d2ab"/>
+      <path d="M0 18 C16 -2 24 -2 32 18 C40 38 48 38 64 18" stroke="#a8842e" stroke-width="5" fill="none"/>
+      <path d="M0 18 C16 38 24 38 32 18 C40 -2 48 -2 64 18" stroke="#c2a35e" stroke-width="5" fill="none"/>
+    </pattern>
+
+    <clipPath id="sea"><rect x="90" y="90" width="850" height="1320"/></clipPath>
+
+    <!-- Six coastlines, local coords, (0,0) on land so the intro's dots hit shore.
+         Painted several times each via <use>: glow, offset rings, land, terrain tints. -->
+    <path id="i1" d="M -42 -66 C -20 -84 8 -92 32 -84 C 56 -76 82 -60 94 -38 C 106 -18 112 4 108 26 C 104 48 94 64 80 76 C 62 90 40 94 18 90 C -2 87 -22 84 -38 74 C -52 66 -56 52 -50 40 C -45 30 -54 24 -50 12 C -46 2 -52 -12 -48 -26 C -44 -42 -52 -56 -42 -66 Z"/>
+    <path id="i2" d="M -100 -10 C -104 -34 -86 -52 -62 -54 C -40 -56 -22 -44 -16 -26 C -12 -14 -2 -10 12 -14 C 28 -50 58 -62 82 -52 C 102 -43 108 -20 102 2 C 96 26 78 48 54 60 C 30 71 6 68 -8 54 C -18 44 -34 46 -50 40 C -74 32 -96 14 -100 -10 Z"/>
+    <path id="i3" d="M -96 8 C -104 -18 -92 -44 -66 -56 C -38 -70 -2 -74 30 -66 C 62 -58 88 -40 100 -14 C 110 8 106 32 92 50 C 80 66 62 74 46 68 C 32 63 30 48 40 36 C 50 24 46 12 30 8 C 8 3 -12 10 -24 26 C -34 40 -52 46 -68 40 C -84 34 -92 22 -96 8 Z"/>
+    <path id="i4" d="M -116 14 C -120 -2 -108 -16 -88 -22 C -60 -30 -30 -34 0 -40 C 30 -46 62 -50 88 -42 C 108 -36 120 -20 116 -4 C 112 12 94 22 72 26 C 44 32 14 30 -14 34 C -44 38 -76 44 -98 36 C -110 32 -114 24 -116 14 Z"/>
+    <path id="i5" d="M -78 -22 C -70 -50 -44 -70 -14 -76 C 6 -80 18 -66 34 -70 C 54 -74 76 -58 84 -34 C 92 -12 88 14 76 36 C 64 58 42 74 16 78 C -10 82 -38 74 -58 56 C -76 40 -86 8 -78 -22 Z"/>
+    <path id="i6" d="M 6 -12 C 12 -30 0 -44 -20 -44 C -44 -44 -66 -32 -76 -12 C -84 4 -78 24 -60 36 C -42 47 -18 46 -4 34 C 6 25 0 10 6 -12 Z"/>
+  </defs>
+
+  <!-- ══ Ground ══ -->
+  <rect width="1030" height="1500" fill="url(#paper)"/>
+  <rect width="1030" height="1500" filter="url(#blotch)" opacity="0.4"/>
+
+  <!-- ══ Border: gold rule, guilloche band, corner rosettes, layered inner rules ══ -->
+  <rect x="4" y="4" width="1022" height="1492" fill="none" stroke="#7c5f1f" stroke-width="3"/>
+  <rect x="46" y="10" width="938" height="36" fill="url(#ribbonH)"/>
+  <rect x="46" y="1454" width="938" height="36" fill="url(#ribbonH)"/>
+  <rect x="10" y="46" width="36" height="1408" fill="url(#ribbonV)"/>
+  <rect x="984" y="46" width="36" height="1408" fill="url(#ribbonV)"/>
+  <g fill="#d8d2ab" stroke="#a8842e" stroke-width="2">
+    <rect x="10" y="10" width="36" height="36"/>
+    <rect x="984" y="10" width="36" height="36"/>
+    <rect x="10" y="1454" width="36" height="36"/>
+    <rect x="984" y="1454" width="36" height="36"/>
+  </g>
+  <g fill="#c2a35e" stroke="#7a2e22" stroke-width="2">
+    <circle cx="28" cy="28" r="9"/><circle cx="1002" cy="28" r="9"/>
+    <circle cx="28" cy="1472" r="9"/><circle cx="1002" cy="1472" r="9"/>
+  </g>
+  <rect x="56" y="56" width="918" height="1388" fill="none" stroke="#7c5f1f" stroke-width="2"/>
+  <rect x="64" y="64" width="902" height="1372" fill="none" stroke="#7a2e22" stroke-width="4" opacity="0.75"/>
+  <rect x="74" y="74" width="882" height="1352" fill="none" stroke="#8a8f6a" stroke-width="3" opacity="0.8"/>
+  <rect x="82" y="82" width="866" height="1336" fill="none" stroke="#a8842e" stroke-width="1.5"/>
+
+  <!-- ══ Graticule ══ -->
+  <g stroke="#8b6f4a" stroke-width="1.2" opacity="0.35">
+    <path d="M260 90 V1410 M430 90 V1410 M600 90 V1410 M770 90 V1410"/>
+    <path d="M90 310 H940 M90 530 H940 M90 750 H940 M90 970 H940 M90 1190 H940"/>
+  </g>
+  <g font-size="17" fill="#8b6f4a" opacity="0.85" text-anchor="middle">
+    <text x="260" y="77">166°</text><text x="430" y="77">165°</text><text x="600" y="77">164°</text><text x="770" y="77">163°</text>
+    <text x="260" y="1430">166°</text><text x="430" y="1430">165°</text><text x="600" y="1430">164°</text><text x="770" y="1430">163°</text>
+    <text x="71" y="316">24°</text><text x="71" y="536">23°</text><text x="71" y="756">22°</text><text x="71" y="976">21°</text><text x="71" y="1196">20°</text>
+    <text x="959" y="316">24°</text><text x="959" y="536">23°</text><text x="959" y="756">22°</text><text x="959" y="976">21°</text><text x="959" y="1196">20°</text>
+  </g>
+
+  <!-- ══ Rhumb lines radiating from the compass station ══ -->
+  <g clip-path="url(#sea)" stroke="#6b5a3c" stroke-width="1.5" opacity="0.08">
+    <path d="M-925 750 H2075 M575 -750 V2250"/>
+    <path d="M-811 176 L1961 1324 M-811 1324 L1961 176"/>
+    <path d="M-486 -311 L1636 1811 M-486 1811 L1636 -311"/>
+    <path d="M1 -636 L1149 2136 M1 2136 L1149 -636"/>
+  </g>
+
+  <!-- ══ The captain's course, threading the six isles ══ -->
+  <path d="M 154 1170 C 180 1010 240 810 309 720 S 440 930 494.4 1020 S 600 590 638.6 480 S 760 740 803.4 840 S 900 460 927 330"
+        fill="none" stroke="#4a3b28" stroke-width="3" stroke-linecap="round" stroke-dasharray="2 14" opacity="0.35"/>
+
+  <!-- ══ Ocean lettering ══ -->
+  <g font-size="46" fill="#8f955f" opacity="0.8" letter-spacing="2">
+    <text x="190" y="868">M</text><text x="226" y="924">A</text><text x="256" y="982">R</text><text x="284" y="1042">E</text>
+  </g>
+  <g font-size="44" fill="#8f955f" opacity="0.8" text-anchor="middle">
+    <text x="556" y="1268">I</text><text x="606" y="1290">G</text><text x="658" y="1304">N</text><text x="710" y="1308">O</text>
+    <text x="762" y="1302">T</text><text x="812" y="1286">V</text><text x="860" y="1262">M</text>
+  </g>
+
+  <!-- ══ Isle I — the great southern isle (15, 78) ══ -->
+  <g transform="translate(154.5 1170)">
+    <use href="#i1" fill="none" stroke="#6fa39b" stroke-width="24" opacity="0.3" filter="url(#soft)"/>
+    <use href="#i1" transform="scale(1.13)" fill="none" stroke="#5f948f" stroke-width="1.6" opacity="0.5"/>
+    <use href="#i1" transform="scale(1.28)" fill="none" stroke="#5f948f" stroke-width="1.4" opacity="0.3" stroke-dasharray="3 6"/>
+    <use href="#i1" fill="#e6d7a8" stroke="#43351f" stroke-width="3"/>
+    <use href="#i1" transform="scale(0.62)" fill="#9aa06b" opacity="0.9"/>
+    <use href="#i1" transform="scale(0.34)" fill="#77804b" opacity="0.85"/>
+    <path d="M -8 -30 L 6 -16 M 14 -38 L 28 -22 M 30 -6 L 44 6 M -26 6 L -12 18" stroke="#57603a" stroke-width="2.5" stroke-linecap="round" opacity="0.7"/>
+  </g>
+
+  <!-- ══ Isle II — the twin-lobed isle (30, 48) ══ -->
+  <g transform="translate(309 720)">
+    <use href="#i2" fill="none" stroke="#6fa39b" stroke-width="24" opacity="0.3" filter="url(#soft)"/>
+    <use href="#i2" transform="scale(1.13)" fill="none" stroke="#5f948f" stroke-width="1.6" opacity="0.5"/>
+    <use href="#i2" transform="scale(1.28)" fill="none" stroke="#5f948f" stroke-width="1.4" opacity="0.3" stroke-dasharray="3 6"/>
+    <use href="#i2" fill="#e6d7a8" stroke="#43351f" stroke-width="3"/>
+    <use href="#i2" transform="scale(0.62)" fill="#9aa06b" opacity="0.9"/>
+    <use href="#i2" transform="scale(0.34)" fill="#77804b" opacity="0.85"/>
+    <path d="M -68 -30 L -56 -18 M 52 -28 L 64 -14 M 38 6 L 52 18" stroke="#57603a" stroke-width="2.5" stroke-linecap="round" opacity="0.7"/>
+    <ellipse cx="88" cy="-64" rx="9" ry="6" fill="#e6d7a8" stroke="#43351f" stroke-width="2"/>
+  </g>
+
+  <!-- ══ Isle III — the crescent isle, with her southern bay (48, 68) ══ -->
+  <g transform="translate(494.4 1020)">
+    <use href="#i3" fill="none" stroke="#6fa39b" stroke-width="24" opacity="0.3" filter="url(#soft)"/>
+    <use href="#i3" transform="scale(1.13)" fill="none" stroke="#5f948f" stroke-width="1.6" opacity="0.5"/>
+    <use href="#i3" transform="scale(1.28)" fill="none" stroke="#5f948f" stroke-width="1.4" opacity="0.3" stroke-dasharray="3 6"/>
+    <use href="#i3" fill="#e6d7a8" stroke="#43351f" stroke-width="3"/>
+    <use href="#i3" transform="scale(0.62)" fill="#9aa06b" opacity="0.9"/>
+    <use href="#i3" transform="scale(0.34)" fill="#77804b" opacity="0.85"/>
+    <path d="M -50 -28 L -36 -16 M -6 -44 L 8 -32 M 52 -26 L 66 -12" stroke="#57603a" stroke-width="2.5" stroke-linecap="round" opacity="0.7"/>
+  </g>
+
+  <!-- ══ Isle IV — the long reef isle (62, 32) ══ -->
+  <g transform="translate(638.6 480)">
+    <use href="#i4" fill="none" stroke="#6fa39b" stroke-width="24" opacity="0.3" filter="url(#soft)"/>
+    <use href="#i4" transform="scale(1.13)" fill="none" stroke="#5f948f" stroke-width="1.6" opacity="0.5"/>
+    <use href="#i4" transform="scale(1.28)" fill="none" stroke="#5f948f" stroke-width="1.4" opacity="0.3" stroke-dasharray="3 6"/>
+    <use href="#i4" fill="#e6d7a8" stroke="#43351f" stroke-width="3"/>
+    <use href="#i4" transform="scale(0.62)" fill="#9aa06b" opacity="0.9"/>
+    <use href="#i4" transform="scale(0.34)" fill="#77804b" opacity="0.85"/>
+    <path d="M -70 -6 L -56 2 M -28 -14 L -14 -6 M 16 -22 L 30 -14 M 58 -24 L 72 -16" stroke="#57603a" stroke-width="2.5" stroke-linecap="round" opacity="0.7"/>
+    <ellipse cx="146" cy="-38" rx="10" ry="6" fill="#e6d7a8" stroke="#43351f" stroke-width="2"/>
+  </g>
+
+  <!-- ══ Isle V — the round isle of the ridges (78, 56) ══ -->
+  <g transform="translate(803.4 840)">
+    <use href="#i5" fill="none" stroke="#6fa39b" stroke-width="24" opacity="0.3" filter="url(#soft)"/>
+    <use href="#i5" transform="scale(1.13)" fill="none" stroke="#5f948f" stroke-width="1.6" opacity="0.5"/>
+    <use href="#i5" transform="scale(1.28)" fill="none" stroke="#5f948f" stroke-width="1.4" opacity="0.3" stroke-dasharray="3 6"/>
+    <use href="#i5" fill="#e6d7a8" stroke="#43351f" stroke-width="3"/>
+    <use href="#i5" transform="scale(0.62)" fill="#9aa06b" opacity="0.9"/>
+    <use href="#i5" transform="scale(0.34)" fill="#77804b" opacity="0.85"/>
+    <path d="M -30 -34 L -16 -22 M 10 -40 L 24 -28 M 26 6 L 40 18 M -34 18 L -20 30" stroke="#57603a" stroke-width="2.5" stroke-linecap="round" opacity="0.7"/>
+  </g>
+
+  <!-- ══ Isle VI — the far teardrop, hugging the chart's edge (90, 22) ══ -->
+  <g transform="translate(927 330)">
+    <use href="#i6" fill="none" stroke="#6fa39b" stroke-width="24" opacity="0.3" filter="url(#soft)"/>
+    <use href="#i6" transform="scale(1.13)" fill="none" stroke="#5f948f" stroke-width="1.6" opacity="0.5"/>
+    <use href="#i6" fill="#e6d7a8" stroke="#43351f" stroke-width="3"/>
+    <use href="#i6" transform="scale(0.62)" fill="#9aa06b" opacity="0.9"/>
+    <use href="#i6" transform="scale(0.34)" fill="#77804b" opacity="0.85"/>
+    <path d="M -52 -18 L -40 -8 M -30 8 L -18 18" stroke="#57603a" stroke-width="2.5" stroke-linecap="round" opacity="0.7"/>
+    <ellipse cx="-62" cy="66" rx="8" ry="5" fill="#e6d7a8" stroke="#43351f" stroke-width="2"/>
+  </g>
+
+  <!-- ══ Sea serpent, ship ══ -->
+  <g transform="translate(600 195)" stroke="#5f6b3c" stroke-width="4" fill="none" stroke-linecap="round">
+    <path d="M -70 10 C -60 -14 -44 -14 -34 10 M -20 10 C -10 -16 8 -16 18 10 M 32 10 C 40 -10 52 -12 60 2"/>
+    <path d="M 60 2 C 70 -10 84 -8 88 0 C 84 8 72 8 64 6" fill="#8f955f" stroke-width="2.5"/>
+    <circle cx="78" cy="-2" r="1.8" fill="#43351f" stroke="none"/>
+  </g>
+  <g transform="translate(700 1115)">
+    <path d="M -36 4 C -32 18 32 18 36 2 L 42 -4 L -42 -4 Z" fill="#6b3a24" stroke="#43351f" stroke-width="2"/>
+    <path d="M -10 -4 V -40 M 14 -4 V -34" stroke="#43351f" stroke-width="2.5"/>
+    <path d="M -10 -40 C -28 -28 -28 -14 -10 -6 Z" fill="#efe4c6" stroke="#43351f" stroke-width="1.5"/>
+    <path d="M 14 -34 C 30 -24 30 -12 14 -6 Z" fill="#efe4c6" stroke="#43351f" stroke-width="1.5"/>
+    <path d="M -10 -40 L 2 -36 L -10 -32 Z" fill="#7a2e22"/>
+    <path d="M -56 14 C -48 8 -40 8 -32 14 M 34 16 C 42 10 50 10 58 16" fill="none" stroke="#5f948f" stroke-width="2" opacity="0.6"/>
+  </g>
+
+  <!-- ══ Compass rose ══ -->
+  <g transform="translate(575 750)">
+    <circle r="68" fill="#e9dab4" opacity="0.7"/>
+    <circle r="62" fill="none" stroke="#a8842e" stroke-width="3"/>
+    <circle r="50" fill="none" stroke="#7a2e22" stroke-width="1.5" opacity="0.8"/>
+    <g transform="rotate(45) scale(0.6)">
+      <g><path d="M0 -58 L-9 -9 L0 0 Z" fill="#c2a35e"/><path d="M0 -58 L9 -9 L0 0 Z" fill="#43351f"/></g>
+      <g transform="rotate(90)"><path d="M0 -58 L-9 -9 L0 0 Z" fill="#c2a35e"/><path d="M0 -58 L9 -9 L0 0 Z" fill="#43351f"/></g>
+      <g transform="rotate(180)"><path d="M0 -58 L-9 -9 L0 0 Z" fill="#c2a35e"/><path d="M0 -58 L9 -9 L0 0 Z" fill="#43351f"/></g>
+      <g transform="rotate(270)"><path d="M0 -58 L-9 -9 L0 0 Z" fill="#c2a35e"/><path d="M0 -58 L9 -9 L0 0 Z" fill="#43351f"/></g>
+    </g>
+    <g><path d="M0 -58 L-9 -9 L0 0 Z" fill="#e6d7a8" stroke="#7c5f1f" stroke-width="1"/><path d="M0 -58 L9 -9 L0 0 Z" fill="#7a2e22"/></g>
+    <g transform="rotate(90)"><path d="M0 -58 L-9 -9 L0 0 Z" fill="#e6d7a8" stroke="#7c5f1f" stroke-width="1"/><path d="M0 -58 L9 -9 L0 0 Z" fill="#7a2e22"/></g>
+    <g transform="rotate(180)"><path d="M0 -58 L-9 -9 L0 0 Z" fill="#e6d7a8" stroke="#7c5f1f" stroke-width="1"/><path d="M0 -58 L9 -9 L0 0 Z" fill="#7a2e22"/></g>
+    <g transform="rotate(270)"><path d="M0 -58 L-9 -9 L0 0 Z" fill="#e6d7a8" stroke="#7c5f1f" stroke-width="1"/><path d="M0 -58 L9 -9 L0 0 Z" fill="#7a2e22"/></g>
+    <circle r="7" fill="#7a2e22" stroke="#c2a35e" stroke-width="2"/>
+    <text y="-76" font-size="24" fill="#43351f" text-anchor="middle" font-weight="bold">N</text>
+  </g>
+
+  <!-- ══ Title cartouche ══ -->
+  <g transform="translate(300 208)">
+    <path d="M -64 -100 C -32 -114 32 -114 64 -100 L 64 -82 C 32 -96 -32 -96 -64 -82 Z" fill="#c2a35e" stroke="#7c5f1f" stroke-width="2"/>
+    <ellipse rx="180" ry="84" fill="#cfc9a4" stroke="#7c5f1f" stroke-width="5"/>
+    <ellipse rx="166" ry="72" fill="none" stroke="#7a2e22" stroke-width="2"/>
+    <text y="-24" font-size="28" fill="#6b2b22" text-anchor="middle" letter-spacing="8">THE</text>
+    <text y="38" font-size="52" fill="#6b2b22" text-anchor="middle" letter-spacing="4" font-weight="bold">SIX ISLES</text>
+    <g transform="translate(0 92)">
+      <path d="M -34 0 C -44 -10 -56 -10 -64 -2 C -54 6 -42 6 -34 0 Z M 34 0 C 44 -10 56 -10 64 -2 C 54 6 42 6 34 0 Z" fill="#8a8f6a"/>
+      <circle cx="-18" cy="0" r="8" fill="#b04a32"/>
+      <circle r="10" fill="#c2a35e" stroke="#7c5f1f" stroke-width="1.5"/>
+      <circle cx="18" cy="0" r="8" fill="#b04a32"/>
+    </g>
+    <text y="140" font-size="21" fill="#6b5a3c" text-anchor="middle" font-style="italic" font-family="'Snell Roundhand', 'Segoe Script', cursive">N. Čučuković — MMXXVI</text>
+  </g>
+
+  <!-- ══ Age: stains, grain, edge-burn ══ -->
+  <g filter="url(#soften)">
+    <ellipse cx="740" cy="560" rx="62" ry="42" fill="#b99b66" opacity="0.16"/>
+    <ellipse cx="250" cy="1280" rx="84" ry="52" fill="#b99b66" opacity="0.13"/>
+    <ellipse cx="500" cy="300" rx="42" ry="30" fill="#b99b66" opacity="0.11"/>
+    <ellipse cx="880" cy="1150" rx="50" ry="34" fill="#b99b66" opacity="0.1"/>
+  </g>
+  <rect width="1030" height="1500" filter="url(#grain)" opacity="0.35"/>
+  <rect width="1030" height="1500" fill="url(#vign)"/>
+</svg>
