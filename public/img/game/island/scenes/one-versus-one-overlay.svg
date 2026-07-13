@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2560 1440" width="2560" height="1440">
+  <!-- TEMPORARY hand-made test overlay — replace with the Figma export
+       (frame "one-versus-one-interior", layer "overlay") at this same path.
+       Only elements that should pass IN FRONT of the player belong here. -->
+
+  <!-- palm canopies above the trunks drawn in the ground layer; near the
+       centre spawn so walking under them shows the occlusion immediately -->
+  <g fill="#5b7a3a" stroke="#46602c" stroke-width="8" stroke-linejoin="round">
+    <path d="M1104 505 C1010 460 940 470 880 520 C960 505 1030 515 1104 545 Z"/>
+    <path d="M1104 505 C1190 445 1275 450 1340 500 C1260 480 1180 490 1104 540 Z"/>
+    <path d="M1104 505 C1075 420 1090 355 1140 310 C1115 380 1115 440 1130 500 Z"/>
+    <path d="M1440 495 C1350 445 1275 450 1210 505 C1295 485 1370 495 1440 530 Z"/>
+    <path d="M1440 495 C1530 440 1610 450 1670 505 C1590 480 1515 488 1440 528 Z"/>
+    <path d="M1440 495 C1420 410 1440 345 1495 305 C1465 375 1460 435 1465 490 Z"/>
+  </g>
+</svg>

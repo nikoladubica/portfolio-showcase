@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 200" fill="none">
+  <!-- Hand-made placeholder in the antique-chart style; replace with the real
+       Figma export for this slug (see ticket 09 authoring guide). -->
+  <!-- landmass -->
+  <path
+    d="M 38 120
+       C 30 96 48 74 74 66
+       C 88 46 122 38 146 46
+       C 176 34 214 44 228 66
+       C 250 76 256 100 244 118
+       C 250 138 232 156 206 158
+       C 186 172 150 176 124 166
+       C 96 174 62 164 52 146
+       C 40 140 34 130 38 120 Z"
+    fill="#e8dcc0" stroke="#211b12" stroke-width="3" stroke-linejoin="round" />
+  <!-- inland shading ridge -->
+  <path
+    d="M 84 120 C 100 96 140 88 172 98 C 196 104 212 118 210 132"
+    stroke="#c9b88c" stroke-width="8" stroke-linecap="round" opacity="0.7" />
+  <!-- coastline hatching -->
+  <g stroke="#211b12" stroke-width="1.5" opacity="0.5" stroke-linecap="round">
+    <path d="M 52 148 L 44 156" />
+    <path d="M 72 160 L 66 170" />
+    <path d="M 110 172 L 106 182" />
+    <path d="M 168 172 L 172 182" />
+    <path d="M 214 156 L 222 164" />
+    <path d="M 242 124 L 252 128" />
+  </g>
+  <!-- duel tower landmark -->
+  <g>
+    <rect x="128" y="86" width="24" height="42" fill="#c2a35e" stroke="#211b12" stroke-width="2.5" />
+    <path d="M 124 86 L 128 76 L 134 84 L 140 74 L 146 84 L 152 76 L 156 86 Z"
+      fill="#c2a35e" stroke="#211b12" stroke-width="2.5" stroke-linejoin="round" />
+    <rect x="136" y="106" width="8" height="12" fill="#211b12" />
+    <!-- crossed pennants: one versus one -->
+    <path d="M 122 92 L 106 78 L 108 90 Z" fill="#8a2f2b" stroke="#211b12" stroke-width="2" stroke-linejoin="round" />
+    <path d="M 158 92 L 174 78 L 172 90 Z" fill="#8a2f2b" stroke="#211b12" stroke-width="2" stroke-linejoin="round" />
+  </g>
+  <!-- grove -->
+  <g stroke="#211b12" stroke-width="2" stroke-linejoin="round">
+    <circle cx="196" cy="118" r="9" fill="#c9b88c" />
+    <circle cx="210" cy="126" r="7" fill="#c9b88c" />
+    <path d="M 196 127 L 196 138 M 210 133 L 210 142" stroke-linecap="round" />
+  </g>
+</svg>

@@ -58,3 +58,49 @@ An "antique broadsheet" theme built on Tailwind v4 tokens defined in `src/index.
 ## Deployment
 
 Build with `npm run build`; the static output in `dist/` can be served by any static host.
+
+## Running the backend (game)
+
+The "Get to Know Me" game (`game.html`) is backed by an Express + MariaDB API in `server/`,
+kept out of the main app's `package.json` and bundle.
+
+```bash
+# MariaDB, if you don't already have it running:
+brew install mariadb && brew services start mariadb
+# or: docker run -d -p 3306:3306 -e MARIADB_ROOT_PASSWORD= -e MARIADB_ALLOW_EMPTY_ROOT_PASSWORD=yes mariadb:11
+
+cp .env.example .env   # fill in DB_* vars for your local MariaDB
+cd server
+npm install
+npm run db:setup       # creates the database + tables
+npm run db:seed        # seeds islands/discoverables from src/data/projects.js
+npm run dev            # http://localhost:4001, auto-restarts on change (node --watch)
+```
+
+`db:seed` is idempotent — re-running it re-syncs islands/discoverables from
+`src/data/projects.js` without touching the `scores` table or duplicating rows.
+Note that reseeding deletes and reinserts discoverables, changing their IDs — after
+reseeding in production, bump `SAVE_VERSION` in `src/game/save.js` so stale
+localStorage saves are wiped cleanly.
+
+### Deploying the game (SPA + server + MariaDB)
+
+- **Build**: `npm run build` outputs a static `dist/` with two HTML entries — `index.html`
+  (the main site) and `game.html` (the game, Phaser code-split into its own chunk). Serve
+  `dist/` from any static host or from the same Node process as the API.
+- **Server**: `cd server && npm install && npm start` runs the Express app (`server/index.js`)
+  as a plain Node process. It expects `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD`,
+  `DB_NAME`, `API_PORT` in the environment (see `.env.example`) — run
+  `npm run db:setup && npm run db:seed` once per environment before first use.
+- **Routing `/api/*` in production**: put a reverse proxy (nginx, Caddy, or the same host's
+  existing web server) in front of both processes so `/api/*` reaches the Express app and
+  everything else serves `dist/`. With `/api/*` on the same origin as the site,
+  `VITE_API_URL` can stay unset in the production build (the front-end falls back to a
+  same-origin relative path only if you remove the `http://localhost:4001` default in
+  `src/game/api.js` — otherwise set `VITE_API_URL` to the public API origin at build time).
+- **CORS**: `server/index.js` reads `CORS_ORIGIN` from the environment — set it to the real
+  production origin (e.g. `https://nikolacucukovic.com`) rather than leaving the
+  `localhost:5173` dev default.
+- **MariaDB**: any managed or self-hosted MariaDB/MySQL-compatible instance works; point
+  `DB_HOST`/`DB_PORT`/`DB_USER`/`DB_PASSWORD`/`DB_NAME` at it and run `npm run db:setup` once
+  to create the schema, then `npm run db:seed` to load islands/discoverables.

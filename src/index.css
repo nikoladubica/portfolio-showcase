@@ -20,7 +20,7 @@
   /* Status */
   --color-status-positive:#4A6140;
   /* Dark wall context / semantic aliases */
-  --color-bg-page:#271f18; --color-surface-card:var(--color-paper-50);
+  --color-bg-page:#271f18; --color-scrim:#0D0A07; --color-surface-card:var(--color-paper-50);
   --color-text-heading:var(--color-paper-50); --color-text-body:var(--color-paper-200); --color-text-muted:var(--color-paper-400);
   --color-gilt:var(--color-brass-200); --color-rule-strong:var(--color-brass-400);
 

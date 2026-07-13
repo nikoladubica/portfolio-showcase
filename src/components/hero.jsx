@@ -37,6 +37,7 @@ const Hero = () => {
                     <div className="flex gap-3 mt-5 flex-wrap">
                         <a className="btn btn--solid" href="#works">See the Work</a>
                         <a className="btn btn--gilt" href="#contact">Make Contact →</a>
+                        <a className="btn btn--outline" href="/game.html">Get to Know Me</a>
                         {/*
                           ☞ CV download — uncomment once a PDF exists at
                           public/cv/nikola-cucukovic-cv.pdf (do not ship without a real file).
