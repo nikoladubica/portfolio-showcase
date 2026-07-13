@@ -26,18 +26,27 @@ export async function submitScore({ name, score, islandsCompleted, durationSecon
     return data
 }
 
-// Per-island map art is optional and added over time. A missing file must never
-// be handed to Phaser's SVG loader: dev (and many static hosts) answer a missing
-// asset with a 200 HTML SPA-fallback rather than a 404, and a blob-URL <img> fed
-// that HTML fires neither load nor error — leaving the loader pending forever and
-// hanging the boot screen. So we probe the content-type here and only load real SVGs.
-export async function mapArtExists(slug) {
+// Per-island art is optional and added over time. A missing file must never be
+// handed to Phaser's SVG loader: dev (and many static hosts) answer a missing
+// asset with a 200 HTML SPA-fallback rather than a 404 — loaderror never fires,
+// and SVGFile.onProcess throws on the HTML (no <svg> element), stalling the
+// loader and blacking out the scene. So we probe the content-type here and only
+// load real SVGs.
+async function svgExists(path) {
     try {
-        const response = await fetch(`/img/game/map/islands/${slug}.svg`)
+        const response = await fetch(path, { signal: AbortSignal.timeout(8000) })
         return response.ok && (response.headers.get("content-type") ?? "").includes("svg")
     } catch {
         return false
     }
+}
+
+export function mapArtExists(slug) {
+    return svgExists(`/img/game/map/islands/${slug}.svg`)
+}
+
+export function sceneArtExists(slug, layer) {
+    return svgExists(`/img/game/island/scenes/${slug}-${layer}.svg`)
 }
 
 export async function fetchLeaderboard(limit = 10) {

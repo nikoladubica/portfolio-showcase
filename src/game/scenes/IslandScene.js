@@ -35,13 +35,19 @@ export default class IslandScene extends Phaser.Scene {
 
         // Lazy per-island scene art: only the island being entered is
         // rasterised; Phaser skips keys already in the texture cache, so
-        // revisits within a session don't re-load. A missing -overlay.svg is
-        // normal (the layer is optional) — the warn below is expected then.
-        this.load.svg(`${this.island.slug}-ground`, `/img/game/island/scenes/${this.island.slug}-ground.svg`, size)
-        this.load.svg(`${this.island.slug}-overlay`, `/img/game/island/scenes/${this.island.slug}-overlay.svg`, size)
+        // revisits within a session don't re-load. Both layers are optional and
+        // only loaded when the probe in GamePage confirmed a real SVG — a dev/
+        // host 200-HTML fallback fed to load.svg crashes SVGFile.onProcess and
+        // blacks out the scene.
+        if (this.island.hasGroundArt) {
+            this.load.svg(`${this.island.slug}-ground`, `/img/game/island/scenes/${this.island.slug}-ground.svg`, size)
+        }
+        if (this.island.hasOverlayArt) {
+            this.load.svg(`${this.island.slug}-overlay`, `/img/game/island/scenes/${this.island.slug}-overlay.svg`, size)
+        }
 
         this.load.on("loaderror", (file) => {
-            console.warn(`Island scene layer missing, using fallback: ${file.key}`)
+            console.warn(`Island scene layer failed to load, using fallback: ${file.key}`)
         })
     }
 

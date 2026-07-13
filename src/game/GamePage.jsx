@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import PhaserMount from "./PhaserMount"
-import { fetchIslands, mapArtExists } from "./api"
+import { fetchIslands, mapArtExists, sceneArtExists } from "./api"
 import { clearSave } from "./save"
 import { gameEvents } from "./events"
 import DiscoveryCard from "./ui/DiscoveryCard"
@@ -27,7 +27,14 @@ const GamePage = () => {
         fetchIslands()
             .then(async (data) => {
                 const withArt = await Promise.all(
-                    data.map(async (island) => ({ ...island, hasMapArt: await mapArtExists(island.slug) }))
+                    data.map(async (island) => {
+                        const [hasMapArt, hasGroundArt, hasOverlayArt] = await Promise.all([
+                            mapArtExists(island.slug),
+                            sceneArtExists(island.slug, "ground"),
+                            sceneArtExists(island.slug, "overlay")
+                        ])
+                        return { ...island, hasMapArt, hasGroundArt, hasOverlayArt }
+                    })
                 )
                 setIslands(withArt)
                 setStatus("ready")
