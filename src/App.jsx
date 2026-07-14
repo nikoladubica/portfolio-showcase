@@ -1,5 +1,6 @@
 import Masthead from "./components/masthead"
 import Hero from "./components/hero"
+import CreationOfAdam from "./components/creation-of-adam"
 import Works from "./components/works"
 import SkillsGallery from "./components/skills-gallery"
 import Ledger from "./components/ledger"
@@ -13,6 +14,7 @@ const App = () => {
             <Masthead />
             <main id="top">
                 <Hero />
+                <CreationOfAdam />
                 <Works />
                 <SkillsGallery />
                 <Ledger />

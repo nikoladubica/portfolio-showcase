@@ -29,3 +29,5 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+server/node_modules

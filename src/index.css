@@ -175,4 +175,14 @@ button{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-
   &::before{content:"❧ ";color:var(--color-brass-600);font-size:12px;}
 }
 
+/* creation-of-adam.jsx finale: the warm brass bloom between the fingertips.
+   Built from brass tokens; screen blending lets it read as light, not paint. */
+@utility glow-brass{
+  background:radial-gradient(closest-side,
+    color-mix(in srgb,var(--color-brass-200) 85%,transparent) 0%,
+    color-mix(in srgb,var(--color-brass-400) 40%,transparent) 45%,
+    transparent 72%);
+  mix-blend-mode:screen;
+}
+
 @utility wrap{max-width:var(--container);margin:0 auto;padding-left:var(--spacing-6);padding-right:var(--spacing-6);}
